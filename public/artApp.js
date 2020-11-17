@@ -1,6 +1,6 @@
 // JavaScript for Phone Application Demo Program Using Express and REST
 // Jim Skon, Kenyon College, 2020
-const port='9009' // Must match port used on server, port>8000
+const port='9020' // Must match port used on server, port>8000
 const Url='http://jimskon.com:'+port
 var operation;	// operation
 var selectid;
