@@ -17,18 +17,21 @@ $(document).ready(function () {
     $('.editdata').hide();
     $("#search-btn").click(getMatches);  // Search button click
     // do a search on every keystroke.
-    $("#search").keyup(function(e){
+  /*  $("#search").keyup(function(e){
 	getMatches();
-    });
+}*/);
     $("#add-btn").click(addEntry);
     $("#clear").click(clearResults);
 
+    $('div').on('click', '#to-piece', loadPiece());
+    //not sure if 'div' is the right object
+
     //Handle pulldown menu
     $(".dropdown-menu li a").click(function(){
-	$(this).parents(".btn-group").find('.selection').text($(this).text());
-	operation=$(this).text().split(" ").pop();  // Get last word (Last, First, Type, New)
-	//console.log("pick!"+operation);
-	changeOperation(operation);
+	     $(this).parents(".btn-group").find('.selection').text($(this).text());
+	      operation=$(this).text().split(" ").first();  // Get first word (User or Art)
+	       //console.log("pick!"+operation);
+	     changeOperation(operation);
     });
 
     $('.completeDelete').click(processDelete);
@@ -73,21 +76,30 @@ function changeOperation(operation){
 function buildTable(data) {
     rows=JSON.parse(data);
     if (rows.length < 1) {
-	return "<h3>Nothing Found</h3>";
+	return "<h3>No matches found</h3>";
     } else {
-	var result = '<table class="w3-table-all w3-hoverable" border="2"><tr><th>First</th><th>Last</th><th>Phone</th><th>Type</th><th>Action</th><tr>';
+	var result = '<table class="w3-table-all w3-hoverable" border="2"><tr><tr>';
 	var i=0
 	rows.forEach(function(row) {
-	    result += "<tr><td class='first'>"+row.First+"</td><td class='last'>"+row.Last+"</td><td class='phone'>"+row.Phone+"</td><td class='type'>"+row.Type+"</td>";
-	    result += "<td><button type='button' ID='"+row.ID+"' class='btn btn-primary btn-sm edit'>Edit</button> ";
-	    result += "<button type='button' ID='"+row.ID+"' Index='"+i+"' class='btn btn-primary btn-sm delete'>Delete</button></td></tr>";
-	    i++;
+	    result += "<tr><td class='art'><img id='to-piece' src='"+row.url+"</td><td class='title' id='to-piece'>"+row.title+"</td><td class='artist'>"+row.artist+"</td>";
+	    //result += "<td><button type='button' ID='"+row.ID+"' class='btn btn-primary btn-sm edit'>Edit</button> ";
+	    //result += "<button type='button' ID='"+row.ID+"' Index='"+i+"' class='btn btn-primary btn-sm delete'>Delete</button></td></tr>";
+	    //i++;
 	})
 	result += "</table>";
 
 	return result;
     }
 }
+
+function loadPiece(){
+  $('.editdata').hide();
+	$('.inputdata').hide();
+	$('.results').hide();
+	$('.searchbox').show();
+  $('.artpage').show();
+}
+
 // Called when the user clicks on the Edit button on the results list from a search
 // This clears the search  results and shows the edit form, filling it in with the data from the associated record.
 // We get the "row" node for $(this) so we have the tight record to edit
@@ -210,7 +222,7 @@ function getMatches(){
     var search = $('#search').val();
     $('#searchresults').empty();
     $.ajax({
-	     url: Url+'/find?field='+operation+'&search='+search,
+	     url: Url+'/find?search='+search,
 	     type:"GET",
 	     success: processResults,
 	     error: displayError
