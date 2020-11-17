@@ -10,17 +10,17 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node PhoneBookServer.js"
+    "start": "node artServer.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jimskon/PhoneBookNode.git"
+    "url": "git+https://github.com/mellingwood/ArtSocialNetwork.git"
   },
   "keywords": [],
   "author": "Jim Skon",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jimskon/PhoneBookNode/issues"
+    "url": "https://github.com/mellingwood/ArtSocialNetwork/issues"
   },
-  "homepage": "https://github.com/jimskon/PhoneBookNode#readme"
+  "homepage": "https://github.com/mellingwood/ArtSocialNetwork#readme"
 }
