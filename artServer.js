@@ -1,5 +1,5 @@
-// Sample Phone book app using Nodejs, mySql, and REST
-// Jim Skon, Kenyon, Summer 2020
+// Server for art social network using Express and Node
+// and some socket?
 var express = require('express');
 var app = express();
 var fs = require("fs");
@@ -27,6 +27,8 @@ function openSQL() {
 }
 
 var con = openSQL();
+
+//TODO: Add express call to query database for art piece search
 
 /*
 Sample express call structure:
