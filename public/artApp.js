@@ -11,7 +11,7 @@ var saveRecord; // Place to store record for add varification
 $(document).ready(function () {
     // For this program is will be a reponse to a request from this page for an action
 
-    operation = "Last"; // Default operation
+    operation = "Art"; // Default operation
 
     // Clear everything on startup
     $('.editdata').hide();
@@ -19,8 +19,9 @@ $(document).ready(function () {
     // do a search on every keystroke.
   /*  $("#search").keyup(function(e){
 	getMatches();
-}*/);
-    $("#add-btn").click(addEntry);
+}); */
+
+    //$("#add-btn").click(addEntry);
     $("#clear").click(clearResults);
 
     $('div').on('click', '#to-piece', loadPiece());
@@ -58,13 +59,13 @@ changeOperation(operation);
 // If the option is "Add New" the shows the add form, and hides the others
 // Otherwise it shows the results div
 function changeOperation(operation){
-    if(operation=="New"){
+    if(operation=="Art"){
 	$('#addmessage').val("");
 	$('.inputdata').show();
 	$('.searchbox').hide();
 	$('.results').hide();
 	$('.editdata').hide();}
-    else{
+    else if (operation=="User"){
 	$('.editdata').hide();
 	$('.inputdata').hide();
 	$('.results').show();
@@ -97,6 +98,8 @@ function loadPiece(){
 	$('.inputdata').hide();
 	$('.results').hide();
 	$('.searchbox').show();
+  //need an express call or something to display piece
+  //$('.artpage').find('.img').src(message.url);
   $('.artpage').show();
 }
 
