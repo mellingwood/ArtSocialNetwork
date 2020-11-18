@@ -14,13 +14,22 @@ $(document).ready(function () {
   operation = "Art"; // Default operation
 
   // Clear everything on startup
-  $('.editdata').hide();
+  $('.loggedin').hide();
+  $('#mainbar').hide();
   $("#search-btn").click(getMatches);  // Search button click
+
+  //make everything appear when you log in-- needs more hoops to jump through when we get the user functionality going, but works with just a click now
+  $('#login-btn').click(function() {
+    //reveal home page and mainbar
+    $('#login').hide(); //get rid of login stuff
+    $('.loggedin').show();
+    $('#mainbar').show();
+  });
 
   //$("#add-btn").click(addEntry);
   $("#clear").click(clearResults);
 
-  $('div').on('click', '#to-piece', loadPiece());
+  //$('div').on('click', '#artpiecepage', loadPiece());
   //not sure if 'div' is the right object
 
   //Handle pulldown menu
@@ -30,8 +39,6 @@ $(document).ready(function () {
     //console.log("pick!"+operation);
     changeOperation(operation);
   });
-
-  $('.completeDelete').click(processDelete);
 
 });
 
