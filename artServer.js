@@ -18,7 +18,7 @@ function openSQL() {
     host: "localhost",
     user: "ellingwood1",
     password: "S216410",
-    database: "ellingwood1"
+    database: "TeamC"
   });
   con.connect(function(err) {
     if (err) throw err;
@@ -41,7 +41,7 @@ if (/*req.query.field === undefined ||*/ req.query.search === undefined) {
   console.log(/*field+":"+*/search);
 
 
-  query="SELECT * FROM art WHERE "+ field +" like %"+req.query.search+"%'";
+  query="SELECT * FROM art WHERE Title like '%"+req.query.search+"%' LIMIT 0,20";
   console.log(query)
   con.query(query, function(err,result/*,fields*/) {
      if (err) throw err;

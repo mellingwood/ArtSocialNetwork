@@ -113,7 +113,7 @@ function changeState(pageState) {
       var result = '<table class="w3-table-all w3-hoverable" border="2"><tr><tr>';
       var i=0
       rows.forEach(function(row) {
-        result += "<tr><td class='art' id='"+row.pieceid+"'><img id='to-piece' src='"+row.url+"</td><td class='title' id='to-piece'>"+row.title+"</td><td class='artist'>"+row.artist+"</td>";
+        result += "<tr><td class='art' id='"+row.ID+"'><img id='to-piece' style='width: 30vw; min-width: 100px;' src='"+row.IMGURL+"'</td><td class='title' id='to-piece'>"+row.Title+"</td><td class='artist'>"+row.Author+"</td>";
       })
       result += "</table>";
 
@@ -123,11 +123,11 @@ function changeState(pageState) {
 
   function loadPiece(data){
     piece = JSON.parse(data);
-    $('#artpiecepage').find('#piece').attr('src', piece.url)
-    $('#artpiecepage').find('#title').text(piece.title);
-    $('#artpiecepage').find('#artist').text(piece.author);
+    $('#artpiecepage').find('#piece').attr('src', piece.IMGURL)
+    $('#artpiecepage').find('#title').text(piece.Title);
+    $('#artpiecepage').find('#artist').text(piece.Author);
     $('#artpiecepage').find('#artist-info').text(piece.borndied);
-    $('#artpiecepage').find('#date').text(piece.date);
+    $('#artpiecepage').find('#date').text(piece.Date);
 
     var tags = "<div id='tags'>";
     tags += "<span id='form'>" + piece.form + "</span>";
