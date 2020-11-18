@@ -86,26 +86,28 @@
     </div>
   </div>
 
-  <div class="loggedin">
+<div class="loggedin">
     <!--only show anything beyond here if logged in-->
 
   <div class="container" id="home">
     <h2>Featured Pieces</h2>
+    <div id="featured"></div>
   </div>
 
   <div class="container" id="results">
     <div id="searchresults"><p>Search Results</p></div>
     <div id="loading"  style="display:none;">
-      <!--<img src="gears.gif"/> -->
     </div>
   </div>
 
   <div class="container" id="artpiecepage">
-    <img class="md-6" id="piece" src=""/>
-    <div class="md-6">Title</div>
-    <div class="md-6">Artist</div>
-    <!--add and refine to include all info on piece
-    (and make it look nicer obv)-->
+    <img class="md-6" id="piece" src="" width="50%"/>
+    <div id = "title"></div>
+    <div id= "date"></div>
+    <div id = "artist"></div>
+    <div id= "artist-info"></div>
+    <br/>
+    <div id= "tags"></div>
   </div>
 
   <!--Want each "page" to be of class container, so we can hide all containers, but each then also have a unique id so that we can reveal a specific id -->

@@ -37,11 +37,22 @@ $(document).ready(function () {
     $('#results').show();
   });
 
-  //$("#add-btn").click(addEntry);
   $("#clear").click(clearResults);
 
-  //$('div').on('click', '#artpiecepage', loadPiece());
-  //not sure if 'div' is the right object
+  $('#results').on('click', '#to-piece', function(){
+    $('.editdata').hide();
+    $('.inputdata').hide();
+    $('.results').hide();
+    $('.searchbox').show();
+    $.ajax({
+      url: Url+'/getpiece?search='+$(this).attr('id'), //THIS LINE MAY BE WRONG
+      type:"GET",
+      success: loadPiece,
+      error: displayError
+    })
+    $('#artpiecepage').show();
+  });
+  //This will link the search results to the art pages
 
   //Handle pulldown menu
   $(".dropdown-menu li a").click(function(){
@@ -63,9 +74,6 @@ function processResults(results) {
   //console.log("Results:"+results);
   $('#searchresults').empty();
   $('#searchresults').append(buildTable(results));
-  $(".edit").click(processEdit);
-  $(".delete").click(DeleteConfirm);
-
 }
 changeOperation(operation);
 
@@ -101,10 +109,7 @@ function changeOperation(operation){
       var result = '<table class="w3-table-all w3-hoverable" border="2"><tr><tr>';
       var i=0
       rows.forEach(function(row) {
-        result += "<tr><td class='art'><img id='to-piece' src='"+row.url+"</td><td class='title' id='to-piece'>"+row.title+"</td><td class='artist'>"+row.artist+"</td>";
-        //result += "<td><button type='button' ID='"+row.ID+"' class='btn btn-primary btn-sm edit'>Edit</button> ";
-        //result += "<button type='button' ID='"+row.ID+"' Index='"+i+"' class='btn btn-primary btn-sm delete'>Delete</button></td></tr>";
-        //i++;
+        result += "<tr><td class='art' id='"+row.pieceid+"'><img id='to-piece' src='"+row.url+"</td><td class='title' id='to-piece'>"+row.title+"</td><td class='artist'>"+row.artist+"</td>";
       })
       result += "</table>";
 
@@ -112,14 +117,23 @@ function changeOperation(operation){
     }
   }
 
-  function loadPiece(){
-    $('.editdata').hide();
-    $('.inputdata').hide();
-    $('.results').hide();
-    $('.searchbox').show();
-    //need an express call or something to display piece
-    //$('.artpage').find('.img').src(message.url);
-    $('.artpage').show();
+  function loadPiece(data){
+    piece = JSON.parse(data);
+    $('#artpiecepage').find('#piece').attr('src', piece.url)
+    $('#artpiecepage').find('#title').text(piece.title);
+    $('#artpiecepage').find('#artist').text(piece.author);
+    $('#artpiecepage').find('#artist-info').text(piece.borndied);
+    $('#artpiecepage').find('#date').text(piece.date);
+
+    var tags = "<div id='tags'>";
+    tags += "<span id='form'>" + piece.form + "</span>";
+    tags += "<span id='technique'>" + piece.technique+ "</span>";
+    tags += "<span id='location'>" + piece.location+ "</span>";
+    tags += "<span id='type'>" + piece.type+ "</span>";
+    tags += "<span id='school'>" + piece.school+ "</span>";
+    tags += "<span id='timeframe'>" + piece.timeframe + "</span>";
+    tags += "</div>";
+    $('#artpiecepage').find('#tags').html(tags);mo
   }
 
   function displayError(error) {
