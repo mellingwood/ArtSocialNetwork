@@ -29,6 +29,28 @@ function openSQL() {
 var con = openSQL();
 
 
+app.get('/find', function(req, res){
+  //find art by piece Title
+console.log("Query:"+JSON.stringify(req.query));
+if (req.query.field === undefined || req.query.search === undefined) {
+  console.log("Missing query value!");
+  res.end('[]');
+} else {
+  field=req.query.field;
+  search=req.query.search;
+  console.log(field+":"+search);
+
+
+  query="SELECT * FROM art WHERE "+ field +" like %"+req.query.search+"%'";
+  console.log(query)
+  con.query(query, function(err,result,fields) {
+     if (err) throw err;
+     console.log(result)
+     res.end( JSON.stringify(result));
+  })
+    }
+})
+
 //TODO: Add express call to query database for art piece search
 
 /*
