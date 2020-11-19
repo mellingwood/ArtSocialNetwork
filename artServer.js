@@ -56,7 +56,7 @@ if (/*req.query.field === undefined ||*/ req.query.search === undefined) {
 
 app.get('/adduser', function (req, res) {
     // update a record by id
-    if (missingField(req.query)) {
+    if (missingFieldUser(req.query)) {
         console.log("Bad add request:"+JSON.stringify(req.query));
         res.end("['fail']");
     } else {
@@ -102,6 +102,9 @@ function missingField(p) {
     return (p.First === undefined || p.Last === undefined || p.Phone === undefined || p.Type === undefined);
 }
 
+function missingFieldUser(p) {
+    return (p.username === undefined || p.password === undefined);
+}
 var server = app.listen(port, function () {
   var host = server.address().address
   var port = server.address().port
