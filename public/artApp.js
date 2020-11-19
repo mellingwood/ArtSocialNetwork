@@ -193,12 +193,12 @@ function changeState(pageState) {
       $('#artpiecepage').find('#artist-info').text(row.borndied);
       $('#artpiecepage').find('#date').text(row.Date);
 
-      tags += "<span id='form'>" + row.Form + "</span>";
-      tags += "<span id='technique'>" + row.Technique+ "</span>";
-      tags += "<span id='location'>" + row.Location+ "</span>";
-      tags += "<span id='type'>" + row.Type+ "</span>";
-      tags += "<span id='school'>" + row.School+ "</span>";
-      tags += "<span id='timeframe'>" + row.Timeframe + "</span>";
+      tags += "<span id='form'>  " + row.Form + "  </span>";
+      tags += "<span id='technique'>  " + row.Technique+ "  </span>";
+      tags += "<span id='location'>  " + row.Location+ "  </span>";
+      tags += "<span id='type'>  " + row.Type+ "  </span>";
+      tags += "<span id='school'>  " + row.School+ "  </span>";
+      tags += "<span id='timeframe'>  " + row.Timeframe + "  </span>";
       tags += "</div>";
       $('#artpiecepage').find('#tags').html(tags);
     })

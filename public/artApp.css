@@ -53,3 +53,9 @@ button {
         width: 100%;
     }
 }
+
+#tags {
+  background-color: ghostwhite;
+  border-color: black;
+  padding: 2px;
+}
