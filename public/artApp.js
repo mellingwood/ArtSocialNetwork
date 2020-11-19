@@ -35,10 +35,11 @@ $(document).ready(function () {
 
   $('#cancel-btn').click(function() {
     //cancel sign up
-  console.log("cancel!");
+    console.log("cancel!");
     pageState = "Home";
     changeState(pageState);
   });
+
 
 
   //reacts to both user search and art search the same right now
@@ -87,6 +88,13 @@ function processResults(results) {
   //console.log("Results:"+results);
   $('#searchresults').empty();
   $('#searchresults').append(buildTable(results));
+}
+
+function processUser(results) {
+    // Look up the record and display it
+    console.log("Add success:"+saveRecord);
+    pageState=="Home"
+    changeState(pageState)
 }
 
 // This function is called when an option is selected in the pull down menu
@@ -200,7 +208,16 @@ function changeState(pageState) {
     })
   }
 
-
+  function addUser(){
+      console.log("Add:"+$('#addUserName').val());
+      saveRecord=$('#addUserName').val()+' '+$('#addPassword').val()
+      $.ajax({
+          url: Url+'/adduser?username='+$('#addUserName').val()+'&password='+$('#addPassword').val(),
+          type:"GET",
+          success: processUser,
+          error: displayError
+      })
+  }
 
   // should be able to outsorce the ajax call for indv, peice page to this
   /*

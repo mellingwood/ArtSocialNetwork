@@ -59,7 +59,7 @@ app.get('/adduser', function (req, res) {
         console.log("Bad add request:"+JSON.stringify(req.query));
         res.end("['fail']");
     } else {
-	query = "Insert INTO users(username, password, bio)  VALUES('"+req.query.username+"','"+req.query.password+"','"+req.query.bio+"')";
+	query = "Insert INTO users(username, password)  VALUES('"+req.query.username+"','"+req.query.password+"')";
  	console.log(query);
 	con.query(query, function(err,result,fields) {
 	    if (err) throw err;
