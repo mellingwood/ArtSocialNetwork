@@ -88,20 +88,23 @@
 
   <div class="newaccount">
       <!--Step 1:Adding HTML-->
-      <form style="border:1px solid #ccc">
-          <div class="container">
-              <label><b>Username</b></label>
-              <input type="text" placeholder="Enter Username" name="username" required>
+  <form style="border:1px solid #ccc">
+    <div class="container">
+        <label><b>Username</b></label>
+        <input type="text" id = "addUserName" placeholder="Enter Email" name="email" required>
 
-              <label><b>Password</b></label>
-              <input type="password" placeholder="Enter Password" name="password" required>
-              <input type="checkbox" checked="checked"> Remember me
-              <div class="clearfix">
-                  <button type="button" id="cancel-btn" class="cancelbtn">Cancel</button>
-                  <button type="submit" id="submit-btn" class="signupbtn">Sign Up</button>
-              </div>
-          </div>
-      </form>
+        <label><b>Password</b></label>
+        <input type="password" id="addPassword" placeholder="Enter Password" name="psw" required>
+
+        <input type="checkbox" checked="checked"> Remember me
+        <p>To create an account you have to agree our <a href="#">Terms & Privacy</a>.</p>
+
+        <div class="clearfix">
+            <button type="button" id = "cancel-btn"  class="cancelbtn">Cancel</button>
+            <button type="submit" id = "submit-btn" class="signupbtn">Sign Up</button>
+        </div>
+    </div>
+</form>
   </div>
 
 <div class="loggedin">
