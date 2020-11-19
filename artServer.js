@@ -40,8 +40,8 @@ if (/*req.query.field === undefined ||*/ req.query.search === undefined) {
   search=req.query.search;
   console.log(/*field+":"+*/search);
 
-
-  query="SELECT * FROM art WHERE Title like '%"+req.query.search+"%' LIMIT 0,20";
+  //expanded general seach to more fields
+  query="SELECT * FROM art WHERE Title like '%"+req.query.search+"%'or Author like '%"+req.query.search+"%' or Technique like '%"+req.query.search+"%' or Location like '%"+req.query.search+"%' or Form like '%"+req.query.search+"%' or Type like '%"+req.query.search+"%' or School like '%"+req.query.search+"%' ";
   console.log(query)
   con.query(query, function(err,result/*,fields*/) {
      if (err) throw err;

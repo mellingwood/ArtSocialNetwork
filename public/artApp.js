@@ -165,6 +165,12 @@ function changeState(pageState) {
       return "<h3>No matches found</h3>";
     } else {
       var result = '<table class="w3-table-all w3-hoverable" border="2"><tr><tr>';
+      if(rows.length==1) {
+        result += "<tr><td>1 piece found<td><td></td></tr>";
+      }
+      if(rows.length>1) {
+        result += "<tr><td>"+rows.length+" pieces found<td><td></td></tr>";
+      }
       var i=0
       rows.forEach(function(row) {
         result += "<tr><td class='art' id='"+row.ID+"'><img id='to-piece' style='width: 30vw; min-width: 100px;' src='"+row.IMGURL+"'</td><td class='title' id='to-piece'>"+row.Title+"</td><td class='artist'>"+row.Author+"</td>";
