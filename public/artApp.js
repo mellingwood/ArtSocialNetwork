@@ -62,7 +62,7 @@ $(document).ready(function () {
   $("#clear").click(clearResults);
 
   //function to go to page specific page when they click on picture
-  $('#results').on('click', '#to-piece', function(){
+  $('#results').on('click', '.art', function(){
     //reveal individual art piece page
     pageState = "Art Piece";
     changeState(pageState);
@@ -176,22 +176,27 @@ function changeState(pageState) {
   }
 
   function loadPiece(data){
-    piece = JSON.parse(data);
-    $('#artpiecepage').find('#piece').attr('src', piece.IMGURL)
-    $('#artpiecepage').find('#title').text(piece.Title);
-    $('#artpiecepage').find('#artist').text(piece.Author);
-    $('#artpiecepage').find('#artist-info').text(piece.borndied);
-    $('#artpiecepage').find('#date').text(piece.Date);
+    var rows = JSON.parse(data); //wants it to be like this even though there's only one row
 
     var tags = "<div id='tags'>";
-    tags += "<span id='form'>" + piece.form + "</span>";
-    tags += "<span id='technique'>" + piece.technique+ "</span>";
-    tags += "<span id='location'>" + piece.location+ "</span>";
-    tags += "<span id='type'>" + piece.type+ "</span>";
-    tags += "<span id='school'>" + piece.school+ "</span>";
-    tags += "<span id='timeframe'>" + piece.timeframe + "</span>";
-    tags += "</div>";
-    $('#artpiecepage').find('#tags').html(tags);mo
+
+    rows.forEach(function(row) {
+      $('#artpiecepage').find('#piece').attr('src', row.IMGURL)
+      $('#artpiecepage').find('#title').text(row.Title);
+      $('#artpiecepage').find('#artist').text(row.Author);
+      $('#artpiecepage').find('#artist-info').text(row.borndied);
+      $('#artpiecepage').find('#date').text(row.Date);
+
+      tags += "<span id='form'>" + row.Form + "</span>";
+      tags += "<span id='technique'>" + row.Technique+ "</span>";
+      tags += "<span id='location'>" + row.Location+ "</span>";
+      tags += "<span id='type'>" + row.Type+ "</span>";
+      tags += "<span id='school'>" + row.School+ "</span>";
+      tags += "<span id='timeframe'>" + row.Timeframe + "</span>";
+      tags += "</div>";
+      $('#artpiecepage').find('#tags').html(tags);
+    })
+
   }
 
   function displayError(error) {

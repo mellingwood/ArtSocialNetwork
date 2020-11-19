@@ -51,6 +51,28 @@ if (/*req.query.field === undefined ||*/ req.query.search === undefined) {
     }
 })
 
+app.get('/getpiece', function(req, res){
+  //find art by piece ID, from clicking on piece in search results
+console.log("Query:"+JSON.stringify(req.query));
+if (/*req.query.field === undefined ||*/ req.query.search === undefined) {
+  console.log("Missing query value!");
+  res.end('[]');
+} else {
+  //field=req.query.field;
+  search=req.query.search;
+  console.log(/*field+":"+*/search);
+
+
+  query="SELECT * FROM art WHERE ID like '"+req.query.search+"' LIMIT 0,20";
+  console.log(query)
+  con.query(query, function(err,result/*,fields*/) {
+     if (err) throw err;
+     console.log(result)
+     res.end( JSON.stringify(result));
+  })
+    }
+})
+
 //Add username and password to users table
 
 
