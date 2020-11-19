@@ -16,13 +16,30 @@ $(document).ready(function () {
   // Clear everything on startup
   $('.loggedin').hide();
   $('#mainbar').hide();
+  $('.newaccount').hide()
+
 
   //make everything appear when you log in-- needs more hoops to jump through when we get the user functionality going, but works with just a click now
   $('#login-btn').click(function() {
     //reveal home page and mainbar
     pageState = "Main";
+    $('.newaccount').hide();
     changeState(pageState);
   });
+
+  $('#newaccount-btn').click(function() {
+    //bring to sign up page
+    pageState = "New User";
+    changeState(pageState);
+  });
+
+  $('#cancel-btn').click(function() {
+    //cancel sign up
+  console.log("cancel!");
+    pageState = "Home";
+    changeState(pageState);
+  });
+
 
   //reacts to both user search and art search the same right now
   $('#search-btn').click(function() {
@@ -83,11 +100,13 @@ function changeState(pageState) {
     $('.loggedin').show(); //allow logged in stuff to be shown...
     $('#results').hide(); //but hide everything but home page
     $('#artpiecepage').hide();
+    $('.newaccount').hide();
   } else if (pageState=="Art Search"){
     $('#mainbar').show();
     $('#home').hide();
     $('#results').show();
     $('#artpiecepage').hide();
+    $('.newaccount').hide();
   } else if (pageState=="User Search"){
     //nothing for this yet
   } else if (pageState=="Search Results"){
@@ -95,11 +114,29 @@ function changeState(pageState) {
     $('#home').hide();
     $('#results').show();
     $('#artpiecepage').hide();
+    $('.newaccount').hide();
   } else if (pageState=="Art Piece"){
     $('#mainbar').show();
     $('#home').hide();
     $('#results').hide();
     $('#artpiecepage').show();
+    $('.newaccount').hide();
+  }
+  else if (pageState == "New User"){
+    $('#login').hide();
+    $('#mainbar').hide();
+    $('#home').hide();
+    $('#results').hide();
+    $('#artpiecepage').hide();
+    $('.newaccount').show();
+  }
+  else if (pageState == "Home"){
+    $('#login').show();
+    $('#mainbar').hide();
+    $('#home').hide();
+    $('#results').hide();
+    $('#artpiecepage').hide();
+    $('.newaccount').hide();
   }
 }
 
@@ -162,6 +199,8 @@ function changeState(pageState) {
       error: displayError
     })
   }
+
+
 
   // should be able to outsorce the ajax call for indv, peice page to this
   /*

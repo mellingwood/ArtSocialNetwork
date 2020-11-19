@@ -51,6 +51,24 @@ if (/*req.query.field === undefined ||*/ req.query.search === undefined) {
     }
 })
 
+//Add username and password to users table
+
+app.get('/adduser', function (req, res) {
+    // update a record by id
+    if (missingField(req.query)) {
+        console.log("Bad add request:"+JSON.stringify(req.query));
+        res.end("['fail']");
+    } else {
+	query = "Insert INTO users(username, password, bio)  VALUES('"+req.query.username+"','"+req.query.password+"','"+req.query.bio+"')";
+ 	console.log(query);
+	con.query(query, function(err,result,fields) {
+	    if (err) throw err;
+	    console.log(result)
+	    res.end( JSON.stringify(result));
+	})
+    }
+})
+
 //TODO: Add express call to query database for art piece search
 
 /*
