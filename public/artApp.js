@@ -36,6 +36,15 @@ $(document).ready(function () {
   $('#cancel-btn').click(function() {
     //cancel sign up
     console.log("cancel!");
+    $('#addUserName').val('')
+    $('#addPassword').val('')
+    pageState = "Home";
+    changeState(pageState);
+  });
+
+  $('#submit-btn').click(function() {
+    //cancel sign up
+    addUser();
     pageState = "Home";
     changeState(pageState);
   });
