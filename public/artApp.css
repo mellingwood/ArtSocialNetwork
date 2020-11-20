@@ -57,5 +57,6 @@ button {
 #tags {
   background-color: ghostwhite;
   border-color: black;
-  padding: 2px;
+  padding: 5px;
+  border-width:2px;
 }
