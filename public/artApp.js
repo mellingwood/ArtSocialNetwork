@@ -15,15 +15,14 @@ $(document).ready(function () {
 
   // Clear everything on startup
   $('.loggedin').hide();
+  $('#login-err').hide();
   $('#mainbar').hide();
-  $('#newaccount').hide()
+  $('#newaccount').hide();
 
   //make everything appear when you log in-- needs more hoops to jump through when we get the user functionality going, but works with just a click now
   $('#login-btn').click(function() {
-    //reveal home page and mainbar
-    pageState = "Main";
-    $('#newaccount').hide();
-    changeState(pageState);
+    $('#login-err').hide();
+    getLogin();
   });
 
   $('#newaccount-btn').click(function() {
@@ -94,11 +93,6 @@ function processResults(results) {
   //console.log("Results:"+results);
   $('#searchresults').empty();
   $('#searchresults').append(buildTable(results));
-}
-
-function processUser(results) {
-    pageState=="Home"
-    changeState(pageState)
 }
 
 // This function is called when an option is selected in the pull down menu
@@ -222,6 +216,35 @@ function changeState(pageState) {
       success: processResults,
       error: displayError
     })
+  }
+
+  function getLogin(){
+    console.log("Attepted log in by username:"+$('#username').val());
+    $.ajax({
+      url: Url+'/getlogin?username='+$('#username').val(),
+      type:"GET",
+      success: doLogin,
+      error: displayError
+    })
+  }
+
+  function doLogin(results){
+    var userLog = JSON.parse(results); //wants it to be like this even though there's only one row
+    console.log("User " + userLog[0].username + " password is " + userLog[0].password);
+    if(userLog.length == 0){
+      console.log("bad user");
+      $('#login-err').show()
+    } else {
+      if(userLog[0].password == $('#password').val()){
+        console.log($('#username').val()+" logged in");
+        pageState="Main";
+        changeState(pageState);
+      }
+      else{
+        console.log("bad password");
+        $('#login-err').show()
+      }
+    }
   }
 
   function checkUser(){

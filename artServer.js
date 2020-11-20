@@ -73,13 +73,30 @@ if (req.query.search === undefined) {
 })
 
 //check user doesn't already exist
+app.get('/getlogin', function(req,res)
+{
+  if (req.query.username==undefined) {
+      console.log("Bad add request:"+JSON.stringify(req.query));
+      res.end("['fail']");
+  } else {
+    query = "SELECT * FROM users WHERE username='"+req.query.username+"'";
+    console.log(query);
+    con.query(query, function(err,result,fields) {
+  	    if (err) throw err;
+        console.log(result)
+  	    res.end(JSON.stringify(result));
+  	   })
+      }
+})
+
+//check user doesn't already exist
 app.get('/checkuser', function(req,res)
 {
   if (req.query.username==undefined) {
       console.log("Bad add request:"+JSON.stringify(req.query));
       res.end("['fail']");
   } else {
-    query = "SELECT COUNT(username) AS count FROM users WHERE username='"+req.query.username+"'"
+    query = "SELECT COUNT(username) AS count FROM users WHERE username='"+req.query.username+"'";
     console.log(query);
     con.query(query, function(err,result,fields) {
   	    if (err) throw err;
