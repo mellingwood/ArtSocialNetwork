@@ -9,7 +9,7 @@ var port = 9020
 app.use(express.static('public'));
 //Serve up web page as the default
 app.get('/', function (req, res) {
-  res.sendFile( __dirname + "/public/" + "artApp.html" );
+  res.sendFile( __dirname + "/public/artApp.html" );
 })
 
 function openSQL() {
@@ -54,18 +54,17 @@ if (/*req.query.field === undefined ||*/ req.query.search === undefined) {
 app.get('/getpiece', function(req, res){
   //find art by piece ID, from clicking on piece in search results
 console.log("Query:"+JSON.stringify(req.query));
-if (/*req.query.field === undefined ||*/ req.query.search === undefined) {
+if (req.query.search === undefined) {
   console.log("Missing query value!");
   res.end('[]');
 } else {
-  //field=req.query.field;
   search=req.query.search;
-  console.log(/*field+":"+*/search);
+  console.log(search);
 
 
-  query="SELECT * FROM art WHERE ID like '"+req.query.search+"' LIMIT 0,20";
+  query="SELECT * FROM art WHERE ID like '"+req.query.search+"' LIMIT 20";
   console.log(query)
-  con.query(query, function(err,result/*,fields*/) {
+  con.query(query, function(err,result) {
      if (err) throw err;
      console.log(result)
      res.end( JSON.stringify(result));
@@ -73,11 +72,24 @@ if (/*req.query.field === undefined ||*/ req.query.search === undefined) {
     }
 })
 
+//check user doesn't already exist
+app.get('/checkuser', function(req,res)
+{
+  if (req.query.username==undefined) {
+      console.log("Bad add request:"+JSON.stringify(req.query));
+      res.end("['fail']");
+  } else {
+    query = "SELECT COUNT(username) AS count FROM users WHERE username='"+req.query.username+"'"
+    console.log(query);
+    con.query(query, function(err,result,fields) {
+  	    if (err) throw err;
+  	    res.end(JSON.stringify(result));
+  	   })
+      }
+})
+
 //Add username and password to users table
-
-
 app.get('/adduser', function (req, res) {
-    // update a record by id
     if (missingFieldUser(req.query)) {
         console.log("Bad add request:"+JSON.stringify(req.query));
         res.end("['fail']");
@@ -87,12 +99,10 @@ app.get('/adduser', function (req, res) {
 	con.query(query, function(err,result,fields) {
 	    if (err) throw err;
 	    console.log(result)
-	    res.end( JSON.stringify(result));
-	})
+	    res.end(JSON.stringify(result));
+	   })
     }
 })
-
-//TODO: Add express call to query database for art piece search
 
 /*
 Sample express call structure:

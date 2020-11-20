@@ -86,7 +86,7 @@
     </div>
   </div>
 
-  <div class="newaccount">
+  <div id="newaccount">
       <!--Step 1:Adding HTML-->
   <form style="border:1px solid #ccc">
     <div class="container">
@@ -97,11 +97,12 @@
         <input type="password" id="addPassword" placeholder="Enter Password" name="psw" required>
 
         <input type="checkbox" checked="checked"> Remember me
+        <p id="signup-err">That username is already taken.</p>
         <p>To create an account you have to agree our <a href="#">Terms & Privacy</a>.</p>
 
         <div class="clearfix">
-            <button type="button" id = "cancel-btn"  class="cancelbtn">Cancel</button>
-            <button type="button" id = "submit-btn" class="signupbtn">Sign Up</button>
+            <button type="button" id = "cancel-btn" class="cancelbtn">Cancel</button>
+            <button type="button" id = "signup-btn" class="signupbtn">Sign Up</button>
         </div>
     </div>
 </form>

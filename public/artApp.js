@@ -6,7 +6,7 @@ var pageState;	// page state
 var selectid;
 var recIndex
 var rows;
-var saveRecord; // Place to store record for add varification
+
 // Set up events when page is ready
 $(document).ready(function () {
   // For this program is will be a reponse to a request from this page for an action
@@ -16,14 +16,13 @@ $(document).ready(function () {
   // Clear everything on startup
   $('.loggedin').hide();
   $('#mainbar').hide();
-  $('.newaccount').hide()
-
+  $('#newaccount').hide()
 
   //make everything appear when you log in-- needs more hoops to jump through when we get the user functionality going, but works with just a click now
   $('#login-btn').click(function() {
     //reveal home page and mainbar
     pageState = "Main";
-    $('.newaccount').hide();
+    $('#newaccount').hide();
     changeState(pageState);
   });
 
@@ -42,14 +41,13 @@ $(document).ready(function () {
     changeState(pageState);
   });
 
-  $('#submit-btn').click(function() {
-    //cancel sign up
-    addUser();
-    pageState = "Home";
-    changeState(pageState);
+  $('#signup-btn').click(function() {
+    $('#signup-err').hide()
+    checkUser();
+    /*pageState = "Home";
+    changeState(pageState);*/
+    //moved to addUser()
   });
-
-
 
   //reacts to both user search and art search the same right now
   $('#search-btn').click(function() {
@@ -79,7 +77,6 @@ $(document).ready(function () {
   $(".dropdown-menu li a").click(function(){
     $(this).parents(".btn-group").find('.selection').text($(this).text());
     pageState=$(this).text() //sets page state by drop down choice // can use .split(" ").first(); to g et first word (User or Art)
-    //console.log("pick!"+operation);
     changeState(pageState);
   });
 
@@ -100,8 +97,6 @@ function processResults(results) {
 }
 
 function processUser(results) {
-    // Look up the record and display it
-    console.log("Add success:"+saveRecord);
     pageState=="Home"
     changeState(pageState)
 }
@@ -117,13 +112,13 @@ function changeState(pageState) {
     $('.loggedin').show(); //allow logged in stuff to be shown...
     $('#results').hide(); //but hide everything but home page
     $('#artpiecepage').hide();
-    $('.newaccount').hide();
+    $('#newaccount').hide();
   } else if (pageState=="Art Search"){
     $('#mainbar').show();
     $('#home').hide();
     $('#results').show();
     $('#artpiecepage').hide();
-    $('.newaccount').hide();
+    $('#newaccount').hide();
   } else if (pageState=="User Search"){
     //nothing for this yet
   } else if (pageState=="Search Results"){
@@ -131,13 +126,13 @@ function changeState(pageState) {
     $('#home').hide();
     $('#results').show();
     $('#artpiecepage').hide();
-    $('.newaccount').hide();
+    $('#newaccount').hide();
   } else if (pageState=="Art Piece"){
     $('#mainbar').show();
     $('#home').hide();
     $('#results').hide();
     $('#artpiecepage').show();
-    $('.newaccount').hide();
+    $('#newaccount').hide();
   }
   else if (pageState == "New User"){
     $('#login').hide();
@@ -145,7 +140,8 @@ function changeState(pageState) {
     $('#home').hide();
     $('#results').hide();
     $('#artpiecepage').hide();
-    $('.newaccount').show();
+    $('#newaccount').show();
+    $('#signup-err').hide();
   }
   else if (pageState == "Home"){
     $('#login').show();
@@ -153,7 +149,7 @@ function changeState(pageState) {
     $('#home').hide();
     $('#results').hide();
     $('#artpiecepage').hide();
-    $('.newaccount').hide();
+    $('#newaccount').hide();
   }
 }
 
@@ -228,20 +224,41 @@ function changeState(pageState) {
     })
   }
 
-  function addUser(){
+  function checkUser(){
+    console.log("Verify username:"+$('#addUserName').val());
+    $.ajax({
+      url: Url+'/checkuser?username='+$('#addUserName').val(),
+      type:"GET",
+      success: addUser,
+      error: displayError
+    })
+  }
+
+  function addUser(results){
+    let count = JSON.parse(results);
+
+    if(count[0].count==0){
       console.log("Add:"+$('#addUserName').val());
-      saveRecord=$('#addUserName').val()+' '+$('#addPassword').val()
+      var saveRecord=$('#addUserName').val()+' '+$('#addPassword').val()
+        // Place to store record for add varification
+        //I'm not sure if we need this? -Andy
+
       $.ajax({
           url: Url+'/adduser?username='+$('#addUserName').val()+'&password='+$('#addPassword').val(),
           type:"GET",
           success: processUser,
           error: displayError
-      })
+        })
+      }
+      else{
+        console.log("duplicate username");
+        $('#signup-err').show()
+      }
   }
 
   // should be able to outsorce the ajax call for indv, peice page to this
   /*
-  function gePiece(){
+  function getPiece(){
     var piece = $('#').val();
     $('#searchresults').empty();
     $.ajax({
