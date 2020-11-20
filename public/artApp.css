@@ -59,4 +59,5 @@ button {
   border-color: black;
   padding: 5px;
   border-width:2px;
+  border-style: solid;
 }
