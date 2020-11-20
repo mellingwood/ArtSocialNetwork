@@ -54,7 +54,7 @@ button {
     }
 }
 
-#tags {
+#tag > span {
   background-color: ghostwhite;
   border-color: black;
   padding: 5px;
