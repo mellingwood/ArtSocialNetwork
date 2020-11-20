@@ -95,6 +95,12 @@ function processResults(results) {
   $('#searchresults').append(buildTable(results));
 }
 
+function processUser(results)
+{
+  pageState = "Main";
+  changeState(pageState);
+}
+
 // This function is called when an option is selected in the pull down menu
 // If the option is "Add New" the shows the add form, and hides the others
 // Otherwise it shows the results div
@@ -273,9 +279,9 @@ function changeState(pageState) {
           error: displayError
         })
       }
-      else{
-        console.log("duplicate username");
-        $('#signup-err').show()
+    else{
+      console.log("duplicate username");
+      $('#signup-err').show();
       }
   }
 
