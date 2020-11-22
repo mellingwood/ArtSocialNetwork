@@ -134,41 +134,42 @@ function changeState(pageState) {
   case "Main":
     $('#mainbar').show();
     $('.loggedin').show(); //allow logged in stuff to be shown...
-    $('container').hide(); //but hide everything but home page
+    $('.container').hide(); //but hide everything but home page
+    $('#home').show();
     break;
   case "Art Search":
-    $('container').hide();
+    $('.container').hide();
     $('#results').show();
     break;
   case "User Search":
     //nothing for this yet
     break;
   case "User Profile":
-    $('container').hide();
+    $('.container').hide();
     $('#mainbar').show();
     $('#userpage').show();
     break;
   case "Advanced Search":
-    $('container').hide();
+    $('.container').hide();
     $('#mainbar').show();
     $('#advsearchpage').show();
     break;
   case "Search Results":
-    $('container').hide();
+    $('.container').hide();
     $('#mainbar').show();
     $('#results').show();
     break;
   case "Art Piece":
-    $('container').hide();
+    $('.container').hide();
     $('#mainbar').show();
     $('#artpiecepage').show();
     break;
    case "New User":
-    $('container').hide();
+    $('.container').hide();
     $('#newaccount').show();
     break;
    case "Home":
-    $('container').hide();
+    $('.container').hide();
     $('#login').show();
     break;
   }
@@ -287,9 +288,6 @@ function changeState(pageState) {
 
     if(count[0].count==0){
       console.log("Add:"+$('#addUserName').val());
-      var saveRecord=$('#addUserName').val()+' '+$('#addPassword').val()
-        // Place to store record for add varification
-        //I'm not sure if we need this? -Andy
 
       $.ajax({
           url: Url+'/adduser?username='+$('#addUserName').val()+'&password='+$('#addPassword').val(),
