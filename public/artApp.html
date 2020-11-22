@@ -34,7 +34,7 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li class="active"> placehold text adv search</li>
+          <li><button type="button" id="adv-search-btn" class="btn btn-default">Advanced Search</button></li>
           <li class="btn-group">
             <a href="#" id="searchtype" class="dropdown-toggle selection" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Search Type<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
@@ -72,7 +72,7 @@
           </div>
         </br>
         <div class="form-group">
-          <input type="text" id="password" class="form-control" placeholder="Password">
+          <input type="password" id="password" class="form-control" placeholder="Password">
           <p id="login-err">Username or Password doesn't match.</p>
         </div>
         <button type="button" id="login-btn" class="btn btn-default">Log In</button>
@@ -122,17 +122,16 @@
       </div>
     </div>
 
+    <div class="container" id="advsearchpage">
+      <div id="adv-search"><p>Advanced Search</p></div>
+      <div id="loading"  style="display:none;">
+      </div>
+    </div>
+
     <div class="container" id="artpiecepage">
       <img class="md-6" id="piece" src="" width="50%"/>
-      <div style="float:right">
-        <div id = "title"></div>
-        <div id= "date"></div>
-        <div id = "artist"></div>
-        <div id= "artist-info"></div>
+      <div id="art-info-table">
       </div>
-      <br/>
-      <br/>
-      <div id= "tags"></div>
     </div>
 
     <div class="container" id="userpage">
@@ -142,7 +141,7 @@
           <p>This is where the bio would go</p>
         </div>
         <div class="col-sm-8" id="userpageFavorits" style="background-color:lavenderblush;">
-          <h2>Favorits</h2>
+          <h2>Favorites</h2>
         </div>
       </div>
     </div>

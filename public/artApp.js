@@ -51,10 +51,18 @@ $(document).ready(function () {
 
   //reacts to both user search and art search the same right now
   $('#search-btn').click(function() {
-    //reveal search results
-    pageState = "Search Results";
-    changeState(pageState);
-    getMatches();
+    //make an error pop up if there is no search term to avoid pulling up all pieces and taking a really long time
+
+    var search = $('#search').val();
+
+    if(search != "") {
+      //reveal search results
+      pageState = "Search Results";
+      changeState(pageState);
+      getMatches();
+    } else {
+      $('#searchresults').html('<div class="modal" id="myModal"><div class="modal-dialog"><div class="modal-content"><!-- Modal Header --><div class="modal-header"><h4 class="modal-title">Modal Heading</h4><button type="button" class="close" data-dismiss="modal">&times;</button></div><!-- Modal body --><div class="modal-body">Modal body..</div><!-- Modal footer --><div class="modal-footer"><button type="button" class="btn btn-danger" data-dismiss="modal">Close</button></div></div></div></div>');
+    }
   });
 
   //sends user to their own page
@@ -63,6 +71,12 @@ $(document).ready(function () {
     changeState(pageState);
     $('#userpageName').empty();
     $('#userpageName').append(thisUser);
+  });
+
+  //sends user to their own page
+  $('#adv-search-btn').click(function() {
+    pageState = "Advanced Search";
+    changeState(pageState);
   });
 
   $("#clear").click(clearResults);
@@ -124,6 +138,7 @@ function changeState(pageState) {
     $('#artpiecepage').hide();
     $('#newaccount').hide();
     $('#userpage').hide();
+    $('#advsearchpage').hide();
   } else if (pageState=="Art Search"){
     $('#mainbar').show();
     $('#home').hide();
@@ -131,6 +146,7 @@ function changeState(pageState) {
     $('#artpiecepage').hide();
     $('#newaccount').hide();
     $('#userpage').hide();
+    $('#advsearchpage').hide();
   } else if (pageState=="User Search"){
     //nothing for this yet
   } else if (pageState=="User Profile"){
@@ -140,6 +156,15 @@ function changeState(pageState) {
     $('#artpiecepage').hide();
     $('#newaccount').hide();
     $('#userpage').show();
+    $('#advsearchpage').hide();
+  } else if (pageState=="Advanced Search"){
+    $('#mainbar').show();
+    $('#home').hide();
+    $('#results').hide();
+    $('#artpiecepage').hide();
+    $('#newaccount').hide();
+    $('#userpage').hide();
+    $('#advsearchpage').show();
   } else if (pageState=="Search Results"){
     $('#mainbar').show();
     $('#home').hide();
@@ -147,6 +172,7 @@ function changeState(pageState) {
     $('#artpiecepage').hide();
     $('#newaccount').hide();
     $('#userpage').hide();
+    $('#advsearchpage').hide();
   } else if (pageState=="Art Piece"){
     $('#mainbar').show();
     $('#home').hide();
@@ -154,6 +180,7 @@ function changeState(pageState) {
     $('#artpiecepage').show();
     $('#newaccount').hide();
     $('#userpage').hide();
+    $('#advsearchpage').hide();
   } else if (pageState == "New User"){
     $('#login').hide();
     $('#mainbar').hide();
@@ -163,6 +190,7 @@ function changeState(pageState) {
     $('#newaccount').show();
     $('#signup-err').hide();
     $('#userpage').hide();
+    $('#advsearchpage').hide();
   } else if (pageState == "Home"){
     $('#login').show();
     $('#mainbar').hide();
@@ -171,6 +199,7 @@ function changeState(pageState) {
     $('#artpiecepage').hide();
     $('#newaccount').hide();
     $('#userpage').hide();
+    $('#advsearchpage').hide();
   }
 }
 
@@ -201,24 +230,21 @@ function changeState(pageState) {
   function loadPiece(data){
     var rows = JSON.parse(data); //wants it to be like this even though there's only one row
 
-    var tags = "<div id='tags'>";
-
     rows.forEach(function(row) {
-      $('#artpiecepage').find('#piece').attr('src', row.IMGURL)
-      $('#artpiecepage').find('#title').text(row.Title);
-      $('#artpiecepage').find('#artist').text(row.Author);
-      $('#artpiecepage').find('#artist-info').text(row.borndied);
-      $('#artpiecepage').find('#date').text(row.Date);
+      $('#artpiecepage').find('#piece').attr('src', row.IMGURL);
+      $('#art-info-table').append('<table class="art-table"><tr><td>Title: </td><td>'+row.Title+'</td></tr>');
+      $('#art-info-table').append('<tr><td>Author: </td><td>'+row.Author+'</td></tr>');
+      $('#art-info-table').append('<tr><td>Born-Died: </td><td>'+row.BornDied+'</td></tr>');
+      $('#art-info-table').append('<tr><td>Date: </td><td>'+row.Date+'</td></tr>');
+      $('#art-info-table').append('<tr><td>Technique: </td><td>'+row.Technique+'</td></tr>');
+      $('#art-info-table').append('<tr><td>Location: </td><td>'+row.Location+'</td></tr>');
+      $('#art-info-table').append('<tr><td>Form: </td><td>'+row.Form+'</td></tr>');
+      $('#art-info-table').append('<tr><td>Type: </td><td>'+row.Type+'</td></tr>');
+      $('#art-info-table').append('<tr><td>School: </td><td>'+row.School+'</td></tr></table>');
+      //it doesn't like this timeframe row for some reason...
+      //$('#art-info-table').append('<tr><td>Timeframe: </td><td>'+row.Timeframe+'</td></tr></table>')');
 
-      tags += "<span id='form'>  " + row.Form + "  </span>";
-      tags += "<span id='technique'>  " + row.Technique+ "  </span>";
-      tags += "<span id='location'>  " + row.Location+ "  </span>";
-      tags += "<span id='type'>  " + row.Type+ "  </span>";
-      tags += "<span id='school'>  " + row.School+ "  </span>";
-      tags += "<span id='timeframe'>  " + row.Timeframe + "  </span>";
-      tags += "</div>";
-      $('#artpiecepage').find('#tags').html(tags);
-    })
+    });
 
   }
 
