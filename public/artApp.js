@@ -240,9 +240,8 @@ function changeState(pageState) {
       $('#art-info-table').append('<tr><td>Location: </td><td>'+row.Location+'</td></tr>');
       $('#art-info-table').append('<tr><td>Form: </td><td>'+row.Form+'</td></tr>');
       $('#art-info-table').append('<tr><td>Type: </td><td>'+row.Type+'</td></tr>');
-      $('#art-info-table').append('<tr><td>School: </td><td>'+row.School+'</td></tr></table>');
-      //it doesn't like this timeframe row for some reason...
-      //$('#art-info-table').append('<tr><td>Timeframe: </td><td>'+row.Timeframe+'</td></tr></table>')');
+      $('#art-info-table').append('<tr><td>School: </td><td>'+row.School+'</td></tr>');
+      $('#art-info-table').append('<tr><td>Timeframe: </td><td>'+row.Timeframe+'</td></tr></table>');
 
     });
 
