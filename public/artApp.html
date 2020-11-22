@@ -34,7 +34,7 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-        <li class="active"> placehold text adv search</li>
+          <li class="active"> placehold text adv search</li>
           <li class="btn-group">
             <a href="#" id="searchtype" class="dropdown-toggle selection" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Search Type<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
@@ -53,25 +53,24 @@
         <form class="navbar-form navbar-left">
         </form>
         <ul class="nav navbar-nav navbar-right">
-        <!--  <li><a href="https://cs.kenyon.edu">Kenyon CS</a></li> -->
-        </li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
+          <li><button type="button" id="profile-btn" class="btn btn-default">Personal Profile</button></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
 
-<!-- Main jumbotron for a primary marketing message or call to action -->
-<div class="jumbotron">
-  <!--Show only login page on load, need to log in to see home and further -->
-  <div class="container" id="login">
-    <div class="md-6" id="logininfo">
-      <h2>Returning Users</h2>
-      <!--Login box-->
-      <form class="navbar-form navbar-left searchbox">
-        <div class="form-group">
-          <input type="text" id="username" class="form-control" placeholder="Username">
-        </div>
-      </br>
+  <!-- Main jumbotron for a primary marketing message or call to action -->
+  <div class="jumbotron">
+    <!--Show only login page on load, need to log in to see home and further -->
+    <div class="container" id="login">
+      <div class="md-6" id="logininfo">
+        <h2>Returning Users</h2>
+        <!--Login box-->
+        <form class="navbar-form navbar-left searchbox">
+          <div class="form-group">
+            <input type="text" id="username" class="form-control" placeholder="Username">
+          </div>
+        </br>
         <div class="form-group">
           <input type="text" id="password" class="form-control" placeholder="Password">
           <p id="login-err">Username or Password doesn't match.</p>
@@ -88,9 +87,9 @@
   </div>
 
   <div id="newaccount">
-      <!--Step 1:Adding HTML-->
-  <form style="border:1px solid #ccc">
-    <div class="container">
+    <!--Step 1:Adding HTML-->
+    <form style="border:1px solid #ccc">
+      <div class="container">
         <label><b>Username</b></label>
         <input type="text" id = "addUserName" placeholder="Enter Username" name="email" required>
 
@@ -102,43 +101,55 @@
         <p>To create an account you have to agree our <a href="#">Terms & Privacy</a>.</p>
 
         <div class="clearfix">
-            <button type="button" id = "cancel-btn" class="cancelbtn">Cancel</button>
-            <button type="button" id = "signup-btn" class="signupbtn">Sign Up</button>
+          <button type="button" id = "cancel-btn" class="cancelbtn">Cancel</button>
+          <button type="button" id = "signup-btn" class="signupbtn">Sign Up</button>
         </div>
-    </div>
-</form>
+      </div>
+    </form>
   </div>
 
-<div class="loggedin">
+  <div class="loggedin">
     <!--only show anything beyond here if logged in-->
 
-  <div class="container" id="home">
-    <h2>Featured Pieces</h2>
-    <div id="featured"></div>
-  </div>
-
-  <div class="container" id="results">
-    <div id="searchresults"><p>Search Results</p></div>
-    <div id="loading"  style="display:none;">
+    <div class="container" id="home">
+      <h2>Featured Pieces</h2>
+      <div id="featured"></div>
     </div>
-  </div>
 
-  <div class="container" id="artpiecepage">
-    <img class="md-6" id="piece" src="" width="50%"/>
-    <div style="float:right">
-      <div id = "title"></div>
-      <div id= "date"></div>
-      <div id = "artist"></div>
-      <div id= "artist-info"></div>
+    <div class="container" id="results">
+      <div id="searchresults"><p>Search Results</p></div>
+      <div id="loading"  style="display:none;">
+      </div>
     </div>
-    <br/>
-    <br/>
-    <div id= "tags"></div>
+
+    <div class="container" id="artpiecepage">
+      <img class="md-6" id="piece" src="" width="50%"/>
+      <div style="float:right">
+        <div id = "title"></div>
+        <div id= "date"></div>
+        <div id = "artist"></div>
+        <div id= "artist-info"></div>
+      </div>
+      <br/>
+      <br/>
+      <div id= "tags"></div>
+    </div>
+
+    <div class="container" id="userpage">
+      <h1 id="userpageName">Username</h1>
+      <div class="row">
+        <div class="col-sm-4" id="userpagebio">
+          <p>This is where the bio would go</p>
+        </div>
+        <div class="col-sm-8" id="userpageFavorits" style="background-color:lavenderblush;">
+          <h2>Favorits</h2>
+        </div>
+      </div>
+    </div>
+
+    <!--Want each "page" to be of class container, so we can hide all containers, but each then also have a unique id so that we can reveal a specific id -->
+
   </div>
-
-  <!--Want each "page" to be of class container, so we can hide all containers, but each then also have a unique id so that we can reveal a specific id -->
-
-</div>
 
 
 </div>

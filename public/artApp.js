@@ -6,6 +6,7 @@ var pageState;	// page state
 var selectid;
 var recIndex
 var rows;
+var thisUser;
 
 // Set up events when page is ready
 $(document).ready(function () {
@@ -56,6 +57,14 @@ $(document).ready(function () {
     getMatches();
   });
 
+  //sends user to their own page
+  $('#profile-btn').click(function() {
+    pageState = "User Profile";
+    changeState(pageState);
+    $('#userpageName').empty();
+    $('#userpageName').append(thisUser);
+  });
+
   $("#clear").click(clearResults);
 
   //function to go to page specific page when they click on picture
@@ -97,6 +106,7 @@ function processResults(results) {
 
 function processUser(results)
 {
+  thisUser=$('#addUserName').val(); //set who the logged in user is
   pageState = "Main";
   changeState(pageState);
 }
@@ -113,28 +123,38 @@ function changeState(pageState) {
     $('#results').hide(); //but hide everything but home page
     $('#artpiecepage').hide();
     $('#newaccount').hide();
+    $('#userpage').hide();
   } else if (pageState=="Art Search"){
     $('#mainbar').show();
     $('#home').hide();
     $('#results').show();
     $('#artpiecepage').hide();
     $('#newaccount').hide();
+    $('#userpage').hide();
   } else if (pageState=="User Search"){
     //nothing for this yet
+  } else if (pageState=="User Profile"){
+    $('#mainbar').show();
+    $('#home').hide();
+    $('#results').hide();
+    $('#artpiecepage').hide();
+    $('#newaccount').hide();
+    $('#userpage').show();
   } else if (pageState=="Search Results"){
     $('#mainbar').show();
     $('#home').hide();
     $('#results').show();
     $('#artpiecepage').hide();
     $('#newaccount').hide();
+    $('#userpage').hide();
   } else if (pageState=="Art Piece"){
     $('#mainbar').show();
     $('#home').hide();
     $('#results').hide();
     $('#artpiecepage').show();
     $('#newaccount').hide();
-  }
-  else if (pageState == "New User"){
+    $('#userpage').hide();
+  } else if (pageState == "New User"){
     $('#login').hide();
     $('#mainbar').hide();
     $('#home').hide();
@@ -142,14 +162,15 @@ function changeState(pageState) {
     $('#artpiecepage').hide();
     $('#newaccount').show();
     $('#signup-err').hide();
-  }
-  else if (pageState == "Home"){
+    $('#userpage').hide();
+  } else if (pageState == "Home"){
     $('#login').show();
     $('#mainbar').hide();
     $('#home').hide();
     $('#results').hide();
     $('#artpiecepage').hide();
     $('#newaccount').hide();
+    $('#userpage').hide();
   }
 }
 
@@ -243,6 +264,7 @@ function changeState(pageState) {
     } else {
       if(userLog[0].password == $('#password').val()){
         console.log($('#username').val()+" logged in");
+        thisUser=$('#username').val(); //set who the logged in user is
         pageState="Main";
         changeState(pageState);
       }
