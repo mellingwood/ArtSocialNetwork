@@ -129,77 +129,48 @@ function processUser(results)
 // If the option is "Add New" the shows the add form, and hides the others
 // Otherwise it shows the results div
 function changeState(pageState) {
+  switch(pageState){
   //show/hide divs to make the website "be" that page / be in that state
-  if(pageState=="Main"){
-    $('#login').hide(); //get rid of login stuff
+  case "Main":
     $('#mainbar').show();
     $('.loggedin').show(); //allow logged in stuff to be shown...
-    $('#results').hide(); //but hide everything but home page
-    $('#artpiecepage').hide();
-    $('#newaccount').hide();
-    $('#userpage').hide();
-    $('#advsearchpage').hide();
-  } else if (pageState=="Art Search"){
-    $('#mainbar').show();
-    $('#home').hide();
+    $('container').hide(); //but hide everything but home page
+    break;
+  case "Art Search":
+    $('container').hide();
     $('#results').show();
-    $('#artpiecepage').hide();
-    $('#newaccount').hide();
-    $('#userpage').hide();
-    $('#advsearchpage').hide();
-  } else if (pageState=="User Search"){
+    break;
+  case "User Search":
     //nothing for this yet
-  } else if (pageState=="User Profile"){
+    break;
+  case "User Profile":
+    $('container').hide();
     $('#mainbar').show();
-    $('#home').hide();
-    $('#results').hide();
-    $('#artpiecepage').hide();
-    $('#newaccount').hide();
     $('#userpage').show();
-    $('#advsearchpage').hide();
-  } else if (pageState=="Advanced Search"){
+    break;
+  case "Advanced Search":
+    $('container').hide();
     $('#mainbar').show();
-    $('#home').hide();
-    $('#results').hide();
-    $('#artpiecepage').hide();
-    $('#newaccount').hide();
-    $('#userpage').hide();
     $('#advsearchpage').show();
-  } else if (pageState=="Search Results"){
+    break;
+  case "Search Results":
+    $('container').hide();
     $('#mainbar').show();
-    $('#home').hide();
     $('#results').show();
-    $('#artpiecepage').hide();
-    $('#newaccount').hide();
-    $('#userpage').hide();
-    $('#advsearchpage').hide();
-  } else if (pageState=="Art Piece"){
+    break;
+  case "Art Piece":
+    $('container').hide();
     $('#mainbar').show();
-    $('#home').hide();
-    $('#results').hide();
     $('#artpiecepage').show();
-    $('#newaccount').hide();
-    $('#userpage').hide();
-    $('#advsearchpage').hide();
-  } else if (pageState == "New User"){
-    $('#login').hide();
-    $('#mainbar').hide();
-    $('#home').hide();
-    $('#results').hide();
-    $('#artpiecepage').hide();
+    break;
+   case "New User":
+    $('container').hide();
     $('#newaccount').show();
-    $('#signup-err').hide();
-    $('#userpage').hide();
-    $('#advsearchpage').hide();
-  } else if (pageState == "Home"){
+    break;
+   case "Home":
+    $('container').hide();
     $('#login').show();
-    $('#mainbar').hide();
-    $('#home').hide();
-    $('#results').hide();
-    $('#artpiecepage').hide();
-    $('#newaccount').hide();
-    $('#userpage').hide();
-    $('#advsearchpage').hide();
+    break;
   }
 }
 
