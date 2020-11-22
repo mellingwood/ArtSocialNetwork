@@ -2,7 +2,6 @@
 // Jim Skon, Kenyon College, 2020
 const port='9020' // Must match port used on server, port>8000
 const Url='http://jimskon.com:'+port
-var pageState;	// page state
 var selectid;
 var recIndex
 var rows;
@@ -12,13 +11,12 @@ var thisUser;
 $(document).ready(function () {
   // For this program is will be a reponse to a request from this page for an action
 
-  pageState = "Home"; // Default page
-
   // Clear everything on startup
   $('.loggedin').hide();
   $('#login-err').hide();
   $('#mainbar').hide();
   $('#newaccount').hide();
+  changeState("Home"); //may be redundant with above
 
   //make everything appear when you log in-- needs more hoops to jump through when we get the user functionality going, but works with just a click now
   $('#login-btn').click(function() {
@@ -28,8 +26,7 @@ $(document).ready(function () {
 
   $('#newaccount-btn').click(function() {
     //bring to sign up page
-    pageState = "New User";
-    changeState(pageState);
+    changeState("New User");
   });
 
   $('#cancel-btn').click(function() {
@@ -37,16 +34,12 @@ $(document).ready(function () {
     console.log("cancel!");
     $('#addUserName').val('')
     $('#addPassword').val('')
-    pageState = "Home";
-    changeState(pageState);
+    changeState("Home");
   });
 
   $('#signup-btn').click(function() {
     $('#signup-err').hide()
     checkUser();
-    /*pageState = "Home";
-    changeState(pageState);*/
-    //moved to addUser()
   });
 
   //reacts to both user search and art search the same right now
@@ -57,8 +50,7 @@ $(document).ready(function () {
 
     if(search != "") {
       //reveal search results
-      pageState = "Search Results";
-      changeState(pageState);
+      changeState("Search Results");
       getMatches();
     } else {
       $('#searchresults').html('<div class="modal" id="myModal"><div class="modal-dialog"><div class="modal-content"><!-- Modal Header --><div class="modal-header"><h4 class="modal-title">Modal Heading</h4><button type="button" class="close" data-dismiss="modal">&times;</button></div><!-- Modal body --><div class="modal-body">Modal body..</div><!-- Modal footer --><div class="modal-footer"><button type="button" class="btn btn-danger" data-dismiss="modal">Close</button></div></div></div></div>');
@@ -67,16 +59,14 @@ $(document).ready(function () {
 
   //sends user to their own page
   $('#profile-btn').click(function() {
-    pageState = "User Profile";
-    changeState(pageState);
+    changeState("User Profile");
     $('#userpageName').empty();
     $('#userpageName').append(thisUser);
   });
 
   //sends user to their own page
   $('#adv-search-btn').click(function() {
-    pageState = "Advanced Search";
-    changeState(pageState);
+    changeState("Advanced Search");
   });
 
   $("#clear").click(clearResults);
@@ -84,22 +74,30 @@ $(document).ready(function () {
   //function to go to page specific page when they click on picture
   $('#results').on('click', '.art', function(){
     //reveal individual art piece page
-    pageState = "Art Piece";
-    changeState(pageState);
+    changeState("Art Piece");
     $.ajax({
-      url: Url+'/getpiece?search='+$(this).attr('id'), //THIS LINE MAY BE WRONG
+      url: Url+'/getpiece?search='+$(this).attr('id'),
       type:"GET",
       success: loadPiece,
       error: displayError
     })
   });
-  //This will link the search results to the art pages
+
+  $('#fav').click (function(){
+    console.log($('.pieceid').attr('id'));//debug
+    $.ajax({
+        url: Url+'/favorite?username='+thisUser+'&pieceid='+$('.pieceid').attr('id')+'&add='+!$(this).checked,
+        type:"GET",
+        success: processFav,
+        error: displayError
+      })
+    });
 
   //Handle pulldown menu
   $(".dropdown-menu li a").click(function(){
     $(this).parents(".btn-group").find('.selection').text($(this).text());
-    pageState=$(this).text() //sets page state by drop down choice // can use .split(" ").first(); to g et first word (User or Art)
-    changeState(pageState);
+    changeState($(this).text()); //change to dropdown selection
+      //can use .split(" ").first(); to get first word (User or Art)
   });
 
 });
@@ -121,8 +119,7 @@ function processResults(results) {
 function processUser(results)
 {
   thisUser=$('#addUserName').val(); //set who the logged in user is
-  pageState = "Main";
-  changeState(pageState);
+  changeState("Main");
 }
 
 // This function is called when an option is selected in the pull down menu
@@ -202,8 +199,16 @@ function changeState(pageState) {
   function loadPiece(data){
     var rows = JSON.parse(data); //wants it to be like this even though there's only one row
 
+    $.ajax({
+      url: Url+'/piecefavs?pieceid='+rows[0].ID,
+      type:"GET",
+      success: showFavs,
+      error: displayError
+    });
+
     rows.forEach(function(row) {
       $('#artpiecepage').find('#piece').attr('src', row.IMGURL);
+      $('#artpiecepage').find('.pieceid').attr('id', row.ID); //embed piece id in page (invisibly)
       $('#art-info-table').append('<table class="art-table"><tr><td>Title: </td><td>'+row.Title+'</td></tr>');
       $('#art-info-table').append('<tr><td>Author: </td><td>'+row.Author+'</td></tr>');
       $('#art-info-table').append('<tr><td>Born-Died: </td><td>'+row.BornDied+'</td></tr>');
@@ -214,7 +219,6 @@ function changeState(pageState) {
       $('#art-info-table').append('<tr><td>Type: </td><td>'+row.Type+'</td></tr>');
       $('#art-info-table').append('<tr><td>School: </td><td>'+row.School+'</td></tr>');
       $('#art-info-table').append('<tr><td>Timeframe: </td><td>'+row.Timeframe+'</td></tr></table>');
-
     });
 
   }
@@ -262,8 +266,7 @@ function changeState(pageState) {
       if(userLog[0].password == $('#password').val()){
         console.log($('#username').val()+" logged in");
         thisUser=$('#username').val(); //set who the logged in user is
-        pageState="Main";
-        changeState(pageState);
+        changeState("Main");
       }
       else{
         console.log("bad password");
@@ -299,6 +302,19 @@ function changeState(pageState) {
       console.log("duplicate username");
       $('#signup-err').show();
       }
+  }
+
+  function processFav(results)
+  {
+    console.log('fav change');
+    //TODO: what needs to be done here??
+  }
+
+  function showFavs(results)
+  {
+    let favs = JSON.parse(results)[0].count;
+    console.log(favs);
+    $('#fav').text("Favorites:" + favs); //not working, idk why
   }
 
   // should be able to outsorce the ajax call for indv, peice page to this

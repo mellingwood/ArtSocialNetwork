@@ -61,7 +61,6 @@ if (req.query.search === undefined) {
   search=req.query.search;
   console.log(search);
 
-
   query="SELECT * FROM art WHERE ID like '"+req.query.search+"' LIMIT 20";
   console.log(query)
   con.query(query, function(err,result) {
@@ -121,6 +120,48 @@ app.get('/adduser', function (req, res) {
     }
 })
 
+app.get('/favorite', function(req,res) {
+  if(req.query.username == undefined || req.query.pieceid == undefined)
+  {
+    console.log("Bad favorite request:" + JSON.stringify(req.query));
+    res.end("['fail']");
+  }
+  else
+  {
+    if(req.query.add == true){
+      query = "INSERT INTO favorites(user, artpieceID) VALUES('"+req.query.username+"','"+req.query.pieceid+"')";
+    }
+    else{
+      query = "DELETE FROM favorites WHERE user = '" + req.query.username + "' AND artpieceID = '" + req.query.pieceid +"';";
+    }
+    console.log(query);
+    con.query(query, function(err,result,fields) {
+      if (err) throw err;
+      console.log(result)
+      res.end(JSON.stringify(result));
+    })
+  }
+})
+
+app.get('/piecefavs', function(req,res){
+  if(req.query.pieceid==undefined)
+  {
+    console.log("Bad favorite request:" + JSON.stringify(req.query));
+    res.end("['fail']");
+  }
+  else
+  {
+    query = "SELECT COUNT(user) as count FROM favorites WHERE artpieceID='"+req.query.pieceid+"'";
+    //NOTE: this query doesn't capture if a specific user has/n't favorited a piece
+
+    console.log(query);
+    con.query(query, function(err,result,fields) {
+      if (err) throw err;
+      console.log(result)
+      res.end(JSON.stringify(result));
+    })
+  }
+})
 
 /*
 Sample express call structure:
