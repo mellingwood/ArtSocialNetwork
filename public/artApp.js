@@ -1,7 +1,7 @@
 // JavaScript for Phone Application Demo Program Using Express and REST
 // Jim Skon, Kenyon College, 2020
 const port='9020' // Must match port used on server, port>8000
-const port2='9012' // Must match port used on server, port>8000
+
 
 const Url='http://jimskon.com:'+port
 var selectid;
@@ -9,8 +9,7 @@ var recIndex
 var rows;
 var thisUser;
 
-//var socket = io.connect('http://jimskon.com:'+port);
-//var socket = io();
+var socket = io.connect('http://jimskon.com:'+port);
 
 // Set up events when page is ready
 $(document).ready(function () {
@@ -116,7 +115,6 @@ $(document).ready(function () {
         })
       }
     });
-
 
   //Handle pulldown menu
   $(".dropdown-menu li a").click(function(){
@@ -339,7 +337,7 @@ function changeState(pageState) {
   {
     let favs = JSON.parse(results)[0].count;
     console.log(favs);
-    $('#numfavs').text("Favorites:" + favs); //not working, idk why
+    $('#fav').text("Favorites:" + favs); //not working, idk why
   }
 
   // should be able to outsorce the ajax call for indv, peice page to this
