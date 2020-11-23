@@ -90,23 +90,26 @@ $(document).ready(function () {
 
   $('#fav').click (function(){
 
+    const emptyHeart = "\u2661";
+    const fullHeart = "\u2665";
+
     console.log($('.pieceid').attr('id'));//debug
     console.log($(this).html());
 
-    if($(this).html() == "&#9825;") {
+    if($(this).html() == emptyHeart) {
       console.log("Entered if statement");
-      $(this).html("&#9829;");
+      $(this).html(fullHeart);
       $.ajax({
-          url: Url+'/favorite?username='+thisUser+'&pieceid='+$('.pieceid').attr('id')+'&add='+TRUE,
+          url: Url+'/favorite?username='+thisUser+'&pieceid='+$('.pieceid').attr('id')+'&add=',
           type:"GET",
           success: processFav,
           error: displayError
         })
     }
-    else if($(this).html() == "&#9829;") {
-      $(this).html("&#9825;");
+    else if($(this).html() == fullHeart) {
+      $(this).html(emptyHeart);
       $.ajax({
-          url: Url+'/favorite?username='+thisUser+'&pieceid='+$('.pieceid').attr('id')+'&add='+FALSE,
+          url: Url+'/favorite?username='+thisUser+'&pieceid='+$('.pieceid').attr('id')+'&add=',
           type:"GET",
           success: processFav,
           error: displayError
