@@ -9,7 +9,7 @@ var http = require('http').createServer(app);
 var io = require('socket.io').listen(http);
 // set to your port
 var port = 9020
-var port2 = 9012
+
 app.use(express.static('public'));
 //Serve up web page as the default
 app.get('/', function (req, res) {
@@ -208,16 +208,8 @@ function missingFieldUser(p) {
     return (p.username === undefined || p.password === undefined);
 }
 
-var server2 = io.listen(port2, function () {
-  var host2 = server2.address().address
-  var port2 = server2.address().port
-  console.log("Example app listening at http://%s:%s", host2, port2)
-})
-/*
 var server = app.listen(port, function () {
   var host = server.address().address
   var port = server.address().port
   console.log("Example app listening at http://%s:%s", host, port)
 })
-*/
-
