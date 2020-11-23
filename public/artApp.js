@@ -10,7 +10,7 @@ var rows;
 var thisUser;
 
 //var socket = io.connect('http://jimskon.com:'+port);
-var socket = io();
+//var socket = io();
 
 // Set up events when page is ready
 $(document).ready(function () {
@@ -89,14 +89,31 @@ $(document).ready(function () {
   });
 
   $('#fav').click (function(){
+
     console.log($('.pieceid').attr('id'));//debug
-    $.ajax({
-        url: Url+'/favorite?username='+thisUser+'&pieceid='+$('.pieceid').attr('id')+'&add='+!$(this).checked,
-        type:"GET",
-        success: processFav,
-        error: displayError
-      })
+    console.log($(this).html());
+
+    if($(this).html() == "&#9825;") {
+      console.log("Entered if statement");
+      $(this).html("&#9829;");
+      $.ajax({
+          url: Url+'/favorite?username='+thisUser+'&pieceid='+$('.pieceid').attr('id')+'&add='+TRUE,
+          type:"GET",
+          success: processFav,
+          error: displayError
+        })
+    }
+    else if($(this).html() == "&#9829;") {
+      $(this).html("&#9825;");
+      $.ajax({
+          url: Url+'/favorite?username='+thisUser+'&pieceid='+$('.pieceid').attr('id')+'&add='+FALSE,
+          type:"GET",
+          success: processFav,
+          error: displayError
+        })
+      }
     });
+
 
   //Handle pulldown menu
   $(".dropdown-menu li a").click(function(){
@@ -319,7 +336,7 @@ function changeState(pageState) {
   {
     let favs = JSON.parse(results)[0].count;
     console.log(favs);
-    $('#fav').text("Favorites:" + favs); //not working, idk why
+    $('#numfavs').text("Favorites:" + favs); //not working, idk why
   }
 
   // should be able to outsorce the ajax call for indv, peice page to this
