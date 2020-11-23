@@ -1,11 +1,16 @@
 // JavaScript for Phone Application Demo Program Using Express and REST
 // Jim Skon, Kenyon College, 2020
 const port='9020' // Must match port used on server, port>8000
+const port2='9012' // Must match port used on server, port>8000
+
 const Url='http://jimskon.com:'+port
 var selectid;
 var recIndex
 var rows;
 var thisUser;
+
+//var socket = io.connect('http://jimskon.com:'+port);
+var socket = io();
 
 // Set up events when page is ready
 $(document).ready(function () {
