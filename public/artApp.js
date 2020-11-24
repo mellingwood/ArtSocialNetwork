@@ -9,7 +9,7 @@ var recIndex
 var rows;
 var thisUser;
 
-var socket = io.connect('http://jimskon.com:'+port);
+//var socket = io.connect('http://jimskon.com:'+port);
 
 // Set up events when page is ready
 $(document).ready(function () {
@@ -99,7 +99,7 @@ $(document).ready(function () {
       console.log("Entered if statement");
       $(this).html(fullHeart);
       $.ajax({
-          url: Url+'/favorite?username='+thisUser+'&pieceid='+$('.pieceid').attr('id')+'&add=',
+          url: Url+'/favorite?username='+thisUser+'&pieceid='+$('.pieceid').attr('id')+'&addrem=add',
           type:"GET",
           success: processFav,
           error: displayError
@@ -108,7 +108,7 @@ $(document).ready(function () {
     else if($(this).html() == fullHeart) {
       $(this).html(emptyHeart);
       $.ajax({
-          url: Url+'/favorite?username='+thisUser+'&pieceid='+$('.pieceid').attr('id')+'&add=',
+          url: Url+'/favorite?username='+thisUser+'&pieceid='+$('.pieceid').attr('id')+'&addrem=rem',
           type:"GET",
           success: processFav,
           error: displayError
@@ -225,13 +225,22 @@ function changeState(pageState) {
     $.ajax({
       url: Url+'/piecefavs?pieceid='+rows[0].ID,
       type:"GET",
-      success: showFavs,
+      success: countFavs,
+      error: displayError
+    });
+
+    $.ajax({
+      url: Url+'/checkfav?username='+thisUser+'&pieceid='+rows[0].ID,
+      type:"GET",
+      success: userFav,
       error: displayError
     });
 
     rows.forEach(function(row) {
       $('#artpiecepage').find('#piece').attr('src', row.IMGURL);
       $('#artpiecepage').find('.pieceid').attr('id', row.ID); //embed piece id in page (invisibly)
+
+      $('#art-info-table').empty();
       $('#art-info-table').append('<table class="art-table"><tr><td>Title: </td><td>'+row.Title+'</td></tr>');
       $('#art-info-table').append('<tr><td>Author: </td><td>'+row.Author+'</td></tr>');
       $('#art-info-table').append('<tr><td>Born-Died: </td><td>'+row.BornDied+'</td></tr>');
@@ -333,11 +342,28 @@ function changeState(pageState) {
     //TODO: what needs to be done here??
   }
 
-  function showFavs(results)
+  function countFavs(results)
   {
     let favs = JSON.parse(results)[0].count;
     console.log(favs);
-    $('#fav').text("Favorites:" + favs); //not working, idk why
+    $('#numfavs').text("Favorites:" + favs); //shows the number of people who have favorited this
+  }
+
+  function userFav(results)
+  {
+    let faved = JSON.parse(results)[0].count;
+    console.log(faved);
+    const emptyHeart = "\u2661";
+    const fullHeart = "\u2665";
+
+    console.log($('#fav').html());
+
+    if(faved > 0) {
+      $('#fav').html(fullHeart);
+    } else {
+      $('#fav').html(emptyHeart);
+    }
+
   }
 
   // should be able to outsorce the ajax call for indv, peice page to this

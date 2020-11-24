@@ -6,7 +6,7 @@ var fs = require("fs");
 var mysql = require('mysql');
 
 var http = require('http').createServer(app);
-var io = require('socket.io').listen(http);
+//var io = require('socket.io').listen(http);
 // set to your port
 var port = 9020
 
@@ -16,12 +16,13 @@ app.get('/', function (req, res) {
   res.sendFile( __dirname + "/public/artApp.html" );
 })
 
+/*
 io.on('connection', function(socket){
   //socket calls go in here?
   socket.on('favorite', function(){
     console.log("Add a favorite (TODO)"); //placeholder
   })
-});
+});*/
 
 function openSQL() {
   // Login to MySQL
@@ -139,7 +140,7 @@ app.get('/favorite', function(req,res) {
   }
   else
   {
-    if(req.query.add == true){
+    if(req.query.addrem == "add"){
       query = "INSERT INTO favorites(user, artpieceID) VALUES('"+req.query.username+"','"+req.query.pieceid+"')";
     }
     else{
@@ -163,6 +164,26 @@ app.get('/piecefavs', function(req,res){
   else
   {
     query = "SELECT COUNT(user) as count FROM favorites WHERE artpieceID='"+req.query.pieceid+"'";
+    //NOTE: this query doesn't capture if a specific user has/n't favorited a piece
+
+    console.log(query);
+    con.query(query, function(err,result,fields) {
+      if (err) throw err;
+      console.log(result)
+      res.end(JSON.stringify(result));
+    })
+  }
+})
+
+app.get('/checkfav', function(req,res){
+  if(req.query.pieceid==undefined || req.query.username==undefined)
+  {
+    console.log("Bad favorite request:" + JSON.stringify(req.query));
+    res.end("['fail']");
+  }
+  else
+  {
+    query = "SELECT COUNT(user) as count FROM favorites WHERE user = '" + req.query.username + "' AND artpieceID='"+req.query.pieceid+"'";
     //NOTE: this query doesn't capture if a specific user has/n't favorited a piece
 
     console.log(query);
