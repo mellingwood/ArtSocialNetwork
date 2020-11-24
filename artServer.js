@@ -4,7 +4,7 @@ var app = express();
 var fs = require("fs");
 var mysql = require('mysql');
 
-// set to your port
+// set to Team C's port
 var port = 9020
 
 app.use(express.static('public'));
@@ -28,7 +28,6 @@ function openSQL() {
 }
 
 var con = openSQL();
-
 
 app.get('/find', function(req, res){
   //find art piece (any field)
@@ -223,11 +222,6 @@ if (req.query.field === undefined || req.query.search === undefined) {
   });
 });
 */
-
-//keeping this because it seems potentially useful
-function missingField(p) {
-    return (p.First === undefined || p.Last === undefined || p.Phone === undefined || p.Type === undefined);
-}
 
 function missingFieldUser(p) {
     return (p.username === undefined || p.password === undefined);
