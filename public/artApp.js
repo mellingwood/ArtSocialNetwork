@@ -88,13 +88,32 @@ $(document).ready(function () {
   });
 
   $('#fav').click (function(){
+
+    const emptyHeart = "\u2661";
+    const fullHeart = "\u2665";
+
     console.log($('.pieceid').attr('id'));//debug
-    $.ajax({
-        url: Url+'/favorite?username='+thisUser+'&pieceid='+$('.pieceid').attr('id')+'&add='+!$(this).checked,
-        type:"GET",
-        success: processFav,
-        error: displayError
-      })
+    console.log($(this).html());
+
+    if($(this).html() == emptyHeart) {
+      console.log("Entered if statement");
+      $(this).html(fullHeart);
+      $.ajax({
+          url: Url+'/favorite?username='+thisUser+'&pieceid='+$('.pieceid').attr('id')+'&add=',
+          type:"GET",
+          success: processFav,
+          error: displayError
+        })
+    }
+    else if($(this).html() == fullHeart) {
+      $(this).html(emptyHeart);
+      $.ajax({
+          url: Url+'/favorite?username='+thisUser+'&pieceid='+$('.pieceid').attr('id')+'&add=',
+          type:"GET",
+          success: processFav,
+          error: displayError
+        })
+      }
     });
 
   //Handle pulldown menu

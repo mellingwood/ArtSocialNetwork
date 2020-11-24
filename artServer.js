@@ -176,9 +176,7 @@ app.get('/piecefavs', function(req,res){
 
 /*
 Sample express call structure:
-
 app.get('/operation', function(req, res){
-
 console.log("Query:"+JSON.stringify(req.query));
 if (req.query.field === undefined || req.query.search === undefined) {
   console.log("Missing query value!");
@@ -187,8 +185,6 @@ if (req.query.field === undefined || req.query.search === undefined) {
   field=req.query.field;
   search=req.query.search;
   console.log(field+":"+search);
-
-
   query="SQL QUERY;";
   con.query(query, function(err,result,fields) {
      if (err) throw err;
@@ -196,7 +192,6 @@ if (req.query.field === undefined || req.query.search === undefined) {
      res.end( JSON.stringify(result));
   });
 });
-
 */
 
 //keeping this because it seems potentially useful
