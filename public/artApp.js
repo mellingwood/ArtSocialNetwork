@@ -279,8 +279,7 @@ function changeState(pageState) {
   function getMatches(search){
     console.log($(".dropdown-menu li a").text());//// DEBUG
 
-//THIS LINE ISN'T RIGHT (the selector is wrong text)
-    if($(".dropdown-menu li a").text()=="User Search"){
+    if($("#searchtype").text()=="User Search"){
       $.ajax({
         url: Url+'/finduser?search='+search,
         type:"GET",
