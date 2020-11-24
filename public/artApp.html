@@ -133,10 +133,20 @@
       <img class="md-6" id="piece" src="" width="50%"/>
       <div id="art-info-table">
       </div>
-      <div class="pieceid" id=""></div>
-      <!--<input type="checkbox" id="fav">Favorite</input>-->
-      <p id="fav">&#9825;</p>
-      <p id= "numfavs"></p>
+      <div class="row">
+        <div class="col-sm-6" id="pieceArt">
+          <div class="pieceid" id=""></div>
+          <!--<input type="checkbox" id="fav">Favorite</input>-->
+          <p id="fav">&#9825;</p>
+          <p id= "numfavs"></p>
+        </div>
+        <div class="col-sm-6" id="pieceReviews">
+          <h2>Reviews</h2>
+          <textarea id="reviewEnter" rows="6" cols="60"></textarea>
+          <button type="button" id = "submitReview-btn">Leave Review</button>
+          <div class="scrollabletextbox" id="userReviews"></div>
+        </div>
+      </div>
 
     </div>
 
