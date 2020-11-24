@@ -46,17 +46,19 @@ $(document).ready(function () {
     checkUser();
   });
 
-  //reacts to both user search and art search the same right now
+  //reacts to both user search and art search
   $('#search-btn').click(function() {
-    //make an error pop up if there is no search term to avoid pulling up all pieces and taking a really long time
 
     var search = $('#search').val();
 
     if(search != "") {
       //reveal search results
       changeState("Search Results");
-      getMatches();
+      clearResults();
+      getMatches(search);
     } else {
+      //make an error pop up if there is no search term
+      // to avoid pulling up all pieces and taking a really long time
       $('#searchresults').html('<div class="modal" id="myModal"><div class="modal-dialog"><div class="modal-content"><!-- Modal Header --><div class="modal-header"><h4 class="modal-title">Modal Heading</h4><button type="button" class="close" data-dismiss="modal">&times;</button></div><!-- Modal body --><div class="modal-body">Modal body..</div><!-- Modal footer --><div class="modal-footer"><button type="button" class="btn btn-danger" data-dismiss="modal">Close</button></div></div></div></div>');
     }
   });
@@ -79,12 +81,7 @@ $(document).ready(function () {
   $('#results').on('click', '.art', function(){
     //reveal individual art piece page
     changeState("Art Piece");
-    $.ajax({
-      url: Url+'/getpiece?search='+$(this).attr('id'),
-      type:"GET",
-      success: loadPiece,
-      error: displayError
-    })
+    getPiece($(this).attr('id'))
   });
 
   $('#fav').click (function(){
@@ -119,7 +116,7 @@ $(document).ready(function () {
   //Handle pulldown menu
   $(".dropdown-menu li a").click(function(){
     $(this).parents(".btn-group").find('.selection').text($(this).text());
-    changeState($(this).text()); //change to dropdown selection
+     //TODO: change dropdown selection
       //can use .split(" ").first(); to get first word (User or Art)
   });
 
@@ -135,8 +132,13 @@ $(document).ready(function () {
 // The rows are all saved in "rows" so we can later edit the data if the user hits "Edit"
 function processResults(results) {
   //console.log("Results:"+results);
-  $('#searchresults').empty();
+  clearResults();
   $('#searchresults').append(buildTable(results));
+}
+
+function processUserResults(results){
+  clearResults();
+  $('#searchresults').append(buildUserTable(results));
 }
 
 function processUser(results)
@@ -145,24 +147,14 @@ function processUser(results)
   changeState("Main");
 }
 
-// This function is called when an option is selected in the pull down menu
-// If the option is "Add New" the shows the add form, and hides the others
-// Otherwise it shows the results div
+// This function shows and hides containers to change the state of the website
 function changeState(pageState) {
   switch(pageState){
-  //show/hide divs to make the website "be" that page / be in that state
   case "Main":
     $('#mainbar').show();
     $('.loggedin').show(); //allow logged in stuff to be shown...
     $('.container').hide(); //but hide everything but home page
     $('#home').show();
-    break;
-  case "Art Search":
-    $('.container').hide();
-    $('#results').show();
-    break;
-  case "User Search":
-    //nothing for this yet
     break;
   case "User Profile":
     $('.container').hide();
@@ -195,8 +187,7 @@ function changeState(pageState) {
   }
 }
 
-  // Build output table from comma delimited data list from the server (a list of phone entries)
-  //needs to be modified to become the "show search results for pieces" and separately become "show a piece of art and all its info"
+// Build output table from comma delimited data list from the server (art pieces)
   function buildTable(data) {
     rows=JSON.parse(data);
     if (rows.length < 1) {
@@ -212,6 +203,24 @@ function changeState(pageState) {
       var i=0
       rows.forEach(function(row) {
         result += "<tr><td class='art' id='"+row.ID+"'><img id='to-piece' style='width: 30vw; min-width: 100px;' src='"+row.IMGURL+"'</td><td class='title' id='to-piece'>"+row.Title+"</td><td class='artist'>"+row.Author+"</td>";
+      })
+      result += "</table>";
+
+      return result;
+    }
+  }
+
+//build data table based on data from server (usernames)
+  function buildUserTable(data){
+    rows=JSON.parse(data);
+    if (rows.length < 1) {
+      return "<h3>No matches found</h3>";
+    } else {
+      var result = '<table class="w3-table-all w3-hoverable" border="2"><tr><tr>';
+        //result += "<tr><td>"+rows.length+" pieces found<td><td></td></tr>";
+      var i=0
+      rows.forEach(function(row) {
+        result += "<tr><td class='username' id='"+row.ID+"'>"+row.username+"</td></tr>";
       })
       result += "</table>";
 
@@ -267,15 +276,27 @@ function changeState(pageState) {
   // Called when the user hits the "Search" button.
   // It sends a request to the server (operation,search string),
   // Where operation is one of (Last, First, Type)
-  function getMatches(){
-    var search = $('#search').val();
-    $('#searchresults').empty();
-    $.ajax({
-      url: Url+'/find?search='+search,
-      type:"GET",
-      success: processResults,
-      error: displayError
-    })
+  function getMatches(search){
+    console.log($(".dropdown-menu li a").text());//// DEBUG
+
+//THIS LINE ISN'T RIGHT (the selector is wrong text)
+    if($(".dropdown-menu li a").text()=="User Search"){
+      $.ajax({
+        url: Url+'/finduser?search='+search,
+        type:"GET",
+        success: processUserResults,
+        error: displayError
+      })
+    }
+
+    else{
+      $.ajax({
+        url: Url+'/find?search='+search,
+        type:"GET",
+        success: processResults,
+        error: displayError
+      })
+    }
   }
 
   function getLogin(){
@@ -308,6 +329,7 @@ function changeState(pageState) {
   }
 
   function checkUser(){
+    //verify username is not a duplicate/doesn't already exists in database
     console.log("Verify username:"+$('#addUserName').val());
     $.ajax({
       url: Url+'/checkuser?username='+$('#addUserName').val(),
@@ -321,6 +343,7 @@ function changeState(pageState) {
     let count = JSON.parse(results);
 
     if(count[0].count==0){
+      //no users by that name
       console.log("Add:"+$('#addUserName').val());
 
       $.ajax({
@@ -366,16 +389,12 @@ function changeState(pageState) {
 
   }
 
-  // should be able to outsorce the ajax call for indv, peice page to this
-  /*
-  function getPiece(){
-    var piece = $('#').val();
-    $('#searchresults').empty();
+  function getPiece(id){
     $.ajax({
-      url: Url+'/getpiece?search='+$(this).attr('id'), //THIS LINE MAY BE WRONG
+      url: Url+'/getpiece?search='+id,
       type:"GET",
       success: loadPiece,
       error: displayError
     })
 
-  }*/
+  }

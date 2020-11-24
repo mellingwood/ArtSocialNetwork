@@ -1,12 +1,9 @@
 // Server for art social network using Express and Node
-// and some socket?
 var express = require('express');
 var app = express();
 var fs = require("fs");
 var mysql = require('mysql');
 
-var http = require('http').createServer(app);
-//var io = require('socket.io').listen(http);
 // set to your port
 var port = 9020
 
@@ -15,14 +12,6 @@ app.use(express.static('public'));
 app.get('/', function (req, res) {
   res.sendFile( __dirname + "/public/artApp.html" );
 })
-
-/*
-io.on('connection', function(socket){
-  //socket calls go in here?
-  socket.on('favorite', function(){
-    console.log("Add a favorite (TODO)"); //placeholder
-  })
-});*/
 
 function openSQL() {
   // Login to MySQL
@@ -42,26 +31,46 @@ var con = openSQL();
 
 
 app.get('/find', function(req, res){
-  //find art by piece Title
+  //find art piece (any field)
 console.log("Query:"+JSON.stringify(req.query));
-if (/*req.query.field === undefined ||*/ req.query.search === undefined) {
+if (req.query.search === undefined) {
   console.log("Missing query value!");
   res.end('[]');
 } else {
-  //field=req.query.field;
   search=req.query.search;
-  console.log(/*field+":"+*/search);
+  console.log(search);
 
   //expanded general seach to more fields
   query="SELECT * FROM art WHERE Title like '%"+req.query.search+"%'or Author like '%"+req.query.search+"%' or Technique like '%"+req.query.search+"%' or Location like '%"+req.query.search+"%' or Form like '%"+req.query.search+"%' or Type like '%"+req.query.search+"%' or School like '%"+req.query.search+"%' ";
   console.log(query)
-  con.query(query, function(err,result/*,fields*/) {
+  con.query(query, function(err,result) {
      if (err) throw err;
      console.log(result)
      res.end( JSON.stringify(result));
   })
     }
 })
+
+app.get('/finduser', function(req, res){
+  //find user by name
+console.log("Query:"+JSON.stringify(req.query));
+if (req.query.search === undefined) {
+  console.log("Missing query value!");
+  res.end('[]');
+} else {
+  search=req.query.search;
+  console.log(search);
+
+  query="SELECT * FROM users WHERE username like '%"+req.query.search+"%'";
+  console.log(query)
+  con.query(query, function(err,result) {
+     if (err) throw err;
+     console.log(result)
+     res.end( JSON.stringify(result));
+  })
+    }
+})
+
 
 app.get('/getpiece', function(req, res){
   //find art by piece ID, from clicking on piece in search results
