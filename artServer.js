@@ -203,6 +203,26 @@ app.get('/checkfav', function(req,res){
   }
 })
 
+app.get('/getuser', function(req, res){
+  //find art by piece ID, from clicking on piece in search results
+console.log("Query:"+JSON.stringify(req.query));
+if (req.query.search === undefined) {
+  console.log("Missing query value!");
+  res.end('[]');
+} else {
+  search=req.query.search;
+  console.log(search);
+
+  query="SELECT * FROM art WHERE ID IN (SELECT artpieceID FROM favorites WHERE user = '"+req.query.search+"') LIMIT 20";
+  console.log(query)
+  con.query(query, function(err,result) {
+     if (err) throw err;
+     console.log(result)
+     res.end( JSON.stringify(result));
+  })
+    }
+})
+
 /*
 Sample express call structure:
 app.get('/operation', function(req, res){

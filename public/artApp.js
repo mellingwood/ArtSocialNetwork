@@ -19,7 +19,6 @@ $(document).ready(function () {
   $('.loggedin').hide();
   $('#login-err').hide();
   $('#mainbar').hide();
-  $('#newaccount').hide();
   changeState("Home"); //may be redundant with above
 
   //make everything appear when you log in-- needs more hoops to jump through when we get the user functionality going, but works with just a click now
@@ -65,9 +64,11 @@ $(document).ready(function () {
 
   //sends user to their own page
   $('#profile-btn').click(function() {
+    $('#userfavs').empty();
     changeState("User Profile");
     $('#userpageName').empty();
     $('#userpageName').append(thisUser);
+    getProfile(thisUser);
   });
 
   //sends user to their own page
@@ -76,12 +77,27 @@ $(document).ready(function () {
   });
 
   $("#clear").click(clearResults);
+  //NOTE: html element does not exist
 
   //function to go to page specific page when they click on picture
   $('#results').on('click', '.art', function(){
     //reveal individual art piece page
     changeState("Art Piece");
     getPiece($(this).attr('id'))
+  });
+
+  $('#userfavs').on('click', '.art', function(){
+    //reveal individual art piece page
+    changeState("Art Piece");
+    getPiece($(this).attr('id'))
+  });
+
+  $('#results').on('click', '.username', function(){
+    $('#userfavs').empty();
+    $('#userpageName').empty();
+    $('#userpageName').append($(this).text());
+    changeState("User Profile");
+    getProfile($(this).text()); //use the username; id is too complicated
   });
 
   $('#fav').click (function(){
@@ -220,7 +236,7 @@ function changeState(pageState) {
         //result += "<tr><td>"+rows.length+" pieces found<td><td></td></tr>";
       var i=0
       rows.forEach(function(row) {
-        result += "<tr><td class='username' id='"+row.ID+"'>"+row.username+"</td></tr>";
+        result += "<tr><td class='username link' id='"+row.ID+"'>"+row.username+"</td></tr>";
       })
       result += "</table>";
 
@@ -395,5 +411,33 @@ function changeState(pageState) {
       success: loadPiece,
       error: displayError
     })
+
+  }
+
+  function getProfile(username){
+    $.ajax({
+      url: Url+'/getuser?search='+username,
+      type:"GET",
+      success: loadProfile,
+      error: displayError
+    })
+  }
+
+//STILL DRAFT
+  function loadProfile(data){
+    var rows = JSON.parse(data);
+    console.log(rows);// DEBUG
+
+    var result = "<h3>Currently no favorite pieces</h3>";
+    if (rows.length > 0) {
+      var result = '<table class="w3-table-all w3-hoverable" border="2"><tr><tr>';
+      var i=0
+      rows.forEach(function(row) {
+        result += "<tr><td class='art' id='"+row.ID+"'><img id='to-piece' style='width: 30vw; min-width: 100px;' src='"+row.IMGURL+"'</td><td class='title' id='to-piece'>"+row.Title+"</td><td class='artist'>"+row.Author+"</td>";
+      })
+      result += "</table>";
+    }
+
+    $('#userfavs').append(result)
 
   }
