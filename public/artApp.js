@@ -129,6 +129,12 @@ $(document).ready(function () {
       }
     });
 
+  $('#submitReview-btn').click(function() {
+    var sendID = $('#artpiecepage').find('.pieceid').attr("id");
+    console.log(sendID)
+    addReview(sendID)
+  });
+
   //Handle pulldown menu
   $(".dropdown-menu li a").click(function(){
     $(this).parents(".btn-group").find('.selection').text($(this).text());
@@ -260,6 +266,13 @@ function changeState(pageState) {
       success: userFav,
       error: displayError
     });
+
+    $.ajax({
+      url: Url+'/getuserreview?pieceID='+rows[0].ID+'&user='+thisUser,
+      type:"GET",
+      success: userReview,
+      error: displayError
+    })
 
     rows.forEach(function(row) {
       $('#artpiecepage').find('#piece').attr('src', row.IMGURL);
@@ -411,9 +424,35 @@ function changeState(pageState) {
       success: loadPiece,
       error: displayError
     })
+  }
+
+/********* Review calls **********/
+  function userReview(results)
+  {
+    $('#reviewEnter').val('');
+    var rev = JSON.parse(results)[0]; //gets info on what should be only one matching review
+    if (rev == undefined){}
+    else {
+      console.log(rev.review);// DEBUG
+      $('#reviewEnter').val(rev.review);
+    }
+  }
+
+  function addReview(id){
+    $.ajax({
+      url: Url+'/addreview?pieceID='+id+'&user='+thisUser+'&review='+$('#reviewEnter').val(),
+      type:"GET",
+      success: reviewAdded,
+      error: displayError
+    })
+  }
+  function reviewAdded(results)
+  {
+    console.log("review added");
 
   }
 
+/********* Profile calls **********/
   function getProfile(username){
     $.ajax({
       url: Url+'/getuser?search='+username,

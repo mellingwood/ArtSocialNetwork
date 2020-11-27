@@ -87,7 +87,6 @@
 
   <div class="container" id="newaccount">
     <form style="border:1px solid #ccc">
-      <div class="container">
         <label><b>Username</b></label>
         <input type="text" id = "addUserName" placeholder="Enter Username" name="email" required>
 
@@ -96,13 +95,12 @@
 
         <input type="checkbox" checked="checked"> Remember me
         <p id="signup-err">That username is already taken.</p>
-        <p>To create an account you have to agree our <a href="#">Terms & Privacy</a>.</p>
+        <!--<p>To create an account you have to agree our <a href="#">Terms & Privacy</a>.</p>-->
 
         <div class="clearfix">
           <button type="button" id = "cancel-btn" class="cancelbtn">Cancel</button>
           <button type="button" id = "signup-btn" class="signupbtn">Sign Up</button>
         </div>
-      </div>
     </form>
   </div>
 
@@ -140,7 +138,7 @@
           <h2>Reviews</h2>
           <textarea id="reviewEnter" rows="6" cols="60"></textarea>
           <button type="button" id = "submitReview-btn">Leave Review</button>
-          <div class="scrollabletextbox" id="userReviews"> <textarea rows="6" cols="60">This is a Test Review</textarea> </div>
+          <div id="userReviews" style="overflow:scroll; width:570px; height: 400px; border: 1px solid #000000;"></div>
         </div>
       </div>
 

@@ -223,6 +223,50 @@ if (req.query.search === undefined) {
     }
 })
 
+//check for reviews when art page opened
+app.get('/getuserreview', function(req,res)
+{
+  if (req.query.pieceID==undefined || req.query.user==undefined) {
+      console.log("Bad review request:"+JSON.stringify(req.query));
+      res.end("['fail']");
+  } else {
+    query = "SELECT * FROM reviews WHERE artpieceID='"+req.query.pieceID+"' AND user='"+req.query.user+"'";
+    console.log(query);
+    con.query(query, function(err,result,fields) {
+  	    if (err) throw err;
+        console.log(result)
+  	    res.end(JSON.stringify(result));
+  	   })
+      }
+})
+
+//replace or create review
+app.get('/addreview', function(req,res) {
+  if(req.query.user === undefined || req.query.pieceID === undefined)
+  {
+    console.log("Bad review request:" + JSON.stringify(req.query));
+    res.end("['fail']");
+  }
+  else
+  {
+    //first, remove any review with the given identifiers
+    query = "DELETE FROM reviews WHERE user = '" + req.query.user + "' AND artpieceID = '" + req.query.pieceID +"';";
+    console.log(query);
+    con.query(query, function(err,result,fields) {
+      if (err) throw err;
+      console.log(result)
+    })
+    //then, make a new review with those states
+    query = "INSERT INTO reviews(user, artpieceID, review) VALUES('"+req.query.user+"','"+req.query.pieceID+"','"+req.query.review+"')";
+    console.log(query);
+    con.query(query, function(err,result,fields) {
+      if (err) throw err;
+      console.log(result)
+      res.end(JSON.stringify(result));
+    })
+  }
+})
+
 /*
 Sample express call structure:
 app.get('/operation', function(req, res){
