@@ -87,20 +87,20 @@
 
   <div class="container" id="newaccount">
     <form style="border:1px solid #ccc">
-        <label><b>Username</b></label>
-        <input type="text" id = "addUserName" placeholder="Enter Username" name="email" required>
+      <label><b>Username</b></label>
+      <input type="text" id = "addUserName" placeholder="Enter Username" name="email" required>
 
-        <label><b>Password</b></label>
-        <input type="password" id="addPassword" placeholder="Enter Password" name="psw" required>
+      <label><b>Password</b></label>
+      <input type="password" id="addPassword" placeholder="Enter Password" name="psw" required>
 
-        <input type="checkbox" checked="checked"> Remember me
-        <p id="signup-err">That username is already taken.</p>
-        <!--<p>To create an account you have to agree our <a href="#">Terms & Privacy</a>.</p>-->
+      <input type="checkbox" checked="checked"> Remember me
+      <p id="signup-err">That username is already taken.</p>
+      <!--<p>To create an account you have to agree our <a href="#">Terms & Privacy</a>.</p>-->
 
-        <div class="clearfix">
-          <button type="button" id = "cancel-btn" class="cancelbtn">Cancel</button>
-          <button type="button" id = "signup-btn" class="signupbtn">Sign Up</button>
-        </div>
+      <div class="clearfix">
+        <button type="button" id = "cancel-btn" class="cancelbtn">Cancel</button>
+        <button type="button" id = "signup-btn" class="signupbtn">Sign Up</button>
+      </div>
     </form>
   </div>
 
@@ -150,6 +150,21 @@
         <div class="col-sm-4" id="userpagebio">
           <p>This is where the bio would go</p>
         </div>
+        <button id="myBtn">Change Bio</button>
+
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+
+          <!-- Modal content -->
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Add a Bio!</p>
+            <textarea id="bioEnter" rows="6" cols="60"></textarea>
+            <button type="button" id = "submitBio-btn">Save Bio</button>
+          </div>
+
+        </div>
+
         <h2 class ="col-sm-4">Favorites</h2>
         <div class="col-sm-8" id="userfavs" style="background-color:lavenderblush;float:right;">
         </div>

@@ -267,6 +267,40 @@ app.get('/addreview', function(req,res) {
   }
 })
 
+//Add Bio
+app.get('/addbio', function (req, res) {
+    if (missingFieldBio(req.query)) {
+        console.log("Bad add request:"+JSON.stringify(req.query));
+        res.end("['fail']");
+    } else {
+	query = "UPDATE users SET bio = '"+req.query.bio+"' WHERE username = '" + req.query.username +"';";
+ 	console.log(query);
+	con.query(query, function(err,result,fields) {
+	    if (err) throw err;
+	    console.log(result)
+	    res.end(JSON.stringify(result));
+	   })
+    }
+})
+
+//Get bio
+app.get('/getBio', function(req,res)
+{
+  if (req.query.username==undefined || req.query.bio==undefined) {
+      console.log("Bad review request:"+JSON.stringify(req.query));
+      res.end("['fail']");
+  } else {
+    query = "SELECT bio FROM users WHERE username= '"+req.query.username+"'";
+    console.log(query);
+    con.query(query, function(err,result,fields) {
+  	    if (err) throw err;
+        console.log(result)
+  	    res.end(JSON.stringify(result));
+  	   })
+      }
+})
+
+
 /*
 Sample express call structure:
 app.get('/operation', function(req, res){
@@ -291,6 +325,9 @@ function missingFieldUser(p) {
     return (p.username === undefined || p.password === undefined);
 }
 
+function missingFieldBio(p) {
+    return (p.username === undefined || p.bio === undefined);
+}
 var server = app.listen(port, function () {
   var host = server.address().address
   var port = server.address().port

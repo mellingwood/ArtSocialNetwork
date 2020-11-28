@@ -8,6 +8,7 @@ var selectid;
 var recIndex
 var rows;
 var thisUser;
+var thisBio;
 
 //var socket = io.connect('http://jimskon.com:'+port);
 
@@ -144,6 +145,32 @@ $(document).ready(function () {
 
 });
 
+//Sorry this is gross, ill make it one function but it's the only way I could get the modal working for now
+
+  var modal = document.getElementById("myModal");
+  // Get the button that opens the modal
+  var btn = document.getElementById("myBtn");
+  var saveBio = document.getElementById("submitBio-btn")
+  // Get the <span> element that closes the modal
+  var span = document.getElementsByClassName("close")[0];
+  // When the user clicks on the button, open the modal
+  btn.onclick = function() {
+    modal.style.display = "block";
+  }
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+}
+  saveBio.onclick = function() {
+    console.log("click!")
+    addBio();
+    modal.style.display = "none";
+  }
 
 ////******** Functions not within document.ready **********//////
 
@@ -386,6 +413,25 @@ function changeState(pageState) {
       $('#signup-err').show();
       }
   }
+//function to add bio
+  function addBio(results){
+    $.ajax({
+        url: Url+'/addBio?bio='+$('#bioEnter').val()+'&username='+thisUser,
+        type:"GET",
+        success: processBio,
+        error: displayError
+      })
+    }
+
+  function getBio(results){
+
+  }
+
+  function processBio(results){
+    console.log("bioAdded")
+  }
+
+
 
   function processFav(results)
   {
