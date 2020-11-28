@@ -9,12 +9,13 @@ var recIndex
 var rows;
 var thisUser;
 var thisBio;
-var idList = "1,2,3,4,5,6,7,8,9"
+var idList
 
 //var socket = io.connect('http://jimskon.com:'+port);
 
 // Set up events when page is ready
 $(document).ready(function () {
+  randomIDs();
   // For this program is will be a reponse to a request from this page for an action
   getFeatured(idList);
   // Clear everything on startup
@@ -190,6 +191,12 @@ $(document).ready(function () {
     modal.style.display = "none";
   }
 
+  $('#featured').on('click', '.art', function(){
+    //reveal individual art piece page
+    changeState("Art Piece");
+    getPiece($(this).attr('id'))
+  });
+
 ////******** Functions not within document.ready **********//////
 
 
@@ -197,6 +204,16 @@ $(document).ready(function () {
 // This clears any previous work, and then calls buildTable to create a nice
 // Table of the results, and pushes it to the screen.
 // The rows are all saved in "rows" so we can later edit the data if the user hits "Edit"
+
+function randomIDs(){
+  randIDs = []
+  for(i = 0; i < 10;i++){
+    randIDs[i] = Math.floor(Math.random() * 49568);
+  }
+  idList = randIDs.join()
+  console.log(idList)
+}
+
 function processResults(results) {
   //console.log("Results:"+results);
   clearResults();
@@ -375,7 +392,7 @@ function changeState(pageState) {
 
   //Featured Pieces
   function getFeatured(idList){
-    console.log(idList)
+
     $.ajax({
       url: Url+'/featured?idList='+idList,
       type:"GET",
@@ -384,10 +401,11 @@ function changeState(pageState) {
     })
   }
 
-  function processFeatured(){
+  function processFeatured(results){
     console.log("Yes here")
-
+    $('#featured').append(buildTable(results))
   }
+
 
   function getLogin(){
     console.log("Attepted log in by username:"+$('#username').val());
