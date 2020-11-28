@@ -1,35 +1,30 @@
-// JavaScript for Phone Application Demo Program Using Express and REST
-// Jim Skon, Kenyon College, 2020
-const port='9020' // Must match port used on server, port>8000
-
-
+// JavaScript for Art Social Network Using Express and REST
+// Team C, Kenyon College, 2020
+const port='9020'
 const Url='http://jimskon.com:'+port
 var selectid;
 var recIndex
 var rows;
 var thisUser;
 var thisBio;
-var idList
-
-//var socket = io.connect('http://jimskon.com:'+port);
-
+var idList;
 
 // Set up events when page is ready
 $(document).ready(function () {
   runOncePerDay();
   // For this program is will be a reponse to a request from this page for an action
   getFeatured(localStorage.getItem('IDs'));
-  // Clear everything on startup
+
+  /*// Clear everything on startup
   $('.loggedin').hide();
   $('#login-err').hide();
-  $('#mainbar').hide();
+  $('#mainbar').hide();*/
   changeState("Home"); //may be redundant with above
 
   //make everything appear when you log in-- needs more hoops to jump through when we get the user functionality going, but works with just a click now
   $('#login-btn').click(function() {
     $('#login-err').hide();
     getLogin();
-
   });
 
   $('#newaccount-btn').click(function() {
@@ -82,16 +77,12 @@ $(document).ready(function () {
     $('#userpagebio').empty();
     $('#userpagebio').append(thisBio);
     console.log(thisBio)
-
   });
 
   //sends user to their own page
   $('#adv-search-btn').click(function() {
     changeState("Advanced Search");
   });
-
-  $("#clear").click(clearResults);
-  //NOTE: html element does not exist
 
   //function to go to page specific page when they click on picture
   $('#results').on('click', '.art', function(){
