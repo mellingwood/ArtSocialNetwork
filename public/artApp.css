@@ -107,3 +107,32 @@ button {
   text-decoration: none;
   cursor: pointer;
 }
+
+.highlight {
+	opacity:.5;
+    border-color:#444;
+}
+.img-thumbnail {
+	marin-bottom:4px;
+}
+
+/* css flexbox to fill the height of content panel */
+.flex {
+	display: flex;
+    display: -webkit-flex;
+    flex-grow:1;
+}
+
+.flex-col,.panel {
+    display: flex;
+    display: -webkit-flex;
+    flex: 1 100%;
+	flex-flow: column wrap;
+    margin-bottom:0;
+}
+
+.flex-grow,.panel-body {
+	display: flex;
+    -webkit-flex: 2;
+    flex: 2;
+}

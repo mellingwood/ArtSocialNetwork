@@ -300,6 +300,19 @@ app.get('/getBio', function(req,res)
       }
 })
 
+app.get('/featured', function(req, res){
+  console.log(req.query.idList)
+  query="SELECT * FROM art WHERE ID IN ("+req.query.idList+")";
+  console.log(query)
+  con.query(query, function(err,result) {
+     if (err) throw err;
+     console.log(result)
+     res.end( JSON.stringify(result));
+  })
+})
+
+
+
 
 /*
 Sample express call structure:

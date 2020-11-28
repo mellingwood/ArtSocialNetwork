@@ -9,13 +9,14 @@ var recIndex
 var rows;
 var thisUser;
 var thisBio;
+var idList = "1,2,3,4,5,6,7,8,9"
 
 //var socket = io.connect('http://jimskon.com:'+port);
 
 // Set up events when page is ready
 $(document).ready(function () {
   // For this program is will be a reponse to a request from this page for an action
-
+  getFeatured(idList);
   // Clear everything on startup
   $('.loggedin').hide();
   $('#login-err').hide();
@@ -369,6 +370,23 @@ function changeState(pageState) {
         error: displayError
       })
     }
+  }
+
+
+  //Featured Pieces
+  function getFeatured(idList){
+    console.log(idList)
+    $.ajax({
+      url: Url+'/featured?idList='+idList,
+      type:"GET",
+      success: processFeatured,
+      error: displayError
+    })
+  }
+
+  function processFeatured(){
+    console.log("Yes here")
+
   }
 
   function getLogin(){
