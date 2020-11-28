@@ -13,11 +13,12 @@ var idList
 
 //var socket = io.connect('http://jimskon.com:'+port);
 
+
 // Set up events when page is ready
 $(document).ready(function () {
-  randomIDs();
+  runOncePerDay();
   // For this program is will be a reponse to a request from this page for an action
-  getFeatured(idList);
+  getFeatured(localStorage.getItem('IDs'));
   // Clear everything on startup
   $('.loggedin').hide();
   $('#login-err').hide();
@@ -205,14 +206,38 @@ $(document).ready(function () {
 // Table of the results, and pushes it to the screen.
 // The rows are all saved in "rows" so we can later edit the data if the user hits "Edit"
 
+//generates 9 random IDs and saves them to local storage
 function randomIDs(){
   randIDs = []
-  for(i = 0; i < 10;i++){
+  for(i = 0; i < 9;i++){
     randIDs[i] = Math.floor(Math.random() * 49568);
   }
-  idList = randIDs.join()
-  console.log(idList)
+  localStorage.setItem('IDs',randIDs.join())
+  console.log(localStorage.getItem('IDs'))
+
 }
+//checks if a day has passed
+function hasOneDayPassed(){
+  // get today's date. eg: "7/37/2007"
+  var date = new Date().toLocaleDateString();
+
+  // if there's a date in localstorage and it's equal to the above:
+  // inferring a day has yet to pass since both dates are equal.
+  if( localStorage.yourapp_date == date )
+  return false;
+
+  // this portion of logic occurs when a day has passed
+  localStorage.yourapp_date = date;
+  return true;
+}
+//This function runs once a day generates random IDs and saves them to localStorage
+function runOncePerDay(){
+  if( !hasOneDayPassed() ) return false;
+  // your code below
+  randomIDs();
+  console.log("A day has passed")
+}
+
 
 function processResults(results) {
   //console.log("Results:"+results);
@@ -393,8 +418,9 @@ function changeState(pageState) {
   //Featured Pieces
   function getFeatured(idList){
 
+
     $.ajax({
-      url: Url+'/featured?idList='+idList,
+      url: Url+'/featured?idList='+localStorage.getItem('IDs'),
       type:"GET",
       success: processFeatured,
       error: displayError
