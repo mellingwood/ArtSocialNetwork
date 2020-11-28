@@ -26,6 +26,7 @@ $(document).ready(function () {
   $('#login-btn').click(function() {
     $('#login-err').hide();
     getLogin();
+
   });
 
   $('#newaccount-btn').click(function() {
@@ -65,11 +66,16 @@ $(document).ready(function () {
 
   //sends user to their own page
   $('#profile-btn').click(function() {
+    getBio();
     $('#userfavs').empty();
     changeState("User Profile");
     $('#userpageName').empty();
     $('#userpageName').append(thisUser);
     getProfile(thisUser);
+    $('#userpagebio').empty();
+    $('#userpagebio').append(thisBio);
+    console.log(thisBio)
+
   });
 
   //sends user to their own page
@@ -167,8 +173,15 @@ $(document).ready(function () {
     }
 }
   saveBio.onclick = function() {
-    console.log("click!")
+    thisBio = $('#bioEnter').val()
+    $('#userpagebio').empty();
+    $('#userpagebio').append(thisBio);
+
+    console.log(thisBio)
     addBio();
+
+    $('#bioEnter').val('')
+
     modal.style.display = "none";
   }
 
@@ -375,6 +388,8 @@ function changeState(pageState) {
         console.log($('#username').val()+" logged in");
         thisUser=$('#username').val(); //set who the logged in user is
         changeState("Main");
+        getBio();
+        console.log(thisBio)
       }
       else{
         console.log("bad password");
@@ -418,16 +433,32 @@ function changeState(pageState) {
     $.ajax({
         url: Url+'/addBio?bio='+$('#bioEnter').val()+'&username='+thisUser,
         type:"GET",
-        success: processBio,
+        success: processAddBio,
         error: displayError
       })
     }
 
   function getBio(results){
+    console.log("Got Here")
+    $.ajax({
+        url: Url+'/getBio?username='+thisUser,
+        type:"GET",
+        success: processGetBio,
+        error: displayError
+      })
+    }
+
+
+  function processGetBio(results){
+    var bioLog = JSON.parse(results);
+    console.log(bioLog);
+    console.log("Bio " + bioLog[0].bio);
+    thisBio = bioLog[0].bio
+    console.log(thisBio)
 
   }
 
-  function processBio(results){
+  function processAddBio(results){
     console.log("bioAdded")
   }
 

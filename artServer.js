@@ -286,7 +286,7 @@ app.get('/addbio', function (req, res) {
 //Get bio
 app.get('/getBio', function(req,res)
 {
-  if (req.query.username==undefined || req.query.bio==undefined) {
+  if (req.query.username==undefined) {
       console.log("Bad review request:"+JSON.stringify(req.query));
       res.end("['fail']");
   } else {
