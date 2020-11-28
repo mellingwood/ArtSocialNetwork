@@ -34,6 +34,10 @@ $(document).ready(function () {
     changeState("New User");
   });
 
+  $('#smART').click(function(){
+    changeState("Main")
+  });
+
   $('#cancel-btn').click(function() {
     //cancel sign up
     console.log("cancel!");
@@ -388,6 +392,7 @@ function changeState(pageState) {
         console.log($('#username').val()+" logged in");
         thisUser=$('#username').val(); //set who the logged in user is
         changeState("Main");
+        //Gets user bio uppon succeful login
         getBio();
         console.log(thisBio)
       }
