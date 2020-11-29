@@ -6,7 +6,6 @@ var selectid;
 var recIndex
 var rows;
 var thisUser;
-var thisBio;
 var idList;
 
 // Set up events when page is ready
@@ -64,15 +63,12 @@ $(document).ready(function () {
 
   //sends user to their own page
   $('#profile-btn').click(function() {
-    getBio();
     $('#userfavs').empty();
     changeState("User Profile");
     $('#userpageName').empty();
     $('#userpageName').append(thisUser);
     getProfile(thisUser);
     $('#userpagebio').empty();
-    $('#userpagebio').append(thisBio);
-    console.log(thisBio)
   });
 
   //sends user to their own page
@@ -106,11 +102,7 @@ $(document).ready(function () {
     const emptyHeart = "\u2661";
     const fullHeart = "\u2665";
 
-    console.log($('.pieceid').attr('id'));//debug
-    console.log($(this).html());
-
     if($(this).html() == emptyHeart) {
-      console.log("Entered if statement");
       $(this).html(fullHeart);
       $.ajax({
           url: Url+'/favorite?username='+thisUser+'&pieceid='+$('.pieceid').attr('id')+'&addrem=add',
@@ -167,12 +159,11 @@ $(document).ready(function () {
     }
 }
   saveBio.onclick = function() {
-    thisBio = $('#bioEnter').val()
+    addBio($('#bioEnter').val());
     $('#userpagebio').empty();
-    $('#userpagebio').append(thisBio);
+    $('#userpagebio').append($('#bioEnter').val());
 
-    console.log(thisBio)
-    addBio();
+    console.log($('#bioEnter').val());
 
     $('#bioEnter').val('')
 
@@ -225,7 +216,6 @@ function runOncePerDay(){
   console.log("A day has passed")
 }
 
-
 function processResults(results) {
   //console.log("Results:"+results);
   clearResults();
@@ -256,6 +246,12 @@ function changeState(pageState) {
     $('.container').hide();
     $('#mainbar').show();
     $('#userpage').show();
+    if($('#userpageName').val()!=thisUser)
+    {
+      $('#myBtn').hide();
+      $('#myModal').hide();
+      $('#recs').hide();
+    }
     break;
   case "Advanced Search":
     $('.container').hide();
@@ -408,7 +404,6 @@ function changeState(pageState) {
   //Featured Pieces
   function getFeatured(idList){
 
-
     $.ajax({
       url: Url+'/featured?idList='+localStorage.getItem('IDs'),
       type:"GET",
@@ -418,7 +413,7 @@ function changeState(pageState) {
   }
 
   function processFeatured(results){
-    console.log("Yes here")
+    console.log("Featured processed")
     $('#featured').append(buildTable(results))
   }
 
@@ -444,9 +439,6 @@ function changeState(pageState) {
         console.log($('#username').val()+" logged in");
         thisUser=$('#username').val(); //set who the logged in user is
         changeState("Main");
-        //Gets user bio uppon succeful login
-        getBio();
-        console.log(thisBio)
       }
       else{
         console.log("bad password");
@@ -495,36 +487,13 @@ function changeState(pageState) {
       })
     }
 
-  function getBio(results){
-    console.log("Got Here")
-    $.ajax({
-        url: Url+'/getBio?username='+thisUser,
-        type:"GET",
-        success: processGetBio,
-        error: displayError
-      })
+    function processAddBio(results){
+      console.log("bio added");
     }
-
-
-  function processGetBio(results){
-    var bioLog = JSON.parse(results);
-    console.log(bioLog);
-    console.log("Bio " + bioLog[0].bio);
-    thisBio = bioLog[0].bio
-    console.log(thisBio)
-
-  }
-
-  function processAddBio(results){
-    console.log("bioAdded")
-  }
-
-
 
   function processFav(results)
   {
     console.log('fav change');
-    //TODO: what needs to be done here??
   }
 
   function countFavs(results)
@@ -587,17 +556,34 @@ function changeState(pageState) {
   }
 
 /********* Profile calls **********/
-  function getProfile(username){
+
+  function getProfile(username)
+  {
+    console.log(username);//debug
+    getBio(username);
+    getFavs(username);
+  }
+
+  function getFavs(username){
     $.ajax({
-      url: Url+'/getuser?search='+username,
+      url: Url+'/getuserfavs?search='+username,
       type:"GET",
-      success: loadProfile,
+      success: loadFavs,
       error: displayError
     })
   }
 
-//STILL DRAFT
-  function loadProfile(data){
+  function getBio(username)
+  {
+    $.ajax({
+      url: Url+'/getuserbio?search='+username,
+      type:"GET",
+      success: loadBio,
+      error: displayError
+    })
+  }
+
+  function loadFavs(data){
     var rows = JSON.parse(data);
     console.log(rows);// DEBUG
 
@@ -613,4 +599,16 @@ function changeState(pageState) {
 
     $('#userfavs').append(result)
 
+  }
+
+  function loadBio(data){
+    var rows = JSON.parse(data);
+    console.log(rows);//// DEBUG
+
+    var result = "This user's bio is empty.";
+    if(rows.length > 0){
+      var result = rows[0].bio;
+    }
+
+    $('#userpagebio').text(result);
   }
