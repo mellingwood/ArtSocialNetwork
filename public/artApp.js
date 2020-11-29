@@ -15,11 +15,7 @@ $(document).ready(function () {
   // For this program is will be a reponse to a request from this page for an action
   getFeatured(localStorage.getItem('IDs'));
 
-  /*// Clear everything on startup
-  $('.loggedin').hide();
-  $('#login-err').hide();
-  $('#mainbar').hide();*/
-  changeState("Home"); //may be redundant with above
+  changeState("Start"); //may be redundant with above
 
   //make everything appear when you log in-- needs more hoops to jump through when we get the user functionality going, but works with just a click now
   $('#login-btn').click(function() {
@@ -41,7 +37,7 @@ $(document).ready(function () {
     console.log("cancel!");
     $('#addUserName').val('')
     $('#addPassword').val('')
-    changeState("Home");
+    changeState("Start");
   });
 
   $('#signup-btn').click(function() {
@@ -280,7 +276,10 @@ function changeState(pageState) {
     $('.container').hide();
     $('#newaccount').show();
     break;
-   case "Home":
+   case "Start":
+   // Clear everything on startup
+   $('#login-err').hide();
+   $('#mainbar').hide();
     $('.container').hide();
     $('#login').show();
     break;
