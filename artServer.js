@@ -254,6 +254,23 @@ app.get('/getuserreview', function(req,res)
       }
 })
 
+//check for reviews when art page opened
+app.get('/getreviews', function(req,res)
+{
+  if (req.query.pieceID==undefined) {
+      console.log("Bad review request:"+JSON.stringify(req.query));
+      res.end("['fail']");
+  } else {
+    query = "SELECT * FROM reviews WHERE artpieceID='"+req.query.pieceID+"' ORDER BY timestamp LIMIT 9";
+    console.log(query);
+    con.query(query, function(err,result,fields) {
+  	    if (err) throw err;
+        console.log(result)
+  	    res.end(JSON.stringify(result));
+  	   })
+      }
+})
+
 //replace or create review
 app.get('/addreview', function(req,res) {
   if(req.query.user === undefined || req.query.pieceID === undefined)

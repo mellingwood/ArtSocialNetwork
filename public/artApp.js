@@ -122,6 +122,10 @@ $(document).ready(function () {
       }
     });
 
+  $('#reviewEnter').keyup(function() {
+    $('#review-success').hide();
+  });
+
   $('#submitReview-btn').click(function() {
     var sendID = $('#artpiecepage').find('.pieceid').attr("id");
     console.log(sendID)
@@ -262,6 +266,7 @@ function changeState(pageState) {
     $('.container').hide();
     $('#mainbar').show();
     $('#results').show();
+    $('#review-success').hide();
     break;
   case "Art Piece":
     $('.container').hide();
@@ -347,6 +352,8 @@ function changeState(pageState) {
       error: displayError
     })
 
+    getReviews(rows[0].ID); //to populate reviews
+
     rows.forEach(function(row) {
       $('#artpiecepage').find('#piece').attr('src', row.IMGURL);
       $('#artpiecepage').find('.pieceid').attr('id', row.ID); //embed piece id in page (invisibly)
@@ -363,7 +370,6 @@ function changeState(pageState) {
       $('#art-info-table').append('<tr><td>School: </td><td>'+row.School+'</td></tr>');
       $('#art-info-table').append('<tr><td>Timeframe: </td><td>'+row.Timeframe+'</td></tr></table>');
     });
-
   }
 
   function displayError(error) {
@@ -530,6 +536,28 @@ function changeState(pageState) {
   }
 
 /********* Review calls **********/
+  function getReviews(id){
+    $.ajax({
+      url: Url+'/getreviews?pieceID='+id,
+      type:"GET",
+      success: buildReviews,
+      error: displayError
+    })
+  }
+
+  function buildReviews(data){
+    rows=JSON.parse(data);
+    $('#userReviews').empty();
+    if (rows.length < 1) {
+      $('#userReviews').append('<p>No other reviews have been left</p>');
+    } else {
+      rows.forEach(function(row) {
+        $('#userReviews').append('<h3>User:'+row.user+'</h3>');
+        $('#userReviews').append('<p>'+row.review+'</p>');
+      })
+    }
+  }
+
   function userReview(results)
   {
     $('#reviewEnter').val('');
@@ -552,7 +580,7 @@ function changeState(pageState) {
   function reviewAdded(results)
   {
     console.log("review added");
-
+    $('#review-success').show();
   }
 
 /********* Profile calls **********/
