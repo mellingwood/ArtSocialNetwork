@@ -50,6 +50,28 @@ if (req.query.search === undefined) {
     }
 })
 
+app.get('/advanced', function(req, res){
+  //find art piece (any field)
+console.log("Query:"+JSON.stringify(req.query));
+  //change form and type to empty string if not selected
+  var formInput = req.query.form;
+  if(formInput=="Form"){
+    formInput = "";
+  }
+  var typeInput = req.query.type;
+  if(typeInput=="Type"){
+    typeInput = "";
+  }
+
+  query="SELECT * FROM art WHERE Title like '%"+req.query.title+"%'and Author like '%"+req.query.author+"%' and Technique like '%"+req.query.technique+"%' and Location like '%"+req.query.location+"%' and Form like '%"+formInput+"%' and Type like '%"+typeInput+"%' and School like '%"+req.query.school+"%' and Date like '%"+req.query.date+"%' and Timeframe like '%"+req.query.timeframe+"%' ";
+  console.log(query)
+  con.query(query, function(err,result) {
+     if (err) throw err;
+     console.log(result)
+     res.end( JSON.stringify(result));
+  })
+})
+
 app.get('/finduser', function(req, res){
   //find user by name
 console.log("Query:"+JSON.stringify(req.query));

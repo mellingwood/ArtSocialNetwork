@@ -71,10 +71,16 @@ $(document).ready(function () {
     $('#userpagebio').empty();
   });
 
-  //sends user to their own page
+  //sends user to their advanced search page
   $('#adv-search-btn').click(function() {
     changeState("Advanced Search");
   });
+
+  $('#do-adv-search-btn').click(function() {
+    changeState("Search Results");
+    clearResults();
+    advancedSearch();
+  })
 
   //function to go to page specific page when they click on picture
   $('#results').on('click', '.art', function(){
@@ -418,7 +424,6 @@ function changeState(pageState) {
   // It sends a request to the server (operation,search string),
   // Where operation is one of (Last, First, Type)
   function getMatches(search){
-    console.log($(".dropdown-menu li a").text());//// DEBUG
 
     if($("#searchtype").text()=="User Search"){
       $.ajax({
@@ -432,6 +437,29 @@ function changeState(pageState) {
     else{
       $.ajax({
         url: Url+'/find?search='+search,
+        type:"GET",
+        success: processResults,
+        error: displayError
+      })
+    }
+  }
+
+  function advancedSearch(){
+    var title = $('#title-input').val();
+    var author = $('#author-input').val();
+    var school = $('#school-input').val();
+    var location = $('#location-input').val();
+    var date = $('#date-input').val();
+    var timeframe = $('#timeframe-input').val();
+    var technique = $('#technique-input').val();
+    var form = $('#form-select').text();
+    var type = $('#type-select').text();
+
+    if(title=="" && author=="" && school=="" && location=="" && date=="" && timeframe=="" && technique=="" && form=="Form" && type=="Type"){
+      alert("No search terms entered. Please try again.");
+    } else {
+      $.ajax({
+        url: Url+'/advanced?title='+title+'&author='+author+'&school='+school+'&location='+location+'&date='+date+'&timeframe='+timeframe+'&technique='+technique+'&form='+form+'&type='+type,
         type:"GET",
         success: processResults,
         error: displayError
