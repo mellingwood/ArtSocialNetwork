@@ -326,6 +326,25 @@ function changeState(pageState) {
     }
   }
 
+  function buildFeatureTable(data) {
+    rows=JSON.parse(data);
+    var result = '<div class="row">';
+    result+='<div class="column">';
+    var i=0
+    rows.forEach(function(row) {
+      if(i == 3 || i == 6){
+        result+='</div>'
+        result+='<div class="column">'
+      }
+      result += "<img id='"+row.ID+"'style='width:100%' class = 'art' src='"+row.IMGURL+"'>";
+      i +=1
+    })
+
+    result += "</div></div>";
+
+    return result;
+  }
+
   function loadPiece(data){
     var rows = JSON.parse(data); //wants it to be like this even though there's only one row
 
@@ -418,7 +437,7 @@ function changeState(pageState) {
 
   function processFeatured(results){
     console.log("Featured processed")
-    $('#featured').append(buildTable(results))
+    $('#featured').append(buildFeatureTable(results))
   }
 
 
