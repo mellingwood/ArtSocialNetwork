@@ -103,6 +103,15 @@ $(document).ready(function () {
     getProfile($(this).text()); //use the username; id is too complicated
   });
 
+  $('#userReviews').on('click','.username',function()
+{
+  $('#userfavs').empty();
+  $('#userpageName').empty();
+  $('#userpageName').append($(this).text());
+  changeState("User Profile");
+  getProfile($(this).text());
+})
+
   $('#fav').click (function(){
     const emptyHeart = "\u2661";
     const fullHeart = "\u2665";
@@ -247,11 +256,18 @@ function changeState(pageState) {
     $('.container').hide();
     $('#mainbar').show();
     $('#userpage').show();
-    if($('#userpageName').val()!=thisUser)
+    if($('#userpageName').text()!=thisUser)
     {
+      console.log($('#userpageName').text());
+      console.log(thisUser);//debugging
       $('#myBtn').hide();
       $('#myModal').hide();
       $('#recs').hide();
+    }
+    else
+    {
+      $('#myBtn').show();
+      $('#recs').show();
     }
     break;
   case "Advanced Search":
@@ -569,7 +585,7 @@ function changeState(pageState) {
       $('#userReviews').append('<p>No other reviews have been left</p>');
     } else {
       rows.forEach(function(row) {
-        $('#userReviews').append('<h3>User:'+row.user+'</h3>');
+        $('#userReviews').append('<h3 class="username link">User:'+row.user+'</h3>');
         $('#userReviews').append('<p>'+row.review+'</p>');
       })
     }
