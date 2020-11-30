@@ -89,6 +89,12 @@ $(document).ready(function () {
     getPiece($(this).attr('id'))
   });
 
+  $('#featured').on('click', '.art', function(){
+    //reveal individual art piece page
+    changeState("Art Piece");
+    getPiece($(this).attr('id'))
+  });
+
   $('#results').on('click', '.username', function(){
     $('#userfavs').empty();
     $('#userpageName').empty();
@@ -98,7 +104,6 @@ $(document).ready(function () {
   });
 
   $('#fav').click (function(){
-
     const emptyHeart = "\u2661";
     const fullHeart = "\u2665";
 
@@ -128,15 +133,14 @@ $(document).ready(function () {
 
   $('#submitReview-btn').click(function() {
     var sendID = $('#artpiecepage').find('.pieceid').attr("id");
-    console.log(sendID)
-    addReview(sendID)
+    console.log(sendID);
+    addReview(sendID);
+    $('#review-success').show();
   });
 
   //Handle pulldown menu
   $(".dropdown-menu li a").click(function(){
     $(this).parents(".btn-group").find('.selection').text($(this).text());
-     //TODO: change dropdown selection
-      //can use .split(" ").first(); to get first word (User or Art)
   });
 
 });
@@ -174,12 +178,6 @@ $(document).ready(function () {
     modal.style.display = "none";
   }
 
-  $('#featured').on('click', '.art', function(){
-    //reveal individual art piece page
-    changeState("Art Piece");
-    getPiece($(this).attr('id'))
-  });
-
 ////******** Functions not within document.ready **********//////
 
 
@@ -198,6 +196,7 @@ function randomIDs(){
   console.log(localStorage.getItem('IDs'))
 
 }
+
 //checks if a day has passed
 function hasOneDayPassed(){
   // get today's date. eg: "7/37/2007"
@@ -212,16 +211,14 @@ function hasOneDayPassed(){
   localStorage.yourapp_date = date;
   return true;
 }
-//This function runs once a day generates random IDs and saves them to localStorage
+//This function runs once a day, generates random IDs, and saves them to localStorage
 function runOncePerDay(){
   if( !hasOneDayPassed() ) return false;
-  // your code below
   randomIDs();
   console.log("A day has passed")
 }
 
 function processResults(results) {
-  //console.log("Results:"+results);
   clearResults();
   $('#searchresults').append(buildTable(results));
 }
@@ -272,6 +269,7 @@ function changeState(pageState) {
     $('.container').hide();
     $('#mainbar').show();
     $('#artpiecepage').show();
+    $('#review-success').hide();
     break;
    case "New User":
     $('.container').hide();
@@ -279,8 +277,8 @@ function changeState(pageState) {
     break;
    case "Start":
    // Clear everything on startup
-   $('#login-err').hide();
-   $('#mainbar').hide();
+    $('#login-err').hide();
+    $('#mainbar').hide();
     $('.container').hide();
     $('#login').show();
     break;
