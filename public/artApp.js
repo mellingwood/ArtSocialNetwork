@@ -14,7 +14,7 @@ $(document).ready(function () {
   // For this program is will be a reponse to a request from this page for an action
   getFeatured(localStorage.getItem('IDs'));
 
-  changeState("Start"); //may be redundant with above
+  changeState("Start");
 
   //make everything appear when you log in-- needs more hoops to jump through when we get the user functionality going, but works with just a click now
   $('#login-btn').click(function() {
@@ -293,6 +293,7 @@ function changeState(pageState) {
     break;
    case "Start":
    // Clear everything on startup
+    $('#signup-err').hide()
     $('#login-err').hide();
     $('#mainbar').hide();
     $('.container').hide();
