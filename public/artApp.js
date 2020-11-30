@@ -64,9 +64,9 @@ $(document).ready(function () {
   //sends user to their own page
   $('#profile-btn').click(function() {
     $('#userfavs').empty();
+    $('#userpageName').text(thisUser);
+    console.log('changed:'+$('#userpageName').text());
     changeState("User Profile");
-    $('#userpageName').empty();
-    $('#userpageName').append(thisUser);
     getProfile(thisUser);
     $('#userpagebio').empty();
   });
