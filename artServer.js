@@ -31,28 +31,27 @@ var con = openSQL();
 
 app.get('/find', function(req, res){
   //find art piece (any field)
-console.log("Query:"+JSON.stringify(req.query));
-if (req.query.search === undefined) {
-  console.log("Missing query value!");
-  res.end('[]');
-} else {
-  search=req.query.search;
-  console.log(search);
+  console.log("Query:"+JSON.stringify(req.query));
+  if (req.query.search === undefined) {
+    console.log("Missing query value!");
+    res.end('[]');
+  } else {
+    search=req.query.search;
+    console.log(search);
 
-  //expanded general seach to more fields
-  query="SELECT * FROM art WHERE Title like '%"+req.query.search+"%'or Author like '%"+req.query.search+"%' or Technique like '%"+req.query.search+"%' or Location like '%"+req.query.search+"%' or Form like '%"+req.query.search+"%' or Type like '%"+req.query.search+"%' or School like '%"+req.query.search+"%' ";
-  console.log(query)
-  con.query(query, function(err,result) {
-     if (err) throw err;
-     console.log(result)
-     res.end( JSON.stringify(result));
-  })
-    }
-})
+    query="SELECT * FROM art WHERE Title like '%"+req.query.search+"%'or Author like '%"+req.query.search+"%' or Technique like '%"+req.query.search+"%' or Location like '%"+req.query.search+"%' or Form like '%"+req.query.search+"%' or Type like '%"+req.query.search+"%' or School like '%"+req.query.search+"%' ";
+    console.log(query)
+    con.query(query, function(err,result) {
+      if (err) throw err;
+      console.log(result)
+      res.end( JSON.stringify(result));
+    });
+  }
+});
 
 app.get('/advanced', function(req, res){
   //find art piece (any field)
-console.log("Query:"+JSON.stringify(req.query));
+  console.log("Query:"+JSON.stringify(req.query));
   //change form and type to empty string if not selected
   var formInput = req.query.form;
   if(formInput=="Form"){
@@ -66,100 +65,99 @@ console.log("Query:"+JSON.stringify(req.query));
   query="SELECT * FROM art WHERE Title like '%"+req.query.title+"%'and Author like '%"+req.query.author+"%' and Technique like '%"+req.query.technique+"%' and Location like '%"+req.query.location+"%' and Form like '%"+formInput+"%' and Type like '%"+typeInput+"%' and School like '%"+req.query.school+"%' and Date like '%"+req.query.date+"%' and Timeframe like '%"+req.query.timeframe+"%' ";
   console.log(query)
   con.query(query, function(err,result) {
-     if (err) throw err;
-     console.log(result)
-     res.end( JSON.stringify(result));
+    if (err) throw err;
+    console.log(result)
+    res.end( JSON.stringify(result));
   })
 })
 
 app.get('/finduser', function(req, res){
   //find user by name
-console.log("Query:"+JSON.stringify(req.query));
-if (req.query.search === undefined) {
-  console.log("Missing query value!");
-  res.end('[]');
-} else {
-  search=req.query.search;
-  console.log(search);
+  console.log("Query:"+JSON.stringify(req.query));
+  if (req.query.search === undefined) {
+    console.log("Missing query value!");
+    res.end('[]');
+  } else {
+    search=req.query.search;
+    console.log(search);
 
-  query="SELECT * FROM users WHERE username like '%"+req.query.search+"%'";
-  console.log(query)
-  con.query(query, function(err,result) {
-     if (err) throw err;
-     console.log(result)
-     res.end( JSON.stringify(result));
-  })
-    }
+    query="SELECT * FROM users WHERE username like '%"+req.query.search+"%'";
+    console.log(query)
+    con.query(query, function(err,result) {
+      if (err) throw err;
+      console.log(result)
+      res.end( JSON.stringify(result));
+    })
+  }
 })
-
 
 app.get('/getpiece', function(req, res){
   //find art by piece ID, from clicking on piece in search results
-console.log("Query:"+JSON.stringify(req.query));
-if (req.query.search === undefined) {
-  console.log("Missing query value!");
-  res.end('[]');
-} else {
-  search=req.query.search;
-  console.log(search);
-
-  query="SELECT * FROM art WHERE ID like '"+req.query.search+"' LIMIT 20";
-  console.log(query)
-  con.query(query, function(err,result) {
-     if (err) throw err;
-     console.log(result)
-     res.end( JSON.stringify(result));
-  })
-    }
-})
-
-//check user doesn't already exist
-app.get('/getlogin', function(req,res)
-{
-  if (req.query.username==undefined) {
-      console.log("Bad add request:"+JSON.stringify(req.query));
-      res.end("['fail']");
+  console.log("Query:"+JSON.stringify(req.query));
+  if (req.query.search === undefined) {
+    console.log("Missing query value!");
+    res.end('[]');
   } else {
-    query = "SELECT * FROM users WHERE username='"+req.query.username+"'";
-    console.log(query);
-    con.query(query, function(err,result,fields) {
-  	    if (err) throw err;
-        console.log(result)
-  	    res.end(JSON.stringify(result));
-  	   })
-      }
+    search=req.query.search;
+    console.log(search);
+
+    query="SELECT * FROM art WHERE ID like '"+req.query.search+"' LIMIT 20";
+    console.log(query)
+    con.query(query, function(err,result) {
+      if (err) throw err;
+      console.log(result)
+      res.end( JSON.stringify(result));
+    })
+  }
 })
 
 //check user doesn't already exist
 app.get('/checkuser', function(req,res)
 {
   if (req.query.username==undefined) {
-      console.log("Bad add request:"+JSON.stringify(req.query));
-      res.end("['fail']");
+    console.log("Bad add request:"+JSON.stringify(req.query));
+    res.end("['fail']");
   } else {
     query = "SELECT COUNT(username) AS count FROM users WHERE username='"+req.query.username+"'";
     console.log(query);
     con.query(query, function(err,result,fields) {
-  	    if (err) throw err;
-  	    res.end(JSON.stringify(result));
-  	   })
-      }
+      if (err) throw err;
+      res.end(JSON.stringify(result));
+    })
+  }
 })
 
 //Add username and password to users table
 app.get('/adduser', function (req, res) {
-    if (missingFieldUser(req.query)) {
-        console.log("Bad add request:"+JSON.stringify(req.query));
-        res.end("['fail']");
-    } else {
-	query = "Insert INTO users(username, password, bio)  VALUES('"+req.query.username+"','"+req.query.password+"','"+'Bio'+"')";
- 	console.log(query);
-	con.query(query, function(err,result,fields) {
-	    if (err) throw err;
-	    console.log(result)
-	    res.end(JSON.stringify(result));
-	   })
-    }
+  if (missingFieldUser(req.query)) {
+    console.log("Bad add request:"+JSON.stringify(req.query));
+    res.end("['fail']");
+  } else {
+    query = "Insert INTO users(username, password, bio)  VALUES('"+req.query.username+"','"+req.query.password+"','"+'Bio'+"')";
+    console.log(query);
+    con.query(query, function(err,result,fields) {
+      if (err) throw err;
+      console.log(result)
+      res.end(JSON.stringify(result));
+    })
+  }
+})
+
+//check user exists
+app.get('/getlogin', function(req,res)
+{
+  if (req.query.username==undefined) {
+    console.log("Bad add request:"+JSON.stringify(req.query));
+    res.end("['fail']");
+  } else {
+    query = "SELECT * FROM users WHERE username='"+req.query.username+"'";
+    console.log(query);
+    con.query(query, function(err,result,fields) {
+      if (err) throw err;
+      console.log(result)
+      res.end(JSON.stringify(result));
+    })
+  }
 })
 
 app.get('/favorite', function(req,res) {
@@ -194,7 +192,6 @@ app.get('/piecefavs', function(req,res){
   else
   {
     query = "SELECT COUNT(user) as count FROM favorites WHERE artpieceID='"+req.query.pieceid+"'";
-    //NOTE: this query doesn't capture if a specific user has/n't favorited a piece
 
     console.log(query);
     con.query(query, function(err,result,fields) {
@@ -227,19 +224,19 @@ app.get('/checkfav', function(req,res){
 
 app.get('/getuserfavs', function(req, res){
   //find art by piece ID, from clicking on piece in search results
-console.log("Query:"+JSON.stringify(req.query));
-if (req.query.search === undefined) {
-  console.log("Missing query value!");
-  res.end('[]');
-} else {
-  query="SELECT * FROM art WHERE ID IN (SELECT artpieceID FROM favorites WHERE user = '"+req.query.search+"') LIMIT 20";
-  console.log(query)
-  con.query(query, function(err,result) {
-     if (err) throw err;
-     console.log(result)
-     res.end( JSON.stringify(result));
-  })
-    }
+  console.log("Query:"+JSON.stringify(req.query));
+  if (req.query.search === undefined) {
+    console.log("Missing query value!");
+    res.end('[]');
+  } else {
+    query="SELECT * FROM art WHERE ID IN (SELECT artpieceID FROM favorites WHERE user = '"+req.query.search+"') LIMIT 20";
+    console.log(query)
+    con.query(query, function(err,result) {
+      if (err) throw err;
+      console.log(result)
+      res.end( JSON.stringify(result));
+    })
+  }
 })
 
 app.get('/getuserbio', function(req,res){
@@ -252,9 +249,9 @@ app.get('/getuserbio', function(req,res){
     query = "SELECT bio FROM users WHERE username = '" +req.query.search+ "';"
     console.log(query)
     con.query(query, function(err,result) {
-       if (err) throw err;
-       console.log(result)
-       res.end( JSON.stringify(result));
+      if (err) throw err;
+      console.log(result)
+      res.end( JSON.stringify(result));
     })
   }
 })
@@ -263,34 +260,34 @@ app.get('/getuserbio', function(req,res){
 app.get('/getuserreview', function(req,res)
 {
   if (req.query.pieceID==undefined || req.query.user==undefined) {
-      console.log("Bad review request:"+JSON.stringify(req.query));
-      res.end("['fail']");
+    console.log("Bad review request:"+JSON.stringify(req.query));
+    res.end("['fail']");
   } else {
     query = "SELECT * FROM reviews WHERE artpieceID='"+req.query.pieceID+"' AND user='"+req.query.user+"'";
     console.log(query);
     con.query(query, function(err,result,fields) {
-  	    if (err) throw err;
-        console.log(result)
-  	    res.end(JSON.stringify(result));
-  	   })
-      }
+      if (err) throw err;
+      console.log(result)
+      res.end(JSON.stringify(result));
+    })
+  }
 })
 
 //check for reviews when art page opened
 app.get('/getreviews', function(req,res)
 {
   if (req.query.pieceID==undefined) {
-      console.log("Bad review request:"+JSON.stringify(req.query));
-      res.end("['fail']");
+    console.log("Bad review request:"+JSON.stringify(req.query));
+    res.end("['fail']");
   } else {
     query = "SELECT * FROM reviews WHERE artpieceID='"+req.query.pieceID+"' ORDER BY timestamp LIMIT 9";
     console.log(query);
     con.query(query, function(err,result,fields) {
-  	    if (err) throw err;
-        console.log(result)
-  	    res.end(JSON.stringify(result));
-  	   })
-      }
+      if (err) throw err;
+      console.log(result)
+      res.end(JSON.stringify(result));
+    })
+  }
 })
 
 //replace or create review
@@ -322,35 +319,35 @@ app.get('/addreview', function(req,res) {
 
 //Add Bio
 app.get('/addbio', function (req, res) {
-    if (missingFieldBio(req.query)) {
-        console.log("Bad add request:"+JSON.stringify(req.query));
-        res.end("['fail']");
-    } else {
-	query = "UPDATE users SET bio = '"+req.query.bio+"' WHERE username = '" + req.query.username +"';";
- 	console.log(query);
-	con.query(query, function(err,result,fields) {
-	    if (err) throw err;
-	    console.log(result)
-	    res.end(JSON.stringify(result));
-	   })
-    }
+  if (missingFieldBio(req.query)) {
+    console.log("Bad add request:"+JSON.stringify(req.query));
+    res.end("['fail']");
+  } else {
+    query = "UPDATE users SET bio = '"+req.query.bio+"' WHERE username = '" + req.query.username +"';";
+    console.log(query);
+    con.query(query, function(err,result,fields) {
+      if (err) throw err;
+      console.log(result)
+      res.end(JSON.stringify(result));
+    })
+  }
 })
 
 //Get bio
 app.get('/getBio', function(req,res)
 {
   if (req.query.username==undefined) {
-      console.log("Bad review request:"+JSON.stringify(req.query));
-      res.end("['fail']");
+    console.log("Bad review request:"+JSON.stringify(req.query));
+    res.end("['fail']");
   } else {
     query = "SELECT bio FROM users WHERE username= '"+req.query.username+"'";
     console.log(query);
     con.query(query, function(err,result,fields) {
-  	    if (err) throw err;
-        console.log(result)
-  	    res.end(JSON.stringify(result));
-  	   })
-      }
+      if (err) throw err;
+      console.log(result)
+      res.end(JSON.stringify(result));
+    })
+  }
 })
 
 app.get('/featured', function(req, res){
@@ -358,41 +355,20 @@ app.get('/featured', function(req, res){
   query="SELECT * FROM art WHERE ID IN ("+req.query.idList+")";
   console.log(query)
   con.query(query, function(err,result) {
-     if (err) throw err;
-     console.log(result)
-     res.end( JSON.stringify(result));
+    if (err) throw err;
+    console.log(result)
+    res.end( JSON.stringify(result));
   })
 })
 
 
-
-
-/*
-Sample express call structure:
-app.get('/operation', function(req, res){
-console.log("Query:"+JSON.stringify(req.query));
-if (req.query.field === undefined || req.query.search === undefined) {
-  console.log("Missing query value!");
-  res.end('[]');
-} else {
-  field=req.query.field;
-  search=req.query.search;
-  console.log(field+":"+search);
-  query="SQL QUERY;";
-  con.query(query, function(err,result,fields) {
-     if (err) throw err;
-     console.log(result)
-     res.end( JSON.stringify(result));
-  });
-});
-*/
-
+////**Helper functions**///
 function missingFieldUser(p) {
-    return (p.username === undefined || p.password === undefined);
+  return (p.username === undefined || p.password === undefined);
 }
 
 function missingFieldBio(p) {
-    return (p.username === undefined || p.bio === undefined);
+  return (p.username === undefined || p.bio === undefined);
 }
 var server = app.listen(port, function () {
   var host = server.address().address
