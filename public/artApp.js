@@ -115,22 +115,16 @@ $(document).ready(function () {
 
     if($(this).html() == emptyHeart) {
       $(this).html(fullHeart);
-      $.ajax({
-        url: Url+'/favorite?username='+thisUser+'&pieceid='+$('.pieceid').attr('id')+'&addrem=add',
-        type:"GET",
-        success: processFav,
-        error: displayError
-      })
-    }
+      var addrem = 'add';}
     else if($(this).html() == fullHeart) {
       $(this).html(emptyHeart);
+      var addrem = 'rem';}
       $.ajax({
-        url: Url+'/favorite?username='+thisUser+'&pieceid='+$('.pieceid').attr('id')+'&addrem=rem',
+        url: Url+'/favorite?username='+thisUser+'&pieceid='+$('.pieceid').attr('id')+'&addrem='+addrem,
         type:"GET",
         success: processFav,
         error: displayError
-      })
-    }
+      });
   });
 
   $('#reviewEnter').keyup(function() {

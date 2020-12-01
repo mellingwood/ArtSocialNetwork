@@ -211,8 +211,6 @@ app.get('/checkfav', function(req,res){
   else
   {
     query = "SELECT COUNT(user) as count FROM favorites WHERE user = '" + req.query.username + "' AND artpieceID='"+req.query.pieceid+"'";
-    //NOTE: this query doesn't capture if a specific user has/n't favorited a piece
-
     console.log(query);
     con.query(query, function(err,result,fields) {
       if (err) throw err;
