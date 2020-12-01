@@ -144,6 +144,10 @@ $(document).ready(function () {
     $('#review-success').show();
   });
 
+  $('#refresh-btn').click(function(){
+    checkRecs(thisUser);
+  });
+
 });
 
 ////******** Functions not within document.ready **********//////
@@ -667,6 +671,53 @@ function loadFavs(data){
   }
 
   $('#userfavs').append(result);
+}
+
+///***Recommendations functions****///
+
+function sendRec(sendto, comment, pieceid)
+{
+  console.log(sendto);
+  console.log(pieceid);//debug lines
+  $.ajax({
+    url: Url+'/sendrec?pieceid='+pieceid+'&user='+sendto+'&sender='+thisUser+'&comment='+comment,
+    type:"GET",
+    success: processSendRec,
+    error: displayError
+  });
+}
+
+function processSendRec(results)
+{
+  console.log("Recommendation sent.");
+}
+
+function checkRecs(username)
+{
+  $.ajax({
+    url: Url+'/checkrec?username='+username,
+    type:"GET",
+    success: buildRecsTable,
+    error: displayError
+  });
+}
+
+function buildRecsTable(data)
+{
+  var rows = JSON.parse(data);
+
+  var result = "<h3>No recommendations yet</h3>";
+  if (rows.length > 0) {
+    var result = '<table class="w3-table-all w3-hoverable" border="2"><tr><tr>';
+    var i=0;
+    rows.forEach(function(row) {
+      result += "<tr><td class='art' id='"+row.artpieceID+"'><img id='to-piece' style='width: 30vw; min-width: 100px;' src='"+row.IMGURL+"'</td><td class='title' id='to-piece'>"+row.Title+"</td><td class='artist'>"+row.Author+"</td>";
+      result += "<td class='username link'>"+row.sendUser+"</td><td>"+row.message+"</td></tr>";
+    });
+    result += "</table>";
+  }
+
+  $('#recs-inbox').append(result);
 }
 
 //***Utility functions**/

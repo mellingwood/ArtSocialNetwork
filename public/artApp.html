@@ -170,6 +170,17 @@
           <div class="pieceid" id=""></div>
           <p id="fav">&#9825;</p>
           <p id="numfavs"></p>
+          <button type="button" id="rec-button">Recommend this piece</button>
+          <div id="rec-Modal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <p>Recommendation</p>
+              <textarea id="rec-target" rows="1"></textarea>
+              <textarea id="rec-text" rows="6" cols="60"></textarea>
+              <button type="button" id = "sendrec-btn">Send Recommendation</button>
+            </div>
+          </div>
         </div>
         <div class="col-sm-6" id="pieceReviews">
           <h2>Reviews</h2>

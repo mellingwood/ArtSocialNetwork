@@ -361,6 +361,40 @@ app.get('/featured', function(req, res){
   })
 })
 
+app.get('/sendrec', function(req,res) {
+  if(req.query.user === undefined || req.query.pieceid === undefined || req.query.sender==undefined||req.query.comment==undefined)
+  {
+    console.log("Bad recommend request:" + JSON.stringify(req.query));
+    res.end("['fail']");
+  }
+  else
+  {
+    query = "INSERT INTO recommendations(sendUser, receiveUser, artpieceID, message, timestamp) VALUES('"+req.query.sender+"','"+req.query.user+"','"+req.query.pieceid+"','"+req.query.comment+"',NOW())";
+    console.log(query);
+    con.query(query, function(err,result,fields) {
+      if (err) throw err;
+      console.log(result)
+      res.end(JSON.stringify(result));
+    })
+  }
+})
+
+app.get('/checkrec',function(){
+  if(req.query.username==undefined){
+    console.log("Bad recommend request:" + JSON.stringify(req.query));
+    res.end("['fail']");
+  }
+  else
+  {
+    query = "SELECT * from recommendations WHERE receiveUser='"+req.query.username+"';"
+    //THIS QUERY IS NOT COMPLETE. needs either a join or some fancy stuff
+    con.query(query, function(err,result,fields) {
+      if (err) throw err;
+      console.log(result)
+      res.end(JSON.stringify(result));
+    })
+  }
+});
 
 ////**Helper functions**///
 function missingFieldUser(p) {
