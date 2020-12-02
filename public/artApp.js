@@ -316,18 +316,20 @@ function loadPiece(data){
   var rows = JSON.parse(data);
 
   $.ajax({
-    url: Url+'/piecefavs?pieceid='+rows[0].ID,
+    url: Url+'/piecefavs?pieceid='+rows[0].ID+'&username='+thisUser,
     type:"GET",
     success: countFavs,
     error: displayError
   });
 
+/*
   $.ajax({
     url: Url+'/checkfav?username='+thisUser+'&pieceid='+rows[0].ID,
     type:"GET",
     success: userFav,
     error: displayError
   });
+  */
 
   $.ajax({
     url: Url+'/getuserreview?pieceID='+rows[0].ID+'&user='+thisUser,
@@ -536,8 +538,21 @@ function countFavs(results)
   let favs = JSON.parse(results)[0].count;
   console.log(favs);
   $('#numfavs').text("Favorites:" + favs); //shows the number of people who have favorited this
+
+  let faved = JSON.parse(results)[0].faved;
+  const emptyHeart = "\u2661";
+  const fullHeart = "\u2665";
+
+  console.log($('#fav').html());
+
+  if(faved) {
+    $('#fav').html(fullHeart);
+  } else {
+    $('#fav').html(emptyHeart);
+  }
 }
 
+/*
 function userFav(results)
 {
   let faved = JSON.parse(results)[0].count;
@@ -553,6 +568,7 @@ function userFav(results)
     $('#fav').html(emptyHeart);
   }
 }
+*/
 
 /********* Review calls **********/
 function getReviews(id){

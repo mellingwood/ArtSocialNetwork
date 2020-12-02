@@ -184,14 +184,15 @@ app.get('/favorite', function(req,res) {
 })
 
 app.get('/piecefavs', function(req,res){
-  if(req.query.pieceid==undefined)
+  if(req.query.pieceid==undefined || req.query.username==undefined)
   {
     console.log("Bad favorite request:" + JSON.stringify(req.query));
     res.end("['fail']");
   }
   else
   {
-    query = "SELECT COUNT(user) as count FROM favorites WHERE artpieceID='"+req.query.pieceid+"'";
+    query = "SELECT (SELECT COUNT(user) FROM favorites WHERE artpieceID='"+req.query.pieceid+"') as count,";
+    query += " (SELECT COUNT(user) FROM favorites WHERE user = '" + req.query.username + "' AND artpieceID='"+req.query.pieceid+"') as faved;";
 
     console.log(query);
     con.query(query, function(err,result,fields) {
@@ -202,6 +203,7 @@ app.get('/piecefavs', function(req,res){
   }
 })
 
+/*
 app.get('/checkfav', function(req,res){
   if(req.query.pieceid==undefined || req.query.username==undefined)
   {
@@ -219,6 +221,7 @@ app.get('/checkfav', function(req,res){
     })
   }
 })
+*/
 
 app.get('/getuserfavs', function(req, res){
   //find art by piece ID, from clicking on piece in search results
