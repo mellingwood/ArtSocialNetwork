@@ -73,6 +73,7 @@ $(document).ready(function () {
     changeState("Advanced Search");
   });
 
+  //on the adv search page, actually sends the fields and does the search
   $('#do-adv-search-btn').click(function() {
     changeState("Search Results");
     clearResults();
@@ -346,15 +347,20 @@ function loadPiece(data){
 
     $('#art-info-table').empty();
     $('#art-info-table').append('<table class="art-table"><tr><td>Title: </td><td>'+row.Title+'</td></tr>');
-    $('#art-info-table').append('<tr><td>Author: </td><td>'+row.Author+'</td></tr>');
+    $('#art-info-table').append('<tr><td>Author: </td><td class="tag" id="Author">'+row.Author+'</td></tr>');
     $('#art-info-table').append('<tr><td>Born-Died: </td><td>'+row.BornDied+'</td></tr>');
-    $('#art-info-table').append('<tr><td>Date: </td><td>'+row.Date+'</td></tr>');
-    $('#art-info-table').append('<tr><td>Technique: </td><td>'+row.Technique+'</td></tr>');
-    $('#art-info-table').append('<tr><td>Location: </td><td>'+row.Location+'</td></tr>');
-    $('#art-info-table').append('<tr><td>Form: </td><td>'+row.Form+'</td></tr>');
-    $('#art-info-table').append('<tr><td>Type: </td><td>'+row.Type+'</td></tr>');
-    $('#art-info-table').append('<tr><td>School: </td><td>'+row.School+'</td></tr>');
-    $('#art-info-table').append('<tr><td>Timeframe: </td><td>'+row.Timeframe+'</td></tr></table>');
+    $('#art-info-table').append('<tr><td>Date: </td><td class="tag" id="Date">'+row.Date+'</td></tr>');
+    $('#art-info-table').append('<tr><td>Technique: </td><td class="tag" id="Technique">'+row.Technique+'</td></tr>');
+    $('#art-info-table').append('<tr><td>Location: </td><td class="tag" id="Location">'+row.Location+'</td></tr>');
+    $('#art-info-table').append('<tr><td>Form: </td><td class="tag" id="Form">'+row.Form+'</td></tr>');
+    $('#art-info-table').append('<tr><td>Type: </td><td class="tag" id="Type">'+row.Type+'</td></tr>');
+    $('#art-info-table').append('<tr><td>School: </td><td class="tag" id="School">'+row.School+'</td></tr>');
+    $('#art-info-table').append('<tr><td>Timeframe: </td><td class="tag" id="Timeframe">'+row.Timeframe+'</td></tr></table>');
+  });
+
+  //clicking on tag to get other pieces like this one
+  $('.tag').click(function() {
+    tagSearch($(this).attr("id"), $(this).text());
   });
 }
 
@@ -475,6 +481,17 @@ function advancedSearch(){
       error: displayError
     });
   }
+}
+
+//called when user clicks on a tag from a piece page to get other pieces with the same attribute
+function tagSearch(field, term) {
+  $.ajax({
+    url: Url+'/tag?field='+field+'&term='+term,
+    type:"GET",
+    success: processResults,
+    error: displayError
+  });
+  changeState("Search Results");
 }
 
 function processResults(results) {

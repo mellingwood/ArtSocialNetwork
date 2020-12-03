@@ -71,6 +71,20 @@ app.get('/advanced', function(req, res){
   })
 })
 
+//query function for tags
+app.get('/tag', function(req, res){
+  //find art piece (any field)
+  console.log("Query:"+JSON.stringify(req.query));
+
+  query="SELECT * FROM art WHERE "+req.query.field+" like '"+req.query.term+"'";
+  console.log(query)
+  con.query(query, function(err,result) {
+    if (err) throw err;
+    console.log(result)
+    res.end( JSON.stringify(result));
+  })
+})
+
 app.get('/finduser', function(req, res){
   //find user by name
   console.log("Query:"+JSON.stringify(req.query));

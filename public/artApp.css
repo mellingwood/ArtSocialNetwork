@@ -190,3 +190,7 @@ body {
     max-width: 100%;
   }
 }
+
+.tag:hover{
+  font-weight: bold;
+}
