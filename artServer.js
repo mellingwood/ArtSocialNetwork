@@ -401,7 +401,7 @@ app.get('/checkrec',function(){
   }
   else
   {
-    query = "SELECT * from recommendations WHERE receiveUser='"+req.query.username+"';"
+    query = "SELECT * from recommendations LEFT JOIN art on art.ID=recommendations.artpieceID WHERE receiveUser='"+req.query.username+"';"
     //THIS QUERY IS NOT COMPLETE. needs either a join or some fancy stuff
     con.query(query, function(err,result,fields) {
       if (err) throw err;

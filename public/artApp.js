@@ -362,6 +362,15 @@ function loadPiece(data){
   $('.tag').click(function() {
     tagSearch($(this).attr("id"), $(this).text());
   });
+
+  $('#rec-button').click(function() {
+    $(this).modal();
+
+    $('#sendrec-btn').onclick = function() {
+      sendRec($('#rec-target').val(), $('#rec-text').val(), rows[0].ID);
+      $('#rec-Modal').style.display = "none";
+    }
+  });
 }
 
 ///***User Logins/Registration****///
