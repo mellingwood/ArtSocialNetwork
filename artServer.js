@@ -410,6 +410,23 @@ app.get('/checkrec',function(req, res){
   }
 });
 
+app.get('/removerec', function(req,res){
+  if(req.query.sender==undefined||req.query.receiver==undefined||req.query.pieceid==undefined){
+  console.log("Bad recommend request:" + JSON.stringify(req.query));
+  res.end("['fail']");
+}
+else
+{
+  query = "DELETE from recommendations WHERE receiveUser='"+req.query.receiver+"' AND sendUser='"+req.query.sender+"' AND artpieceID="+req.query.pieceid+";"
+
+  con.query(query, function(err,result,fields) {
+    if (err) throw err;
+    console.log(result)
+    res.end(JSON.stringify(result)); //idk if we need this
+  })
+}
+});
+
 ////**Helper functions**///
 function missingFieldUser(p) {
   return (p.username === undefined || p.password === undefined);

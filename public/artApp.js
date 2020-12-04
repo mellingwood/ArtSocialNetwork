@@ -101,9 +101,11 @@ $(document).ready(function () {
 
   $('#recs-inbox').on('click', '.art', function() {
     //reveal individual art piece page
+    console.log("help"); //why isn't this even showing up????
+    //console.log($(this).sibling('.username').text()); //debug
+    //removeRec($(this).sibling('.username').text(),$(this).attr('id')); 
     changeState("Art Piece");
     getPiece($(this).attr('id'));
-    //removeRec($(this).attr(‘id’)); 
   });
 
   $('#results').on('click', '.username', function(){
@@ -150,14 +152,6 @@ $(document).ready(function () {
     checkRecs(thisUser);
   });
 
-/*
-  $('#sendrec-btn').click(function() {
-    var pieceID = $('#artpiecepage').find('.pieceid').attr("id");
-    console.log("sending rec, piece: "+pieceID);
-    sendRec($('#rec-target').val(), $('#rec-text').val(), pieceID);
-    $('#rec-Modal').style.display = "none";
-  });
-*/
 });
 
 ////******** Functions not within document.ready **********//////
@@ -171,7 +165,6 @@ send_rec_button.onclick = function() {
   console.log("sending rec, piece: "+pieceID);
   sendRec($('#rec-target').val(), $('#rec-text').val(), pieceID);
   rec_modal.style.display = "none";
-  $('.modal-backdrop').remove();
 }
 
 var modal = document.getElementById("myModal");
@@ -598,24 +591,6 @@ function countFavs(results)
   }
 }
 
-/*
-function userFav(results)
-{
-  let faved = JSON.parse(results)[0].count;
-  console.log(faved);
-  const emptyHeart = "\u2661";
-  const fullHeart = "\u2665";
-
-  console.log($('#fav').html());
-
-  if(faved > 0) {
-    $('#fav').html(fullHeart);
-  } else {
-    $('#fav').html(emptyHeart);
-  }
-}
-*/
-
 /********* Review calls **********/
 function getReviews(id){
   $.ajax({
@@ -774,6 +749,22 @@ function buildRecsTable(data)
   }
 
   $('#recs-inbox').append(result);
+}
+
+function removeRec(sender, pieceid)
+{
+  console.log(sender, pieceid)
+  $.ajax({
+    url: Url+'/removerec?sender='+sender+'&receiver='+thisUser+'&pieceid='+pieceid,
+    type:"GET",
+    success: recRemoved,
+    error: displayError
+  });
+}
+
+function recRemoved(data)
+{
+  console.log("recommendation consumed.");
 }
 
 //***Utility functions**/
