@@ -143,12 +143,28 @@ $(document).ready(function () {
     checkRecs(thisUser);
   });
 
+/*
+  $('#sendrec-btn').click(function() {
+    var pieceID = $('#artpiecepage').find('.pieceid').attr("id");
+    console.log("sending rec, piece: "+pieceID);
+    sendRec($('#rec-target').val(), $('#rec-text').val(), pieceID);
+    $('#rec-Modal').style.display = "none";
+  });
+*/
 });
 
 ////******** Functions not within document.ready **********//////
 
 
 //Sorry this is gross, ill make it one function but it's the only way I could get the modal working for now
+var send_rec_button = document.getElementById("sendrec-btn");
+var rec_modal = document.getElementById("rec-Modal");
+send_rec_button.onclick = function() {
+  var pieceID = $('#artpiecepage').find('.pieceid').attr("id");
+  console.log("sending rec, piece: "+pieceID);
+  sendRec($('#rec-target').val(), $('#rec-text').val(), pieceID);
+  rec_modal.style.display = "none";
+}
 
 var modal = document.getElementById("myModal");
 // Get the button that opens the modal
@@ -365,12 +381,8 @@ function loadPiece(data){
 
   $('#rec-button').click(function() {
     $(this).modal();
-
-    $('#sendrec-btn').onclick = function() {
-      sendRec($('#rec-target').val(), $('#rec-text').val(), rows[0].ID);
-      $('#rec-Modal').style.display = "none";
-    }
   });
+
 }
 
 ///***User Logins/Registration****///
