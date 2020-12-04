@@ -41,14 +41,18 @@
               <li><a href="#">User Search</a></li>
             </ul>
           </li>
-        </ul>
-        <form class="navbar-form navbar-left searchbox">
-          <div class="form-group">
-            <input type="text" id="search" class="form-control" placeholder="Search">
-          </div>
+          <li>
+            <form class="navbar-form navbar-left searchbox">
+              <div class="form-group">
+                <input type="text" id="search" class="form-control" placeholder="Search">
+              </div>
+            </form>
+          </li>
+        <li>
           <button type="button" id="search-btn" class="btn btn-default">Search</button>
+        </li>
+        </ul>
 
-        </form>
         <form class="navbar-form navbar-left">
         </form>
         <ul class="nav navbar-nav navbar-right">
@@ -62,27 +66,30 @@
   <div class="jumbotron">
     <!--Show only login page on load, need to log in to see home and further -->
     <div class="container" id="login">
-      <div class="md-6" id="logininfo">
-        <h2>Returning Users</h2>
-        <!--Login box-->
-        <form class="navbar-form navbar-left searchbox">
+      <div class="row">
+        <div class="col-sm-6" id="logininfo">
+          <h2>Returning Users</h2>
+          <!--Login box-->
+          <form class="navbar-form navbar-left searchbox">
+            <div class="form-group">
+              <input type="text" id="username" class="form-control" placeholder="Username">
+            </div>
+          </br>
           <div class="form-group">
-            <input type="text" id="username" class="form-control" placeholder="Username">
+            <input type="password" id="password" class="form-control" placeholder="Password">
+            <p id="login-err">Username or Password doesn't match.</p>
           </div>
-        </br>
-        <div class="form-group">
-          <input type="password" id="password" class="form-control" placeholder="Password">
-          <p id="login-err">Username or Password doesn't match.</p>
-        </div>
-        <button type="button" id="login-btn" class="btn btn-default">Log In</button>
-      </form>
+          <button type="button" id="login-btn" class="btn btn-default">Log In</button>
+        </form>
+      </div>
+      <div class="col-sm-6" id="createaccount">
+        <!--Button to create new user-->
+        <h2>New Users</h2>
+        <p>Welcome to smART, where you can explore art and connect with other art enthusiasts!</p>
+        <button type="button" id="newaccount-btn" class="btn btn-default">Create Account</button>
+      </div>
     </div>
-    <div class="md-6" id="createaccount">
-      <!--Button to create new user-->
-      <h2>New Users</h2>
-      <p>Welcome to smART, where you can explore art and connect with other art enthusiasts!</p>
-      <button type="button" id="newaccount-btn" class="btn btn-default">Create Account</button>
-    </div>
+    <p id="startimagedesc"><i>Wheat Field with a Lark</i>, Vincent Van Gogh</p>
   </div>
 
   <div class="container" id="newaccount">

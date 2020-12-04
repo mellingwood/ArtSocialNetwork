@@ -194,3 +194,27 @@ body {
 .tag:hover{
   font-weight: bold;
 }
+
+/*~~aesthetics~~*/
+#login {
+  background-image: url("https://www.wga.hu/art/g/gogh_van/06/paris20.jpg");
+  background-repeat: no-repeat;
+  background-size: auto;
+  background-position: center;
+}
+
+#createaccount {
+  background-color: #A9C7D1;
+}
+
+#startimagedesc {
+  color: ghostwhite;
+}
+
+#mainbar {
+  background-color: #BFD1A9;
+}
+
+.jumbotron {
+  background-color:#CBE4E9;
+}
