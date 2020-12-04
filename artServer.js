@@ -394,7 +394,7 @@ app.get('/sendrec', function(req,res) {
   }
 })
 
-app.get('/checkrec',function(){
+app.get('/checkrec',function(req, res){
   if(req.query.username==undefined){
     console.log("Bad recommend request:" + JSON.stringify(req.query));
     res.end("['fail']");
@@ -402,7 +402,6 @@ app.get('/checkrec',function(){
   else
   {
     query = "SELECT * from recommendations LEFT JOIN art on art.ID=recommendations.artpieceID WHERE receiveUser='"+req.query.username+"';"
-    //THIS QUERY IS NOT COMPLETE. needs either a join or some fancy stuff
     con.query(query, function(err,result,fields) {
       if (err) throw err;
       console.log(result)

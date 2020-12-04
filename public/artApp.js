@@ -96,7 +96,14 @@ $(document).ready(function () {
   $('#featured').on('click', '.art', function(){
     //reveal individual art piece page
     changeState("Art Piece");
-    getPiece($(this).attr('id'))
+    getPiece($(this).attr('id'));
+  });
+
+  $('#recs-inbox').on('click', '.art', function() {
+    //reveal individual art piece page
+    changeState("Art Piece");
+    getPiece($(this).attr('id'));
+    //removeRec($(this).attr(‘id’)); 
   });
 
   $('#results').on('click', '.username', function(){
@@ -164,6 +171,7 @@ send_rec_button.onclick = function() {
   console.log("sending rec, piece: "+pieceID);
   sendRec($('#rec-target').val(), $('#rec-text').val(), pieceID);
   rec_modal.style.display = "none";
+  $('.modal-backdrop').remove();
 }
 
 var modal = document.getElementById("myModal");
