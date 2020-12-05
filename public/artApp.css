@@ -12,7 +12,7 @@ input[type=password] {
 /* set a style for all buttons*/
 
 button {
-    background-color: #7e38e8;
+    background-color: #A5B591;
     color: white;
     padding: 15px 20px;
     margin: 8px 0;
@@ -23,7 +23,7 @@ button {
 
 .cancelbtn {
     padding: 15px 20px;
-    background-color: #e64e4e;
+    background-color: #DB6060;
 }
 /*float cancel and signup buttons and add an equal width*/
 
@@ -60,6 +60,10 @@ button {
 
 .link:hover{
   color: lightblue;
+}
+
+.err-text{
+  color: white;
 }
 
 #tag > span {
@@ -143,7 +147,7 @@ button {
 
 body {
   margin: 0;
-  font-family: Arial;
+  font-family: Georgia;
 }
 
 .header {

@@ -77,7 +77,7 @@
           </br>
           <div class="form-group">
             <input type="password" id="password" class="form-control" placeholder="Password">
-            <p id="login-err">Username or Password doesn't match.</p>
+            <p class="err-text" id="login-err">Username or Password doesn't match.</p>
           </div>
           <button type="button" id="login-btn" class="btn btn-default">Log In</button>
         </form>
@@ -100,7 +100,7 @@
       <label><b>Password</b></label>
       <input type="password" id="addPassword" placeholder="Enter Password" name="psw" required>
 
-      <p id="signup-err">That username is already taken.</p>
+      <p class="err-text" id="signup-err">That username is already taken.</p>
 
       <div class="clearfix">
         <button type="button" id = "cancel-btn" class="cancelbtn">Cancel</button>
@@ -189,10 +189,6 @@
               <textarea id="rec-text" rows="6" cols="60"></textarea>
               <button type="button" id = "sendrec-btn">Send Recommendation</button>
           </div>
-          <!--<div id="ex1" class="modal">
-            <p>Thanks for clicking. That felt good.</p>
-            <a href="#" rel="modal:close">Close</a>
-          </div>-->
         </div>
         <div class="col-sm-6" id="pieceReviews">
           <h2>Reviews</h2>

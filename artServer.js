@@ -302,9 +302,9 @@ app.get('/addreview', function(req,res) {
       console.log(result)
     })
     //then, make a new review with those states
-    query = "INSERT INTO reviews(user, artpieceID, review) VALUES('"+req.query.user+"','"+req.query.pieceID+"','"+req.query.review+"')";
-    console.log(query);
-    con.query(query, function(err,result,fields) {
+    query = "INSERT INTO reviews(user, artpieceID, review) VALUES('"+req.query.user+"','"+req.query.pieceID+"',?)";
+    console.log(query+"(text="+req.query.review+")");
+    con.query(query, [req.query.review], function(err,result,fields) {
       if (err) throw err;
       console.log(result)
       res.end(JSON.stringify(result));
@@ -319,7 +319,7 @@ app.get('/addbio', function (req, res) {
     res.end("['fail']");
   } else {
     query = "UPDATE users SET bio = ? WHERE username = '" + req.query.username +"';";
-    console.log(query+"(bio="+req.query.bio")");
+    console.log(query+"(bio="+req.query.bio+")");
     con.query(query, [req.query.bio], function(err,result,fields) {
       if (err) throw err;
       console.log(result)
