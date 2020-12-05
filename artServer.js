@@ -217,26 +217,6 @@ app.get('/piecefavs', function(req,res){
   }
 })
 
-/*
-app.get('/checkfav', function(req,res){
-  if(req.query.pieceid==undefined || req.query.username==undefined)
-  {
-    console.log("Bad favorite request:" + JSON.stringify(req.query));
-    res.end("['fail']");
-  }
-  else
-  {
-    query = "SELECT COUNT(user) as count FROM favorites WHERE user = '" + req.query.username + "' AND artpieceID='"+req.query.pieceid+"'";
-    console.log(query);
-    con.query(query, function(err,result,fields) {
-      if (err) throw err;
-      console.log(result)
-      res.end(JSON.stringify(result));
-    })
-  }
-})
-*/
-
 app.get('/getuserfavs', function(req, res){
   //find art by piece ID, from clicking on piece in search results
   console.log("Query:"+JSON.stringify(req.query));
@@ -338,9 +318,9 @@ app.get('/addbio', function (req, res) {
     console.log("Bad add request:"+JSON.stringify(req.query));
     res.end("['fail']");
   } else {
-    query = "UPDATE users SET bio = '"+req.query.bio+"' WHERE username = '" + req.query.username +"';";
-    console.log(query);
-    con.query(query, function(err,result,fields) {
+    query = "UPDATE users SET bio = ? WHERE username = '" + req.query.username +"';";
+    console.log(query+"(bio="+req.query.bio")");
+    con.query(query, [req.query.bio], function(err,result,fields) {
       if (err) throw err;
       console.log(result)
       res.end(JSON.stringify(result));
@@ -384,9 +364,9 @@ app.get('/sendrec', function(req,res) {
   }
   else
   {
-    query = "INSERT INTO recommendations(sendUser, receiveUser, artpieceID, message, timestamp) VALUES('"+req.query.sender+"','"+req.query.user+"','"+req.query.pieceid+"','"+req.query.comment+"',NOW())";
-    console.log(query);
-    con.query(query, function(err,result,fields) {
+    query = "INSERT INTO recommendations(sendUser, receiveUser, artpieceID, message, timestamp) VALUES('"+req.query.sender+"','"+req.query.user+"','"+req.query.pieceid+"',?,NOW())";
+    console.log(query+"(message="+req.query.comment+")");
+    con.query(query, [req.query.comment], function(err,result,fields) {
       if (err) throw err;
       console.log(result)
       res.end(JSON.stringify(result));

@@ -64,6 +64,7 @@ $(document).ready(function () {
 
   //sends user to their own profile
   $('#profile-btn').click(function() {
+    $('#userpageName').text(thisUser);
     changeState("User Profile");
     getProfile(thisUser);
   });
@@ -109,12 +110,14 @@ $(document).ready(function () {
   });
 
   $('#results').on('click', '.username', function(){
+    $('#userpageName').text($(this).text());
     changeState("User Profile");
     getProfile($(this).text()); //use the username; id is too complicated
   });
 
   $('#userReviews').on('click','.username',function()
   {
+    $('#userpageName').text($(this).text());
     changeState("User Profile");
     getProfile($(this).text());
   });
@@ -246,7 +249,6 @@ function changeState(pageState) {
     case "User Profile":
     $('#userfavs').empty();
     $('#userpagebio').empty();
-    $('#userpageName').text(thisUser);
     $('#mainbar').show();
     $('#userpage').show();
     if($('#userpageName').text()!=thisUser)
@@ -643,6 +645,7 @@ function getProfile(username)
 {
   getBio(username);
   getFavs(username);
+  checkRecs(username);
 }
 
 function addBio(results){
@@ -739,7 +742,7 @@ function buildRecsTable(data)
 
   $('#recs-inbox').empty();
   var result = "<h3>No recommendations yet</h3>";
-  
+
   if (rows.length > 0) {
     var result = '<table class="w3-table-all w3-hoverable" border="2"><tr><tr>';
     var i=0;
