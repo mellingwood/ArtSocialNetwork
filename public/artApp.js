@@ -102,8 +102,8 @@ $(document).ready(function () {
   $('#recs-inbox').on('click', '.art', function() {
     //reveal individual art piece page
     console.log("help"); //why isn't this even showing up????
-    //console.log($(this).sibling('.username').text()); //debug
-    //removeRec($(this).sibling('.username').text(),$(this).attr('id')); 
+    console.log($(this).attr('user')); //debug
+    removeRec($(this).attr('user'),$(this).attr('id')); 
     changeState("Art Piece");
     getPiece($(this).attr('id'));
   });
@@ -737,12 +737,14 @@ function buildRecsTable(data)
 {
   var rows = JSON.parse(data);
 
+  $('#recs-inbox').empty();
   var result = "<h3>No recommendations yet</h3>";
+  
   if (rows.length > 0) {
     var result = '<table class="w3-table-all w3-hoverable" border="2"><tr><tr>';
     var i=0;
     rows.forEach(function(row) {
-      result += "<tr><td class='art' id='"+row.artpieceID+"'><img id='to-piece' style='width: 30vw; min-width: 100px;' src='"+row.IMGURL+"'</td><td class='title' id='to-piece'>"+row.Title+"</td><td class='artist'>"+row.Author+"</td>";
+      result += "<tr><td class='art' id='"+row.artpieceID+"' user='"+row.sendUser+"'><img id='to-piece' style='width: 30vw; min-width: 100px;' src='"+row.IMGURL+"'</td><td class='title' id='to-piece'>"+row.Title+"</td><td class='artist'>"+row.Author+"</td>";
       result += "<td class='username link'>"+row.sendUser+"</td><td>"+row.message+"</td></tr>";
     });
     result += "</table>";
