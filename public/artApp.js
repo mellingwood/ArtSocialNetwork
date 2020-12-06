@@ -78,6 +78,9 @@ $(document).ready(function () {
     advancedSearch();
   });
 
+  //make search results table have pagination rather than infinite scroll
+  $('#search-results-table').DataTable();
+
 /****** functions to go to piece specific page when they click on picture ****/
   $('#results').on('click', '.art', function(){
     //reveal individual art piece page
@@ -536,18 +539,23 @@ function buildArtTable(data) {
   if (rows.length < 1) {
     return "<h3>No matches found</h3>";
   } else {
-    var result = '<table class="w3-table-all w3-hoverable" border="2"><tr><tr>';
+    var result = "";
+    //give count of pieces
     if(rows.length==1) {
-      result += "<tr><td>1 piece found<td><td></td></tr>";
+      result += "<h3>1 piece found</h3>";
     }
     if(rows.length>1) {
-      result += "<tr><td>"+rows.length+" pieces found<td><td></td></tr>";
+      result += "<h3>"+rows.length+" pieces found</h3";
     }
     var i=0
+    //set up actual table
+    result+= '<table class="w3-table-all w3-hoverable" border="2" id="search-results-table">';
+    //need head and body
+    result+= '<thead><tr><th>Piece</th><th>Title</th><th>Author</th></tr></thead><tbody>';
     rows.forEach(function(row) {
       result += "<tr><td class='art' id='"+row.ID+"'><img id='to-piece' style='width: 30vw; min-width: 100px;' src='"+row.IMGURL+"'</td><td class='title' id='to-piece'>"+row.Title+"</td><td class='artist'>"+row.Author+"</td>";
     })
-    result += "</table>";
+    result += "</tbody></table>";
 
     return result;
   }
