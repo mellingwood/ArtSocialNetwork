@@ -13,9 +13,9 @@ $(document).ready(function () {
   runOncePerDay();
   // For this program is will be a reponse to a request from this page for an action
   getFeatured(localStorage.getItem('IDs'));
-
   changeState("Start");
 
+/**** log in page functionality ****/
   $('#login-btn').click(function() {
     $('#login-err').hide();
     getLogin();
@@ -24,10 +24,6 @@ $(document).ready(function () {
   $('#newaccount-btn').click(function() {
     //bring to sign up page
     changeState("New User");
-  });
-
-  $('#smART').click(function(){
-    changeState("Main")
   });
 
   $('#cancel-btn').click(function() {
@@ -41,11 +37,14 @@ $(document).ready(function () {
     checkUser();
   });
 
+/**** task bar functionality ****/
+  $('#smART').click(function(){
+    changeState("Main")
+  });
   //Handle search pulldown menu
   $(".dropdown-menu li a").click(function(){
     $(this).parents(".btn-group").find('.selection').text($(this).text());
   });
-
   //reacts to both user search and art search
   $('#search-btn').click(function() {
     var search = $('#search').val();
@@ -61,14 +60,12 @@ $(document).ready(function () {
       alert("No search term. Try again.");
     }
   });
-
   //sends user to their own profile
   $('#profile-btn').click(function() {
     $('#userpageName').text(thisUser);
     changeState("User Profile");
     getProfile(thisUser);
   });
-
   //sends user to their advanced search page
   $('#adv-search-btn').click(function() {
     changeState("Advanced Search");
@@ -81,7 +78,7 @@ $(document).ready(function () {
     advancedSearch();
   });
 
-  //function to go to page specific page when they click on picture
+/****** functions to go to piece specific page when they click on picture ****/
   $('#results').on('click', '.art', function(){
     //reveal individual art piece page
     changeState("Art Piece");
@@ -109,6 +106,7 @@ $(document).ready(function () {
     getPiece($(this).attr('id'));
   });
 
+/****** functions to go to user page when they click on usernames ****/
   $('#results').on('click', '.username', function(){
     $('#userpageName').text($(this).text());
     changeState("User Profile");
@@ -122,6 +120,7 @@ $(document).ready(function () {
     getProfile($(this).text());
   });
 
+/****** art piece page functions ****/
   $('#fav').click (function(){
     const emptyHeart = "\u2661";
     const fullHeart = "\u2665";
@@ -157,8 +156,64 @@ $(document).ready(function () {
 
 });
 
-////******** Functions not within document.ready **********//////
+/*********
+"changes pages" using state switch
+***********/
 
+function changeState(pageState) {
+  $('.container').hide();
+  switch(pageState){
+    case "Main":
+    $('#mainbar').show();
+    $('#home').show();
+    break;
+    case "User Profile":
+    $('#userfavs').empty();
+    $('#userpagebio').empty();
+    $('#mainbar').show();
+    $('#userpage').show();
+    if($('#userpageName').text()!=thisUser)
+    {
+      console.log($('#userpageName').text());
+      $('#myBtn').hide();
+      $('#recs').hide();
+    }
+    else
+    {
+      $('#myBtn').show();
+      $('#recs').show();
+    }
+    break;
+    case "Advanced Search":
+    $('#mainbar').show();
+    $('#advsearchpage').show();
+    break;
+    case "Search Results":
+    $('#mainbar').show();
+    $('#results').show();
+    $('#review-success').hide();
+    break;
+    case "Art Piece":
+    $('#mainbar').show();
+    $('#artpiecepage').show();
+    $('#review-success').hide();
+    break;
+    case "New User":
+    $('#newaccount').show();
+    $('#signup-err').hide();
+    break;
+    case "Start":
+    // Clear everything on startup
+    $('#mainbar').hide();
+    $('#login').show();
+    $('#login-err').hide();
+    break;
+  }
+}
+
+/*********
+modal code for recomendations and bios
+***********/
 
 //Sorry this is gross, ill make it one function but it's the only way I could get the modal working for now
 var send_rec_button = document.getElementById("sendrec-btn");
@@ -238,58 +293,6 @@ function runOncePerDay(){
   console.log("A day has passed")
 }
 
-// This function shows and hides containers to change the state of the website
-function changeState(pageState) {
-  $('.container').hide();
-  switch(pageState){
-    case "Main":
-    $('#mainbar').show();
-    $('#home').show();
-    break;
-    case "User Profile":
-    $('#userfavs').empty();
-    $('#userpagebio').empty();
-    $('#mainbar').show();
-    $('#userpage').show();
-    if($('#userpageName').text()!=thisUser)
-    {
-      console.log($('#userpageName').text());
-      $('#myBtn').hide();
-      $('#recs').hide();
-    }
-    else
-    {
-      $('#myBtn').show();
-      $('#recs').show();
-    }
-    break;
-    case "Advanced Search":
-    $('#mainbar').show();
-    $('#advsearchpage').show();
-    break;
-    case "Search Results":
-    $('#mainbar').show();
-    $('#results').show();
-    $('#review-success').hide();
-    break;
-    case "Art Piece":
-    $('#mainbar').show();
-    $('#artpiecepage').show();
-    $('#review-success').hide();
-    break;
-    case "New User":
-    $('#newaccount').show();
-    $('#signup-err').hide();
-    break;
-    case "Start":
-    // Clear everything on startup
-    $('#mainbar').hide();
-    $('#login').show();
-    $('#login-err').hide();
-    break;
-  }
-}
-
 //Featured Pieces
 function getFeatured(idList){
   $.ajax({
@@ -321,6 +324,10 @@ function buildFeatureTable(data) {
   result += "</div></div>";
   return result;
 }
+
+/*********
+single art piece functions
+***********/
 
 //Upon clicking a piece thumbnail, load the piece info
 function getPiece(id){
@@ -388,7 +395,9 @@ function loadPiece(data){
 
 }
 
-///***User Logins/Registration****///
+/*********
+User Logins/Registration
+***********/
 
 //user with account attempts to log in
 function getLogin(){
@@ -419,7 +428,6 @@ function doLogin(results){
     }
   }
 }
-
 //for new users attempting to make an account
 function checkUser(){
   //verify username is not a duplicate/doesn't already exists in database
@@ -431,7 +439,6 @@ function checkUser(){
     error: displayError
   })
 }
-
 //add new user registration
 function addUser(results){
   let count = JSON.parse(results);
@@ -459,7 +466,9 @@ function processUser(results)
   changeState("Main");
 }
 
-///***Search functions***///
+/*********
+Search and advancedSearch functions
+***********/
 
 //called when user clicks "Search" button
 function getMatches(search){
@@ -482,7 +491,6 @@ function getMatches(search){
     })
   }
 }
-
 //called when user hits "Search" button on Advanced Search page
 function advancedSearch(){
   var title = $('#title-input').val();
@@ -506,7 +514,6 @@ function advancedSearch(){
     });
   }
 }
-
 //called when user clicks on a tag from a piece page to get other pieces with the same attribute
 function tagSearch(field, term) {
   $.ajax({
@@ -550,7 +557,6 @@ function processUserResults(results){
   clearResults();
   $('#searchresults').append(buildUserTable(results));
 }
-
 //build data table based on data from server (usernames)
 function buildUserTable(data){
   rows=JSON.parse(data);
@@ -568,79 +574,10 @@ function buildUserTable(data){
   }
 }
 
-///***Favorites calls**///
-function processFav(results)
-{
-  console.log('fav change');
-}
+/*********
+Profile calls
+***********/
 
-function countFavs(results)
-{
-  let favs = JSON.parse(results)[0].count;
-  console.log(favs);
-  $('#numfavs').text("Favorites:" + favs); //shows the number of people who have favorited this
-
-  let faved = JSON.parse(results)[0].faved;
-  const emptyHeart = "\u2661";
-  const fullHeart = "\u2665";
-
-  console.log($('#fav').html());
-
-  if(faved) {
-    $('#fav').html(fullHeart);
-  } else {
-    $('#fav').html(emptyHeart);
-  }
-}
-
-/********* Review calls **********/
-function getReviews(id){
-  $.ajax({
-    url: Url+'/getreviews?pieceID='+id,
-    type:"GET",
-    success: buildReviews,
-    error: displayError
-  });
-}
-
-function buildReviews(data){
-  rows=JSON.parse(data);
-  $('#userReviews').empty();
-  if (rows.length < 1) {
-    $('#userReviews').append('<p>No other reviews have been left</p>');
-  } else {
-    rows.forEach(function(row) {
-      $('#userReviews').append('<h3 class="username link">User:'+row.user+'</h3>');
-      $('#userReviews').append('<p>'+row.review+'</p>');
-    });
-  }
-}
-
-function userReview(results)
-{
-  $('#reviewEnter').val('');
-  var rev = JSON.parse(results)[0]; //gets info on what should be only one matching review
-  if (rev != undefined) {
-    $('#reviewEnter').val(rev.review);
-  }
-}
-
-function addReview(id){
-  $.ajax({
-    url: Url+'/addreview?pieceID='+id+'&user='+thisUser+'&review='+$('#reviewEnter').val(),
-    type:"GET",
-    success: reviewAdded,
-    error: displayError
-  });
-}
-
-function reviewAdded(results)
-{
-  console.log("review added");
-  $('#review-success').show();
-}
-
-/********* Profile calls **********/
 function getProfile(username)
 {
   getBio(username);
@@ -707,7 +644,87 @@ function loadFavs(data){
   $('#userfavs').append(result);
 }
 
-///***Recommendations functions****///
+/*********
+Favorites
+***********/
+
+function processFav(results)
+{
+  console.log('fav change');
+}
+
+function countFavs(results)
+{
+  let favs = JSON.parse(results)[0].count;
+  console.log(favs);
+  $('#numfavs').text("Favorites:" + favs); //shows the number of people who have favorited this
+
+  let faved = JSON.parse(results)[0].faved;
+  const emptyHeart = "\u2661";
+  const fullHeart = "\u2665";
+
+  console.log($('#fav').html());
+
+  if(faved) {
+    $('#fav').html(fullHeart);
+  } else {
+    $('#fav').html(emptyHeart);
+  }
+}
+
+/*********
+Reviews
+***********/
+
+function getReviews(id){
+  $.ajax({
+    url: Url+'/getreviews?pieceID='+id,
+    type:"GET",
+    success: buildReviews,
+    error: displayError
+  });
+}
+
+function buildReviews(data){
+  rows=JSON.parse(data);
+  $('#userReviews').empty();
+  if (rows.length < 1) {
+    $('#userReviews').append('<p>No other reviews have been left</p>');
+  } else {
+    rows.forEach(function(row) {
+      $('#userReviews').append('<h3 class="username link">User:'+row.user+'</h3>');
+      $('#userReviews').append('<p>'+row.review+'</p>');
+    });
+  }
+}
+
+function userReview(results)
+{
+  $('#reviewEnter').val('');
+  var rev = JSON.parse(results)[0]; //gets info on what should be only one matching review
+  if (rev != undefined) {
+    $('#reviewEnter').val(rev.review);
+  }
+}
+
+function addReview(id){
+  $.ajax({
+    url: Url+'/addreview?pieceID='+id+'&user='+thisUser+'&review='+$('#reviewEnter').val(),
+    type:"GET",
+    success: reviewAdded,
+    error: displayError
+  });
+}
+
+function reviewAdded(results)
+{
+  console.log("review added");
+  $('#review-success').show();
+}
+
+/*********
+Recommendations functions
+***********/
 
 function sendRec(sendto, comment, pieceid)
 {
