@@ -124,7 +124,6 @@
     <div class="container" id="advsearchpage">
       <div id="adv-search"><p>Advanced Search</p></div>
       <ul id="adv-search-fields">
-        <button type="button" id="do-adv-search-btn" class="btn btn-default">Search</button>
         <input type="text" id="title-input" class="form-control" placeholder="Title">
         <input type="text" id="author-input" class="form-control" placeholder="Author (e.g. Da Vinci, Rodin)">
         <input type="text" id="school-input" class="form-control" placeholder="School (e.g. Flemish, Italian)">
@@ -167,6 +166,7 @@
             </ul>
           </li>
         </ul>
+        <button type="button" id="do-adv-search-btn" class="btn btn-default">Search</button>
       </ul>
     </div>
 
@@ -208,8 +208,9 @@
         <div class="col-sm-4" id="userpagebio">
           <p>Bio</p>
         </div>
-        <!--<button id="myBtn">Change Bio</button>-->
+      </div>
 
+<div class="row">
   <a href="#myModal" rel="modal:open" class="btn btn-primary">Change Bio</a>
 
         <!-- The Modal -->
@@ -220,13 +221,14 @@
             <button type="button" id = "submitBio-btn">Save Bio</button>
 
           </div>
-
         </div>
 
+<div class="row">
         <h2 class ="col-sm-4">Favorites</h2>
         <div class="col-sm-8" id="userfavs" style="background-color:lavenderblush;float:right;">
         </div>
-        <div id="recs">
+      </div>
+        <div id="recs" class="row">
         <h2 class ="col-sm-4">Recommendations</h2>
         <button id="refresh-btn">Check for recommendations</button>
         <div class="col-sm-8" id="recs-inbox" style="background-color:mintgreen;float:right;">

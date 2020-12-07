@@ -194,6 +194,15 @@ function changeState(pageState) {
     break;
     case "Advanced Search":
     $('#mainbar').show();
+    $('#title-input').val('');
+    $('#author-input').val('');
+    $('#school-input').val('');
+    $('#location-input').val('');
+    $('#date-input').val('');
+    $('#timeframe-input').val('');
+    $('#technique-input').val('');
+    $('#form-select').text("Form");
+    $('#type-select').text("Type");
     $('#advsearchpage').show();
     break;
     case "Search Results":
@@ -423,24 +432,8 @@ function doLogin(results){
     console.log("bad user");
     $('#login-err').show()
   }
-
-  /*
-  if(userLog.length == 0){
-    console.log("bad user");
-    $('#login-err').show()
-  } else {
-    if(userLog[0].password == $('#password').val()){
-      console.log($('#username').val()+" logged in");
-      thisUser=$('#username').val(); //set who the logged in user is
-      changeState("Main");
-    }
-    else{
-      console.log("bad password");
-      $('#login-err').show();
-    }
-  }
-  */
 }
+
 //for new users attempting to make an account
 function checkUser(){
   //verify username is not a duplicate/doesn't already exists in database

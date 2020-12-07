@@ -341,7 +341,7 @@ app.get('/sendrec', function(req,res) {
   {
     query = "INSERT INTO recommendations(sendUser, receiveUser, artpieceID, message, timestamp) VALUES('"+req.query.sender+"',?,'"+req.query.pieceid+"',?,NOW())";
     console.log(query+"(to="+req.query.user+")"+"(message="+req.query.comment+")");
-    con.query(query, [req.query.user], [req.query.comment], function(err,result,fields) {
+    con.query(query, [req.query.user, req.query.comment], function(err,result,fields) {
       if (err) throw err;
       console.log(result)
       res.end(JSON.stringify(result));
