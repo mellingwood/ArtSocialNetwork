@@ -86,7 +86,7 @@ app.get('/finduser', function(req, res){
   } else {
     search='%'+req.query.search+'%';
 
-    query="SELECT * FROM users WHERE username like ?";
+    query="SELECT username, ID FROM users WHERE username like ?";
     console.log(query+"(username="+search+")")
     con.query(query, [search], function(err,result) {
       if (err) throw err;
@@ -151,13 +151,13 @@ app.get('/adduser', function (req, res) {
 //check user exists
 app.get('/getlogin', function(req,res)
 {
-  if (req.query.username==undefined) {
+  if (req.query.username==undefined || req.query.password==undefined) {
     console.log("Bad add request:"+JSON.stringify(req.query));
     res.end("['fail']");
   } else {
-    query = "SELECT * FROM users WHERE username=?";
-    console.log(query, "(username="+req.query.username+")");
-    con.query(query, [req.query.username], function(err,result,fields) {
+    query = "SELECT COUNT(*) as count FROM users WHERE username=? AND password=?";
+    console.log(query, "(username="+req.query.username+[req.query.password]+")");
+    con.query(query, [req.query.username, req.query.password], function(err,result,fields) {
       if (err) throw err;
       console.log(result)
       res.end(JSON.stringify(result));

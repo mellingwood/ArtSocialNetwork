@@ -407,7 +407,7 @@ User Logins/Registration
 function getLogin(){
   console.log("Attepted log in by username:"+$('#username').val());
   $.ajax({
-    url: Url+'/getlogin?username='+$('#username').val(),
+    url: Url+'/getlogin?username='+$('#username').val()+"&password="+$('#password').val(),
     type:"GET",
     success: doLogin,
     error: displayError
@@ -415,23 +415,17 @@ function getLogin(){
 }
 
 function doLogin(results){
-  var userLog = JSON.parse(results); //wants it to be like this even though there's only one row
-  //console.log("User " + userLog[0].username + " password is " + userLog[0].password);
-  if(userLog.length > 0){
-    if(userLog[0].password == $('#password').val()){
-      console.log($('#username').val()+" logged in");
-      thisUser=$('#username').val(); //set who the logged in user is
-      changeState("Main");
-    }
-    else{
+  var isValid = JSON.parse(results)[0].count; //wants it to be like this even though there's only one row
+
+  if(isValid){
+    console.log($('#username').val()+" logged in");
+    thisUser=$('#username').val(); //set who the logged in user is
+    changeState("Main");
+  }
+  else{
       console.log("bad password");
       $('#login-err').show();
     }
-  }
-  else{
-    console.log("bad user");
-    $('#login-err').show()
-  }
 }
 
 //for new users attempting to make an account
