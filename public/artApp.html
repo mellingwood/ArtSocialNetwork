@@ -123,49 +123,55 @@
 
     <div class="container" id="advsearchpage">
       <div id="adv-search"><p>Advanced Search</p></div>
-      <ul id="adv-search-fields">
-        <input type="text" id="title-input" class="form-control" placeholder="Title">
-        <input type="text" id="author-input" class="form-control" placeholder="Author (e.g. Da Vinci, Rodin)">
-        <input type="text" id="school-input" class="form-control" placeholder="School (e.g. Flemish, Italian)">
-        <input type="text" id="location-input" class="form-control" placeholder="Location (e.g. Museo del Prado, The Hague)">
-        <input type="text" id="date-input" class="form-control" placeholder="Date">
-        <input type="text" id="timeframe-input" class="form-control" placeholder="Timeframe (e.g 701-750, 1451-1500)">
-        <input type="text" id="technique-input" class="form-control" placeholder="Technique (e.g. oil, pastel, tempera)">
-        <ul class="nav navbar-nav">
-          <li class="btn-group">
-            <a href="#" id="form-select" class="dropdown-toggle selection" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Form<span class="caret"></span></a>
-            <ul class="dropdown-menu" role="form-dropdown">
-              <li><a href="#">Painting</a></li>
-              <li><a href="#">Ceramics</a></li>
-              <li><a href="#">Sculpture</a></li>
-              <li><a href="#">Graphics</a></li>
-              <li><a href="#">Architecture</a></li>
-              <li><a href="#">Stained-Glass</a></li>
-              <li><a href="#">Metalwork</a></li>
-              <li><a href="#">Illumination</a></li>
-              <li><a href="#">Mosaic</a></li>
-              <li><a href="#">Furniture</a></li>
-              <li><a href="#">Tapestry</a></li>
-              <li><a href="#">Glassware</a></li>
-              <li><a href="#">Others</a></li>
+      <div class="container" id="adv-search-fields">
+        <div class="row">
+          <div class="col-sm-6">
+            <input type="text" id="title-input" class="form-control" placeholder="Title">
+            <input type="text" id="author-input" class="form-control" placeholder="Author (e.g. Da Vinci, Rodin)">
+            <input type="text" id="school-input" class="form-control" placeholder="School (e.g. Flemish, Italian)">
+            <input type="text" id="location-input" class="form-control" placeholder="Location (e.g. Museo del Prado, The Hague)">
+          </div>
+          <div class="col-sm-6">
+            <input type="text" id="date-input" class="form-control" placeholder="Date">
+            <input type="text" id="timeframe-input" class="form-control" placeholder="Timeframe (e.g 701-750, 1451-1500)">
+            <input type="text" id="technique-input" class="form-control" placeholder="Technique (e.g. oil, pastel, tempera)">
+            <ul class="nav navbar-nav">
+              <li class="btn-group">
+                <a href="#" id="form-select" class="dropdown-toggle selection" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Form<span class="caret"></span></a>
+                <ul class="dropdown-menu" role="form-dropdown">
+                  <li><a href="#">Painting</a></li>
+                  <li><a href="#">Ceramics</a></li>
+                  <li><a href="#">Sculpture</a></li>
+                  <li><a href="#">Graphics</a></li>
+                  <li><a href="#">Architecture</a></li>
+                  <li><a href="#">Stained-Glass</a></li>
+                  <li><a href="#">Metalwork</a></li>
+                  <li><a href="#">Illumination</a></li>
+                  <li><a href="#">Mosaic</a></li>
+                  <li><a href="#">Furniture</a></li>
+                  <li><a href="#">Tapestry</a></li>
+                  <li><a href="#">Glassware</a></li>
+                  <li><a href="#">Others</a></li>
+                </ul>
+              </li>
+              <li class="btn-group">
+                <a href="#" id="type-select" class="dropdown-toggle selection" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Type<span class="caret"></span></a>
+                <ul class="dropdown-menu" role="type-dropdown">
+                  <li><a href="#">Mythological</a></li>
+                  <li><a href="#">Historical</a></li>
+                  <li><a href="#">Genre</a></li>
+                  <li><a href="#">Portrait</a></li>
+                  <li><a href="#">Landscape</a></li>
+                  <li><a href="#">Religious</a></li>
+                  <li><a href="#">Interior</a></li>
+                  <li><a href="#">Still-Life</a></li>
+                  <li><a href="#">Study</a></li>
+                  <li><a href="#">Other</a></li>
+                </ul>
+              </li>
             </ul>
-          </li>
-          <li class="btn-group">
-            <a href="#" id="type-select" class="dropdown-toggle selection" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Type<span class="caret"></span></a>
-            <ul class="dropdown-menu" role="type-dropdown">
-              <li><a href="#">Mythological</a></li>
-              <li><a href="#">Historical</a></li>
-              <li><a href="#">Genre</a></li>
-              <li><a href="#">Portrait</a></li>
-              <li><a href="#">Landscape</a></li>
-              <li><a href="#">Religious</a></li>
-              <li><a href="#">Interior</a></li>
-              <li><a href="#">Still-Life</a></li>
-              <li><a href="#">Study</a></li>
-              <li><a href="#">Other</a></li>
-            </ul>
-          </li>
-        </ul>
+          </div>
+        </div>
         <button type="button" id="do-adv-search-btn" class="btn btn-default">Search</button>
       </ul>
     </div>

@@ -193,6 +193,7 @@ function changeState(pageState) {
     }
     break;
     case "Advanced Search":
+    $('#adv-search-fields').show();
     $('#mainbar').show();
     $('#title-input').val('');
     $('#author-input').val('');
