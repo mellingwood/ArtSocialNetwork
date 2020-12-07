@@ -34,7 +34,12 @@ $(document).ready(function () {
 
   $('#signup-btn').click(function() {
     $('#signup-err').hide();
-    checkUser();
+    if($('#addUserName').val().includes("'"))
+    {
+      $('#input-err').show();
+    } else{
+      checkUser();
+    }
   });
 
 /**** task bar functionality ****/
@@ -204,6 +209,7 @@ function changeState(pageState) {
     case "New User":
     $('#newaccount').show();
     $('#signup-err').hide();
+    $('#input-err').hide();
     break;
     case "Start":
     // Clear everything on startup
@@ -504,10 +510,18 @@ function advancedSearch(){
   var timeframe = $('#timeframe-input').val();
   var technique = $('#technique-input').val();
   var form = $('#form-select').text();
+  if(form=="Form")//default value/no selection
+  {
+    form = "";
+  }
   var type = $('#type-select').text();
+  if(type=="Type")//default value/no selection
+  {
+    type = "";
+  }
 
-  if(title=="" && author=="" && school=="" && location=="" && date=="" && timeframe=="" && technique=="" && form=="Form" && type=="Type"){
-    alert("No search terms entered. Please try again.");
+  if(title=="" && author=="" && school=="" && location=="" && date=="" && timeframe=="" && technique=="" && form=="" && type==""){
+    alert("No search terms entered.");
   } else {
     $.ajax({
       url: Url+'/advanced?title='+title+'&author='+author+'&school='+school+'&location='+location+'&date='+date+'&timeframe='+timeframe+'&technique='+technique+'&form='+form+'&type='+type,
@@ -604,7 +618,7 @@ function processAddBio(results){
 function getBio(username)
 {
   $.ajax({
-    url: Url+'/getuserbio?search='+username,
+    url: Url+'/getuserbio?username='+username,
     type:"GET",
     success: loadBio,
     error: displayError
@@ -731,8 +745,8 @@ Recommendations functions
 
 function sendRec(sendto, comment, pieceid)
 {
-  console.log(sendto);
-  console.log(pieceid);//debug lines
+  console.log(comment);//debug
+
   $.ajax({
     url: Url+'/sendrec?pieceid='+pieceid+'&user='+sendto+'&sender='+thisUser+'&comment='+comment,
     type:"GET",

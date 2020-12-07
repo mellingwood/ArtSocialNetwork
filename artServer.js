@@ -36,12 +36,13 @@ app.get('/find', function(req, res){
     console.log("Missing query value!");
     res.end('[]');
   } else {
-    search=req.query.search;
-    console.log(search);
+    search='%'+req.query.search+'%';
+    console.log(req.query.search);
 
-    query="SELECT * FROM art WHERE Title like '%"+req.query.search+"%'or Author like '%"+req.query.search+"%' or Technique like '%"+req.query.search+"%' or Location like '%"+req.query.search+"%' or Form like '%"+req.query.search+"%' or Type like '%"+req.query.search+"%' or School like '%"+req.query.search+"%' ";
-    console.log(query)
-    con.query(query, function(err,result) {
+    query="SELECT * FROM art WHERE Title like ? or Author like ? or Technique like ? or Location like ? or Form like ? or Type like ? or School like ?";
+    console.log(query, "(search="+search+")");
+    //if someone could find a way to make the next line less repetitive...
+    con.query(query, [search,search,search,search,search,search,search], function(err,result) {
       if (err) throw err;
       console.log(result)
       res.end( JSON.stringify(result));
@@ -52,19 +53,10 @@ app.get('/find', function(req, res){
 app.get('/advanced', function(req, res){
   //find art piece (any field)
   console.log("Query:"+JSON.stringify(req.query));
-  //change form and type to empty string if not selected
-  var formInput = req.query.form;
-  if(formInput=="Form"){
-    formInput = "";
-  }
-  var typeInput = req.query.type;
-  if(typeInput=="Type"){
-    typeInput = "";
-  }
 
-  query="SELECT * FROM art WHERE Title like '%"+req.query.title+"%'and Author like '%"+req.query.author+"%' and Technique like '%"+req.query.technique+"%' and Location like '%"+req.query.location+"%' and Form like '%"+formInput+"%' and Type like '%"+typeInput+"%' and School like '%"+req.query.school+"%' and Date like '%"+req.query.date+"%' and Timeframe like '%"+req.query.timeframe+"%' ";
-  console.log(query)
-  con.query(query, function(err,result) {
+  query="SELECT * FROM art WHERE Title like ? and Author like ? and Technique like ? and Location like ? and Form like '%"+req.query.form+"%' and Type like '%"+req.query.type+"%' and School like ? and Date like ? and Timeframe like ?";
+  console.log(query+"(title="+req.query.title+";author="+req.query.author+"; technique="+req.query.technique+";location="+req.query.location+";school="+req.query.school+";date="+req.query.date+";timeframe="+req.query.timeframe+")")
+  con.query(query, ['%'+req.query.title+'%', '%'+req.query.author+'%', '%'+req.query.technique+'%', '%'+req.query.location+'%', '%'+req.query.school+'%', '%'+req.query.date+'%', '%'+req.query.timeframe+'%'], function(err,result) {
     if (err) throw err;
     console.log(result)
     res.end( JSON.stringify(result));
@@ -92,12 +84,11 @@ app.get('/finduser', function(req, res){
     console.log("Missing query value!");
     res.end('[]');
   } else {
-    search=req.query.search;
-    console.log(search);
+    search='%'+req.query.search+'%';
 
-    query="SELECT * FROM users WHERE username like '%"+req.query.search+"%'";
-    console.log(query)
-    con.query(query, function(err,result) {
+    query="SELECT * FROM users WHERE username like ?";
+    console.log(query+"(username="+search+")")
+    con.query(query, [search], function(err,result) {
       if (err) throw err;
       console.log(result)
       res.end( JSON.stringify(result));
@@ -115,7 +106,7 @@ app.get('/getpiece', function(req, res){
     search=req.query.search;
     console.log(search);
 
-    query="SELECT * FROM art WHERE ID like '"+req.query.search+"' LIMIT 20";
+    query="SELECT * FROM art WHERE ID = '"+req.query.search+"'";
     console.log(query)
     con.query(query, function(err,result) {
       if (err) throw err;
@@ -164,9 +155,9 @@ app.get('/getlogin', function(req,res)
     console.log("Bad add request:"+JSON.stringify(req.query));
     res.end("['fail']");
   } else {
-    query = "SELECT * FROM users WHERE username='"+req.query.username+"'";
-    console.log(query);
-    con.query(query, function(err,result,fields) {
+    query = "SELECT * FROM users WHERE username=?";
+    console.log(query, "(username="+req.query.username+")");
+    con.query(query, [req.query.username], function(err,result,fields) {
       if (err) throw err;
       console.log(result)
       res.end(JSON.stringify(result));
@@ -234,19 +225,36 @@ app.get('/getuserfavs', function(req, res){
   }
 })
 
+//Get bio
 app.get('/getuserbio', function(req,res){
   console.log("Query:"+JSON.stringify(req.query));
-  if(req.query.search === undefined)
+  if(req.query.username === undefined)
   {
     console.log("Missing query value!");
     res.end('[]');
   } else {
-    query = "SELECT bio FROM users WHERE username = '" +req.query.search+ "';"
-    console.log(query)
-    con.query(query, function(err,result) {
+    query = "SELECT bio FROM users WHERE username = ?;"
+    console.log(query,"(username="+req.query.username+")")
+    con.query(query, [req.query.username], function(err,result) {
       if (err) throw err;
       console.log(result)
       res.end( JSON.stringify(result));
+    })
+  }
+})
+
+//Add Bio
+app.get('/addbio', function (req, res) {
+  if (missingFieldBio(req.query)) {
+    console.log("Bad add request:"+JSON.stringify(req.query));
+    res.end("['fail']");
+  } else {
+    query = "UPDATE users SET bio = ? WHERE username = '" + req.query.username +"';";
+    console.log(query+"(bio="+req.query.bio+")");
+    con.query(query, [req.query.bio], function(err,result,fields) {
+      if (err) throw err;
+      console.log(result)
+      res.end(JSON.stringify(result));
     })
   }
 })
@@ -312,39 +320,6 @@ app.get('/addreview', function(req,res) {
   }
 })
 
-//Add Bio
-app.get('/addbio', function (req, res) {
-  if (missingFieldBio(req.query)) {
-    console.log("Bad add request:"+JSON.stringify(req.query));
-    res.end("['fail']");
-  } else {
-    query = "UPDATE users SET bio = ? WHERE username = '" + req.query.username +"';";
-    console.log(query+"(bio="+req.query.bio+")");
-    con.query(query, [req.query.bio], function(err,result,fields) {
-      if (err) throw err;
-      console.log(result)
-      res.end(JSON.stringify(result));
-    })
-  }
-})
-
-//Get bio
-app.get('/getBio', function(req,res)
-{
-  if (req.query.username==undefined) {
-    console.log("Bad review request:"+JSON.stringify(req.query));
-    res.end("['fail']");
-  } else {
-    query = "SELECT bio FROM users WHERE username= '"+req.query.username+"'";
-    console.log(query);
-    con.query(query, function(err,result,fields) {
-      if (err) throw err;
-      console.log(result)
-      res.end(JSON.stringify(result));
-    })
-  }
-})
-
 app.get('/featured', function(req, res){
   console.log(req.query.idList)
   query="SELECT * FROM art WHERE ID IN ("+req.query.idList+")";
@@ -364,9 +339,9 @@ app.get('/sendrec', function(req,res) {
   }
   else
   {
-    query = "INSERT INTO recommendations(sendUser, receiveUser, artpieceID, message, timestamp) VALUES('"+req.query.sender+"','"+req.query.user+"','"+req.query.pieceid+"',?,NOW())";
-    console.log(query+"(message="+req.query.comment+")");
-    con.query(query, [req.query.comment], function(err,result,fields) {
+    query = "INSERT INTO recommendations(sendUser, receiveUser, artpieceID, message, timestamp) VALUES('"+req.query.sender+"',?,'"+req.query.pieceid+"',?,NOW())";
+    console.log(query+"(to="+req.query.user+")"+"(message="+req.query.comment+")");
+    con.query(query, [req.query.user], [req.query.comment], function(err,result,fields) {
       if (err) throw err;
       console.log(result)
       res.end(JSON.stringify(result));
