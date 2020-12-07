@@ -407,7 +407,24 @@ function getLogin(){
 
 function doLogin(results){
   var userLog = JSON.parse(results); //wants it to be like this even though there's only one row
-  console.log("User " + userLog[0].username + " password is " + userLog[0].password);
+  //console.log("User " + userLog[0].username + " password is " + userLog[0].password);
+  if(userLog.length > 0){
+    if(userLog[0].password == $('#password').val()){
+      console.log($('#username').val()+" logged in");
+      thisUser=$('#username').val(); //set who the logged in user is
+      changeState("Main");
+    }
+    else{
+      console.log("bad password");
+      $('#login-err').show();
+    }
+  }
+  else{
+    console.log("bad user");
+    $('#login-err').show()
+  }
+
+  /*
   if(userLog.length == 0){
     console.log("bad user");
     $('#login-err').show()
@@ -422,6 +439,7 @@ function doLogin(results){
       $('#login-err').show();
     }
   }
+  */
 }
 //for new users attempting to make an account
 function checkUser(){
