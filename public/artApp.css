@@ -225,3 +225,7 @@ body {
 .jumbotron {
   background-color:#CBE4E9;
 }
+
+textarea{
+  resize: none;
+}
