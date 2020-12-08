@@ -105,6 +105,11 @@ $(document).ready(function () {
     getPiece($(this).attr('id'));
   });
 
+  //checks for recommendations while on profile page
+  $('#refresh-btn').click(function(){
+    checkRecs(thisUser);
+  });
+
   $('#recs-inbox').on('click', '.art', function() {
     //reveal individual art piece page
     console.log("help"); //why isn't this even showing up????
@@ -158,9 +163,10 @@ $(document).ready(function () {
     $('#review-success').show();
   });
 
-  $('#refresh-btn').click(function(){
-    checkRecs(thisUser);
-  });
+  $('#recModal-btn').click(function(){
+	  $('#rec-target').val('');
+	  $('#rec-text').val('');
+  })
 
 });
 
@@ -237,10 +243,7 @@ modal code for recomendations and bios
 var send_rec_button = document.getElementById("sendrec-btn");
 var rec_modal = document.getElementById("rec-Modal");
 send_rec_button.onclick = function() {
-  var pieceID = $('#artpiecepage').find('.pieceid').attr("id");
-  console.log("sending rec, piece: "+pieceID);
-  sendRec($('#rec-target').val(), $('#rec-text').val(), pieceID);
-  rec_modal.style.display = "none";
+  checkSendRec($('#rec-target').val());
 }
 
 var modal = document.getElementById("myModal");
@@ -734,16 +737,32 @@ function reviewAdded(results)
 Recommendations functions
 ***********/
 
-function sendRec(sendto, comment, pieceid)
+function checkSendRec(sendto)
 {
-  console.log(comment);//debug
-
   $.ajax({
-    url: Url+'/sendrec?pieceid='+pieceid+'&user='+sendto+'&sender='+thisUser+'&comment='+comment,
+    url: Url+'/checkuser?username='+sendto,
     type:"GET",
-    success: processSendRec,
+    success: sendRec,
     error: displayError
-  });
+  })
+}
+
+function sendRec(results)
+{
+  let count = JSON.parse(results)[0].count;
+  console.log(count);//debug line
+
+  if(count==1)
+  {
+    $.ajax({
+      url: Url+'/sendrec?pieceid='+$('#artpiecepage').find('.pieceid').attr("id")+'&user='+$('#rec-target').val()+'&sender='+thisUser+'&comment='+$('#rec-text').val(),
+      type:"GET",
+      success: processSendRec,
+      error: displayError
+    });
+  } else{
+    alert("Recommendation not sent; could not find user "+$('#rec-target').val()+".")
+  }
 }
 
 function processSendRec(results)
