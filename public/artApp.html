@@ -173,7 +173,7 @@
     <div class="container" id="artpiecepage">
       <div class="row">
         <div class="col-sm-6" id="pieceArt">
-          <img class="md-6" id="piece" src="" width="50%"/>
+          <img class="md-6" id="piece" src="" width="100%"/>
           <div id="art-info-table"></div>
           <div class="pieceid" id=""></div>
           <p id="fav">&#9825;</p>
@@ -203,37 +203,38 @@
     </div>
 
     <div class="container" id="userpage">
-      <h1 id="userpageName">Username</h1>
       <div class="row">
-        <div class="col-sm-4" id="userpagebio">
-          <p>Bio</p>
+        <div class="col-sm-4">
+          <h1 id="userpageName">Username</h1>
+          <div id="userpagebio">
+            <p>Bio</p>
+          </div>
+          <a href="#myModal" rel="modal:open" class="btn btn-primary">Change Bio</a>
+        </div>
+        <div class="col-sm-8">
+          <h2>Favorites</h2>
+          <div id="userfavs">
+          </div>
         </div>
       </div>
 
-<div class="row">
-  <a href="#myModal" rel="modal:open" class="btn btn-primary">Change Bio</a>
-
+      <div class="row">
         <!-- The Modal -->
         <div id="myModal" class="modal">
           <!-- Modal content -->
-            <p>Add a Bio!</p>
-            <textarea id="bioEnter" rows="6" cols="42"></textarea>
-            <button type="button" id = "submitBio-btn">Save Bio</button>
+          <p>Add a Bio!</p>
+          <textarea id="bioEnter" rows="6" cols="42"></textarea>
+          <button type="button" id = "submitBio-btn">Save Bio</button>
 
-          </div>
-        </div>
-
-<div class="row">
-        <h2 class ="col-sm-4">Favorites</h2>
-        <div class="col-sm-8" id="userfavs" style="background-color:lavenderblush;float:right;">
         </div>
       </div>
-        <div id="recs" class="row">
+
+      <div id="recs" class="row">
         <h2 class ="col-sm-4">Recommendations</h2>
         <button id="refresh-btn">Check for recommendations</button>
         <div class="col-sm-8" id="recs-inbox" style="background-color:mintgreen;float:right;">
         </div>
-        </div>
+      </div>
       </div>
     </div>
 

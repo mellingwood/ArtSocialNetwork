@@ -644,7 +644,7 @@ function loadFavs(data){
     var result = '<table class="w3-table-all w3-hoverable" border="2"><tr><tr>';
     var i=0;
     rows.forEach(function(row) {
-      result += "<tr><td class='art' id='"+row.ID+"'><img id='to-piece' style='width: 30vw; min-width: 100px;' src='"+row.IMGURL+"'</td><td class='title' id='to-piece'>"+row.Title+"</td><td class='artist'>"+row.Author+"</td>";
+      result += "<tr><td class='art' id='"+row.ID+"'><img id='to-piece' style='width: 10vw; min-width: 30px;' src='"+row.IMGURL+"'</td><td class='title' id='to-piece'>"+row.Title+"</td><td class='artist'>"+row.Author+"</td>";
     });
     result += "</table>";
   }
@@ -772,7 +772,7 @@ function buildRecsTable(data)
     var result = '<table class="w3-table-all w3-hoverable" border="2"><tr><tr>';
     var i=0;
     rows.forEach(function(row) {
-      result += "<tr><td class='art' id='"+row.artpieceID+"' user='"+row.sendUser+"'><img id='to-piece' style='width: 30vw; min-width: 100px;' src='"+row.IMGURL+"'</td><td class='title' id='to-piece'>"+row.Title+"</td><td class='artist'>"+row.Author+"</td>";
+      result += "<tr><td class='art' id='"+row.artpieceID+"' user='"+row.sendUser+"'><img id='to-piece' style='width: 10vw; min-width: 50px;' src='"+row.IMGURL+"'</td><td class='title' id='to-piece'>"+row.Title+"</td><td class='artist'>"+row.Author+"</td>";
       result += "<td class='username link'>"+row.sendUser+"</td><td>"+row.message+"</td></tr>";
     });
     result += "</table>";

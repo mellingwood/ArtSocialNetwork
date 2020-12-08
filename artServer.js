@@ -29,6 +29,63 @@ function openSQL() {
 
 var con = openSQL();
 
+/*********
+log in page calls
+***********/
+
+//check user doesn't already exist
+app.get('/checkuser', function(req,res)
+{
+  if (req.query.username==undefined) {
+    console.log("Bad add request:"+JSON.stringify(req.query));
+    res.end("['fail']");
+  } else {
+    query = "SELECT COUNT(username) AS count FROM users WHERE username='"+req.query.username+"'";
+    console.log(query);
+    con.query(query, function(err,result,fields) {
+      if (err) throw err;
+      res.end(JSON.stringify(result));
+    })
+  }
+})
+
+//Add username and password to users table
+app.get('/adduser', function (req, res) {
+  if (missingFieldUser(req.query)) {
+    console.log("Bad add request:"+JSON.stringify(req.query));
+    res.end("['fail']");
+  } else {
+    query = "Insert INTO users(username, password, bio)  VALUES('"+req.query.username+"','"+req.query.password+"','"+'Bio'+"')";
+    console.log(query);
+    con.query(query, function(err,result,fields) {
+      if (err) throw err;
+      console.log(result)
+      res.end(JSON.stringify(result));
+    })
+  }
+})
+
+//check user exists
+app.get('/getlogin', function(req,res)
+{
+  if (req.query.username==undefined || req.query.password==undefined) {
+    console.log("Bad add request:"+JSON.stringify(req.query));
+    res.end("['fail']");
+  } else {
+    query = "SELECT COUNT(*) as count FROM users WHERE username=? AND password=?";
+    console.log(query, "(username="+req.query.username+[req.query.password]+")");
+    con.query(query, [req.query.username, req.query.password], function(err,result,fields) {
+      if (err) throw err;
+      console.log(result)
+      res.end(JSON.stringify(result));
+    })
+  }
+})
+
+/*********
+Search calls (normal search / adv search / user search)
+***********/
+
 app.get('/find', function(req, res){
   //find art piece (any field)
   console.log("Query:"+JSON.stringify(req.query));
@@ -96,6 +153,10 @@ app.get('/finduser', function(req, res){
   }
 })
 
+/*********
+Single piece page calls (get piece / favorits / reviews / recommendation)
+***********/
+
 app.get('/getpiece', function(req, res){
   //find art by piece ID, from clicking on piece in search results
   console.log("Query:"+JSON.stringify(req.query));
@@ -112,55 +173,6 @@ app.get('/getpiece', function(req, res){
       if (err) throw err;
       console.log(result)
       res.end( JSON.stringify(result));
-    })
-  }
-})
-
-//check user doesn't already exist
-app.get('/checkuser', function(req,res)
-{
-  if (req.query.username==undefined) {
-    console.log("Bad add request:"+JSON.stringify(req.query));
-    res.end("['fail']");
-  } else {
-    query = "SELECT COUNT(username) AS count FROM users WHERE username='"+req.query.username+"'";
-    console.log(query);
-    con.query(query, function(err,result,fields) {
-      if (err) throw err;
-      res.end(JSON.stringify(result));
-    })
-  }
-})
-
-//Add username and password to users table
-app.get('/adduser', function (req, res) {
-  if (missingFieldUser(req.query)) {
-    console.log("Bad add request:"+JSON.stringify(req.query));
-    res.end("['fail']");
-  } else {
-    query = "Insert INTO users(username, password, bio)  VALUES('"+req.query.username+"','"+req.query.password+"','"+'Bio'+"')";
-    console.log(query);
-    con.query(query, function(err,result,fields) {
-      if (err) throw err;
-      console.log(result)
-      res.end(JSON.stringify(result));
-    })
-  }
-})
-
-//check user exists
-app.get('/getlogin', function(req,res)
-{
-  if (req.query.username==undefined || req.query.password==undefined) {
-    console.log("Bad add request:"+JSON.stringify(req.query));
-    res.end("['fail']");
-  } else {
-    query = "SELECT COUNT(*) as count FROM users WHERE username=? AND password=?";
-    console.log(query, "(username="+req.query.username+[req.query.password]+")");
-    con.query(query, [req.query.username, req.query.password], function(err,result,fields) {
-      if (err) throw err;
-      console.log(result)
-      res.end(JSON.stringify(result));
     })
   }
 })
@@ -201,57 +213,6 @@ app.get('/piecefavs', function(req,res){
 
     console.log(query);
     con.query(query, function(err,result,fields) {
-      if (err) throw err;
-      console.log(result)
-      res.end(JSON.stringify(result));
-    })
-  }
-})
-
-app.get('/getuserfavs', function(req, res){
-  //find art by piece ID, from clicking on piece in search results
-  console.log("Query:"+JSON.stringify(req.query));
-  if (req.query.search === undefined) {
-    console.log("Missing query value!");
-    res.end('[]');
-  } else {
-    query="SELECT * FROM art WHERE ID IN (SELECT artpieceID FROM favorites WHERE user = '"+req.query.search+"') LIMIT 20";
-    console.log(query)
-    con.query(query, function(err,result) {
-      if (err) throw err;
-      console.log(result)
-      res.end( JSON.stringify(result));
-    })
-  }
-})
-
-//Get bio
-app.get('/getuserbio', function(req,res){
-  console.log("Query:"+JSON.stringify(req.query));
-  if(req.query.username === undefined)
-  {
-    console.log("Missing query value!");
-    res.end('[]');
-  } else {
-    query = "SELECT bio FROM users WHERE username = ?;"
-    console.log(query,"(username="+req.query.username+")")
-    con.query(query, [req.query.username], function(err,result) {
-      if (err) throw err;
-      console.log(result)
-      res.end( JSON.stringify(result));
-    })
-  }
-})
-
-//Add Bio
-app.get('/addbio', function (req, res) {
-  if (missingFieldBio(req.query)) {
-    console.log("Bad add request:"+JSON.stringify(req.query));
-    res.end("['fail']");
-  } else {
-    query = "UPDATE users SET bio = ? WHERE username = '" + req.query.username +"';";
-    console.log(query+"(bio="+req.query.bio+")");
-    con.query(query, [req.query.bio], function(err,result,fields) {
       if (err) throw err;
       console.log(result)
       res.end(JSON.stringify(result));
@@ -320,17 +281,6 @@ app.get('/addreview', function(req,res) {
   }
 })
 
-app.get('/featured', function(req, res){
-  console.log(req.query.idList)
-  query="SELECT * FROM art WHERE ID IN ("+req.query.idList+")";
-  console.log(query)
-  con.query(query, function(err,result) {
-    if (err) throw err;
-    console.log(result)
-    res.end( JSON.stringify(result));
-  })
-})
-
 app.get('/sendrec', function(req,res) {
   if(req.query.user === undefined || req.query.pieceid === undefined || req.query.sender==undefined||req.query.comment==undefined)
   {
@@ -342,6 +292,61 @@ app.get('/sendrec', function(req,res) {
     query = "INSERT INTO recommendations(sendUser, receiveUser, artpieceID, message, timestamp) VALUES('"+req.query.sender+"',?,'"+req.query.pieceid+"',?,NOW())";
     console.log(query+"(to="+req.query.user+")"+"(message="+req.query.comment+")");
     con.query(query, [req.query.user, req.query.comment], function(err,result,fields) {
+      if (err) throw err;
+      console.log(result)
+      res.end(JSON.stringify(result));
+    })
+  }
+})
+
+/*********
+User Page calls (favorites / bios / recomendations)
+***********/
+
+app.get('/getuserfavs', function(req, res){
+  //find art by piece ID, from clicking on piece in search results
+  console.log("Query:"+JSON.stringify(req.query));
+  if (req.query.search === undefined) {
+    console.log("Missing query value!");
+    res.end('[]');
+  } else {
+    query="SELECT * FROM art WHERE ID IN (SELECT artpieceID FROM favorites WHERE user = '"+req.query.search+"') LIMIT 20";
+    console.log(query)
+    con.query(query, function(err,result) {
+      if (err) throw err;
+      console.log(result)
+      res.end( JSON.stringify(result));
+    })
+  }
+})
+
+//Get bio
+app.get('/getuserbio', function(req,res){
+  console.log("Query:"+JSON.stringify(req.query));
+  if(req.query.username === undefined)
+  {
+    console.log("Missing query value!");
+    res.end('[]');
+  } else {
+    query = "SELECT bio FROM users WHERE username = ?;"
+    console.log(query,"(username="+req.query.username+")")
+    con.query(query, [req.query.username], function(err,result) {
+      if (err) throw err;
+      console.log(result)
+      res.end( JSON.stringify(result));
+    })
+  }
+})
+
+//Add Bio
+app.get('/addbio', function (req, res) {
+  if (missingFieldBio(req.query)) {
+    console.log("Bad add request:"+JSON.stringify(req.query));
+    res.end("['fail']");
+  } else {
+    query = "UPDATE users SET bio = ? WHERE username = '" + req.query.username +"';";
+    console.log(query+"(bio="+req.query.bio+")");
+    con.query(query, [req.query.bio], function(err,result,fields) {
       if (err) throw err;
       console.log(result)
       res.end(JSON.stringify(result));
@@ -381,6 +386,21 @@ else
   })
 }
 });
+
+/*********
+Extra calls (featured)
+***********/
+
+app.get('/featured', function(req, res){
+  console.log(req.query.idList)
+  query="SELECT * FROM art WHERE ID IN ("+req.query.idList+")";
+  console.log(query)
+  con.query(query, function(err,result) {
+    if (err) throw err;
+    console.log(result)
+    res.end( JSON.stringify(result));
+  })
+})
 
 ////**Helper functions**///
 function missingFieldUser(p) {
