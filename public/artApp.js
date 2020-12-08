@@ -163,11 +163,6 @@ $(document).ready(function () {
     $('#review-success').show();
   });
 
-  $('#recModal-btn').click(function(){
-	  $('#rec-target').val('');
-	  $('#rec-text').val('');
-  })
-
 });
 
 /*********
@@ -761,13 +756,15 @@ function sendRec(results)
       error: displayError
     });
   } else{
-    alert("Recommendation not sent; could not find user "+$('#rec-target').val()+".")
+    alert("Recommendation not sent; could not find user "+$('#rec-target').val()+". Your entered text was saved to try again.")
   }
 }
 
 function processSendRec(results)
 {
   console.log("Recommendation sent.");
+  $('#rec-target').val('');
+  $('#rec-text').val('');
 }
 
 function checkRecs(username)
