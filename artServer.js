@@ -96,7 +96,7 @@ app.get('/find', function(req, res){
     search='%'+req.query.search+'%';
     console.log(req.query.search);
 
-    query="SELECT * FROM art WHERE Title like ? or Author like ? or Technique like ? or Location like ? or Form like ? or Type like ? or School like ?";
+    query="SELECT * FROM art WHERE Title like ? or Author like ? or Technique like ? or Location like ? or Form like ? or Type like ? or School like ? limit 500";
     console.log(query, "(search="+search+")");
     //if someone could find a way to make the next line less repetitive...
     con.query(query, [search,search,search,search,search,search,search], function(err,result) {
@@ -111,9 +111,9 @@ app.get('/advanced', function(req, res){
   //find art piece (any field)
   console.log("Query:"+JSON.stringify(req.query));
 
-  query="SELECT * FROM art WHERE Title like ? and Author like ? and Technique like ? and Location like ? and Form like '%"+req.query.form+"%' and Type like '%"+req.query.type+"%' and School like ? and Date like ? and Timeframe like ?";
+  query="SELECT * FROM art WHERE Title like ? and Author like ? and Technique like ? and Location like ? and Form like '%"+req.query.form+"%' and Type like '%"+req.query.type+"%' and School like ? and Date like ? and Timeframe like ? order by "+req.query.sort+" limit 500";
   console.log(query+"(title="+req.query.title+";author="+req.query.author+"; technique="+req.query.technique+";location="+req.query.location+";school="+req.query.school+";date="+req.query.date+";timeframe="+req.query.timeframe+")")
-  con.query(query, ['%'+req.query.title+'%', '%'+req.query.author+'%', '%'+req.query.technique+'%', '%'+req.query.location+'%', '%'+req.query.school+'%', '%'+req.query.date+'%', '%'+req.query.timeframe+'%'], function(err,result) {
+  con.query(query, ['%'+req.query.title+'%', '%'+req.query.author+'%', '%'+req.query.technique+'%', '%'+req.query.location+'%', '%'+req.query.school+'%', '%'+req.query.date+'%', '%'+req.query.timeframe+'%', '%'+req.query.sort+'%'], function(err,result) {
     if (err) throw err;
     console.log(result)
     res.end( JSON.stringify(result));
@@ -125,7 +125,7 @@ app.get('/tag', function(req, res){
   //find art piece (any field)
   console.log("Query:"+JSON.stringify(req.query));
 
-  query="SELECT * FROM art WHERE "+req.query.field+" like '"+req.query.term+"'";
+  query="SELECT * FROM art WHERE "+req.query.field+" like '"+req.query.term+"' limit 500";
   console.log(query)
   con.query(query, function(err,result) {
     if (err) throw err;

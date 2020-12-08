@@ -510,12 +510,18 @@ function advancedSearch(){
   {
     type = "";
   }
+  var sort = $('#sort-select').text();
+  if(sort=="Sort By")//default value/no selection
+  {
+    sort = "";
+  }
+  console.log("sort by"+sort);
 
-  if(title=="" && author=="" && school=="" && location=="" && date=="" && timeframe=="" && technique=="" && form=="" && type==""){
+  if(title=="" && author=="" && school=="" && location=="" && date=="" && timeframe=="" && technique=="" && form=="" && type=="" && sort==""){
     alert("No search terms entered.");
   } else {
     $.ajax({
-      url: Url+'/advanced?title='+title+'&author='+author+'&school='+school+'&location='+location+'&date='+date+'&timeframe='+timeframe+'&technique='+technique+'&form='+form+'&type='+type,
+      url: Url+'/advanced?title='+title+'&author='+author+'&school='+school+'&location='+location+'&date='+date+'&timeframe='+timeframe+'&technique='+technique+'&form='+form+'&type='+type+'&sort='+sort,
       type:"GET",
       success: processResults,
       error: displayError
@@ -549,7 +555,11 @@ function buildArtTable(data) {
       result += "<tr><td>1 piece found<td><td></td></tr>";
     }
     if(rows.length>1) {
-      result += "<tr><td>"+rows.length+" pieces found<td><td></td></tr>";
+      if(rows.length>=500) {
+        result+= "<tr><td>More than 500 pieces found. Try refining your inquiry with the advanced search.<td><td></td></tr>";
+      } else {
+        result += "<tr><td>"+rows.length+" pieces found<td><td></td></tr>";
+      }
     }
     var i=0
     rows.forEach(function(row) {
