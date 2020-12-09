@@ -417,6 +417,8 @@ function doLogin(results){
   if(isValid){
     console.log($('#username').val()+" logged in");
     thisUser=$('#username').val(); //set who the logged in user is
+    $('#username').val('');
+    $('#password').val('');
     changeState("Main");
   }
   else{
@@ -459,6 +461,8 @@ function addUser(results){
 
 function processUser(results)
 {
+  $('#addUserName').val('');
+  $('#addPassword').val('');
   thisUser=$('#addUserName').val(); //set who the logged in user is
   changeState("Main");
 }
