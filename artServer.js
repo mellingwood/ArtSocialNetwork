@@ -244,7 +244,7 @@ app.get('/getreviews', function(req,res)
     console.log("Bad review request:"+JSON.stringify(req.query));
     res.end("['fail']");
   } else {
-    query = "SELECT * FROM reviews WHERE artpieceID='"+req.query.pieceID+"' ORDER BY timestamp LIMIT 9";
+    query = "SELECT * FROM reviews WHERE artpieceID='"+req.query.pieceID+"' ORDER BY timestamp DESC LIMIT 10";
     console.log(query);
     con.query(query, function(err,result,fields) {
       if (err) throw err;

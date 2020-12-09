@@ -356,15 +356,6 @@ function loadPiece(data){
     error: displayError
   });
 
-/*
-  $.ajax({
-    url: Url+'/checkfav?username='+thisUser+'&pieceid='+rows[0].ID,
-    type:"GET",
-    success: userFav,
-    error: displayError
-  });
-  */
-
   $.ajax({
     url: Url+'/getuserreview?pieceID='+rows[0].ID+'&user='+thisUser,
     type:"GET",
@@ -704,7 +695,7 @@ function buildReviews(data){
   } else {
     rows.forEach(function(row) {
       $('#userReviews').append('<h3 class="username link">User:'+row.user+'</h3>');
-      $('#userReviews').append('<p>'+row.review+'</p>');
+      $('#userReviews').append('<textarea id="reviewEnter" rows="4" cols="60" readonly>'+row.review+'</textarea>');
     });
   }
 }
@@ -731,6 +722,8 @@ function reviewAdded(results)
 {
   console.log("review added");
   $('#review-success').show();
+  //also re-make review table so the changes show up
+  getReviews($('#artpiecepage').find('.pieceid').attr('id'));
 }
 
 /*********
