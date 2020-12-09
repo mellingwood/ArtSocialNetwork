@@ -172,6 +172,10 @@ body {
   background-repeat: no-repeat;
   background-size: auto;
   background-position: center;
+  padding-left: 5em;
+  padding-right: 5em;
+  padding-top: 15em;
+  padding-bottom: 15em;
 }
 
 #createaccount {
