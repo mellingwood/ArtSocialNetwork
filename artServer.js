@@ -111,7 +111,11 @@ app.get('/advanced', function(req, res){
   //find art piece (any field)
   console.log("Query:"+JSON.stringify(req.query));
 
-  query="SELECT * FROM art WHERE Title like ? and Author like ? and Technique like ? and Location like ? and Form like '%"+req.query.form+"%' and Type like '%"+req.query.type+"%' and School like ? and Date like ? and Timeframe like ? order by "+req.query.sort+" limit 500";
+  if(req.query.sort==""){
+    query="SELECT * FROM art WHERE Title like ? and Author like ? and Technique like ? and Location like ? and Form like '%"+req.query.form+"%' and Type like '%"+req.query.type+"%' and School like ? and Date like ? and Timeframe like ? limit 500";
+  } else {
+    query="SELECT * FROM art WHERE Title like ? and Author like ? and Technique like ? and Location like ? and Form like '%"+req.query.form+"%' and Type like '%"+req.query.type+"%' and School like ? and Date like ? and Timeframe like ? order by "+req.query.sort+" limit 500";
+  }
   console.log(query+"(title="+req.query.title+";author="+req.query.author+"; technique="+req.query.technique+";location="+req.query.location+";school="+req.query.school+";date="+req.query.date+";timeframe="+req.query.timeframe+")")
   con.query(query, ['%'+req.query.title+'%', '%'+req.query.author+'%', '%'+req.query.technique+'%', '%'+req.query.location+'%', '%'+req.query.school+'%', '%'+req.query.date+'%', '%'+req.query.timeframe+'%', '%'+req.query.sort+'%'], function(err,result) {
     if (err) throw err;

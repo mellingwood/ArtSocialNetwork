@@ -508,7 +508,7 @@ function advancedSearch(){
     type = "";
   }
   var sort = $('#sort-select').text();
-  if(sort=="Sort")//default value/no selection
+  if(sort=="Sort By")//default value/no selection
   {
     sort = "";
   }
