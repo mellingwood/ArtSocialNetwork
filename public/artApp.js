@@ -367,7 +367,8 @@ function loadPiece(data){
     $('#artpiecepage').find('.pieceid').attr('id', row.ID); //embed piece id in page (invisibly)
 
     $('#art-info-table').empty();
-    $('#art-info-table').append('<table class="art-table"><tr><td>Title: </td><td>'+row.Title+'</td></tr>');
+    $('#art-info-table').append('<table class="art-table">');
+    $('#art-info-table').append('<tr><td>Title: </td><td>'+row.Title+'</td></tr>');
     $('#art-info-table').append('<tr><td>Author: </td><td class="tag" id="Author">'+row.Author+'</td></tr>');
     $('#art-info-table').append('<tr><td>Born-Died: </td><td>'+row.BornDied+'</td></tr>');
     $('#art-info-table').append('<tr><td>Date: </td><td class="tag" id="Date">'+row.Date+'</td></tr>');
