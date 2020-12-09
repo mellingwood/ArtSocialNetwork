@@ -48,9 +48,9 @@
               </div>
             </form>
           </li>
-        <li>
-          <button type="button" id="search-btn" class="btn btn-default">Search</button>
-        </li>
+          <li>
+            <button type="button" id="search-btn" class="btn btn-default">Search</button>
+          </li>
         </ul>
 
         <form class="navbar-form navbar-left">
@@ -123,130 +123,152 @@
     </div>
 
     <div class="container" id="advsearchpage">
-      <div id="adv-search"><p>Advanced Search</p></div>
-      <ul id="adv-search-fields">
-        <input type="text" id="title-input" class="form-control" placeholder="Title">
-        <input type="text" id="author-input" class="form-control" placeholder="Author (e.g. Da Vinci, Rodin)">
-        <input type="text" id="school-input" class="form-control" placeholder="School (e.g. Flemish, Italian)">
-        <input type="text" id="location-input" class="form-control" placeholder="Location (e.g. Museo del Prado, The Hague)">
-        <input type="text" id="date-input" class="form-control" placeholder="Date">
-        <input type="text" id="timeframe-input" class="form-control" placeholder="Timeframe (e.g 701-750, 1451-1500)">
-        <input type="text" id="technique-input" class="form-control" placeholder="Technique (e.g. oil, pastel, tempera)">
-        <ul class="nav navbar-nav">
-          <li class="btn-group">
-            <a href="#" id="form-select" class="dropdown-toggle selection" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Form<span class="caret"></span></a>
-            <ul class="dropdown-menu" role="form-dropdown">
-              <li><a href="#">Painting</a></li>
-              <li><a href="#">Ceramics</a></li>
-              <li><a href="#">Sculpture</a></li>
-              <li><a href="#">Graphics</a></li>
-              <li><a href="#">Architecture</a></li>
-              <li><a href="#">Stained-Glass</a></li>
-              <li><a href="#">Metalwork</a></li>
-              <li><a href="#">Illumination</a></li>
-              <li><a href="#">Mosaic</a></li>
-              <li><a href="#">Furniture</a></li>
-              <li><a href="#">Tapestry</a></li>
-              <li><a href="#">Glassware</a></li>
-              <li><a href="#">Others</a></li>
-            </ul>
-          </li>
-          <li class="btn-group">
-            <a href="#" id="type-select" class="dropdown-toggle selection" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Type<span class="caret"></span></a>
-            <ul class="dropdown-menu" role="type-dropdown">
-              <li><a href="#">Mythological</a></li>
-              <li><a href="#">Historical</a></li>
-              <li><a href="#">Genre</a></li>
-              <li><a href="#">Portrait</a></li>
-              <li><a href="#">Landscape</a></li>
-              <li><a href="#">Religious</a></li>
-              <li><a href="#">Interior</a></li>
-              <li><a href="#">Still-Life</a></li>
-              <li><a href="#">Study</a></li>
-              <li><a href="#">Other</a></li>
-            </ul>
-          </li>
-        </ul>
-        <button type="button" id="do-adv-search-btn" class="btn btn-default">Search</button>
-      </ul>
-    </div>
-
-    <div class="container" id="artpiecepage">
+      <p>Advanced Search</p>
       <div class="row">
-        <div class="col-sm-6" id="pieceArt">
-          <img class="md-6" id="piece" src="" width="100%"/>
-          <div id="art-info-table"></div>
-          <div class="pieceid" id=""></div>
-          <p>
-            <span id="fav">&#9825;</span>
-            <span id="numfavs"></span>
-          </p>
-
-          <!-- Link to open the modal -->
-          <p><a id="recModal-btn" href="#rec-Modal" rel="modal:open" class="btn btn-primary">Recommend this piece</a></p>
-
-          <div id="rec-Modal" class="modal">
-            <!-- Modal content -->
-              <!--<span class="close">&times;</span>-->
-              <p>Recommendation</p>
-              <textarea id="rec-target" rows="1"></textarea>
-              <textarea id="rec-text" rows="6" cols="60"></textarea>
-              <a href="#" rel="modal:close"><button type="button" id = "sendrec-btn">Send Recommendation</button>
-              </a>
-            </div>
+        <div class="col-sm-6">
+          <ul id="adv-search-fields1">
+            <input type="text" id="title-input" class="form-control" placeholder="Title">
+            <input type="text" id="author-input" class="form-control" placeholder="Author (e.g. Da Vinci, Rodin)">
+            <input type="text" id="school-input" class="form-control" placeholder="School (e.g. Flemish, Italian)">
+            <input type="text" id="location-input" class="form-control" placeholder="Location (e.g. Museo del Prado, The Hague)">
+          </ul>
         </div>
-        <div class="col-sm-6" id="pieceReviews">
-          <h2>Reviews</h2>
-          <textarea id="reviewEnter" rows="6" cols="60"></textarea>
-          <p id="review-success">Review has been left.</p>
-          <button type="button" id = "submitReview-btn">Leave Review</button>
-          <div id="userReviews" style="overflow:scroll; width:570px; height: 500px;"></div>
+        <div class="col-sm-6">
+          <ul id="adv-search-fields2">
+            <input type="text" id="date-input" class="form-control" placeholder="Date">
+            <input type="text" id="timeframe-input" class="form-control" placeholder="Timeframe (e.g 701-750, 1451-1500)">
+            <input type="text" id="technique-input" class="form-control" placeholder="Technique (e.g. oil, pastel, tempera)">
+            <ul class="nav navbar-nav">
+              <li class="btn-group">
+                <a href="#" id="form-select" class="dropdown-toggle selection" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Form<span class="caret"></span></a>
+                <ul class="dropdown-menu" role="form-dropdown">
+                  <li><a href="#">Painting</a></li>
+                  <li><a href="#">Ceramics</a></li>
+                  <li><a href="#">Sculpture</a></li>
+                  <li><a href="#">Graphics</a></li>
+                  <li><a href="#">Architecture</a></li>
+                  <li><a href="#">Stained-Glass</a></li>
+                  <li><a href="#">Metalwork</a></li>
+                  <li><a href="#">Illumination</a></li>
+                  <li><a href="#">Mosaic</a></li>
+                  <li><a href="#">Furniture</a></li>
+                  <li><a href="#">Tapestry</a></li>
+                  <li><a href="#">Glassware</a></li>
+                  <li><a href="#">Others</a></li>
+                </ul>
+              </li>
+              <li class="btn-group">
+                <a href="#" id="type-select" class="dropdown-toggle selection" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Type<span class="caret"></span></a>
+                <ul class="dropdown-menu" role="type-dropdown">
+                  <li><a href="#">Mythological</a></li>
+                  <li><a href="#">Historical</a></li>
+                  <li><a href="#">Genre</a></li>
+                  <li><a href="#">Portrait</a></li>
+                  <li><a href="#">Landscape</a></li>
+                  <li><a href="#">Religious</a></li>
+                  <li><a href="#">Interior</a></li>
+                  <li><a href="#">Still-Life</a></li>
+                  <li><a href="#">Study</a></li>
+                  <li><a href="#">Other</a></li>
+                </ul>
+              </li>
+              <li class="btn-group">
+                <a href="#" id="sort-select" class="dropdown-toggle selection" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sort By<span class="caret"></span></a>
+                <ul class="dropdown-menu" role="sort-dropdown">
+                  <li><a href="#">Author</a></li>
+                  <li><a href="#">Title</a></li>
+                  <li><a href="#">Timeframe</a></li>
+                  <li><a href="#">Date</a></li>
+                  <li><a href="#">Location</a></li>
+                  <li><a href="#">Form</a></li>
+                  <li><a href="#">Type</a></li>
+                  <li><a href="#">School</a></li>
+                </ul>
+              </li>
+            </ul>
+            <button type="button" id="do-adv-search-btn" class="btn btn-default">Search</button>
+          </ul>
         </div>
       </div>
-
     </div>
+  </div>
 
-    <div class="container" id="userpage">
-      <div class="row">
-        <div class="col-sm-4">
-          <h1 id="userpageName">Username</h1>
-          <div id="userpagebio">
-            <p>Bio</p>
-          </div>
-          <div id="userbiobtn">
-            <a href="#myModal" rel="modal:open" class="btn btn-primary">Change Bio</a>
-          </div>
-        </div>
-        <div class="col-sm-8">
-          <h2>Favorites</h2>
-          <div id="userfavs">
-          </div>
-        </div>
-      </div>
+  <div class="container" id="artpiecepage">
+    <div class="row">
+      <div class="col-sm-6" id="pieceArt">
+        <img class="md-6" id="piece" src="" width="100%"/>
+        <div id="art-info-table"></div>
+        <div class="pieceid" id=""></div>
+        <p>
+          <span id="fav">&#9825;</span>
+          <span id="numfavs"></span>
+        </p>
 
-      <div class="row">
-        <!-- The Modal -->
-        <div id="myModal" class="modal">
+        <!-- Link to open the modal -->
+        <p><a id="recModal-btn" href="#rec-Modal" rel="modal:open" class="btn btn-primary">Recommend this piece</a></p>
+
+        <div id="rec-Modal" class="modal">
           <!-- Modal content -->
-          <p>Add a Bio!</p>
-          <textarea id="bioEnter" rows="6" cols="42"></textarea>
-          <a href="#" rel="modal:close"><button type="button" id = "submitBio-btn">Save Bio</button>
+          <!--<span class="close">&times;</span>-->
+          <p>Recommendation</p>
+          <textarea id="rec-target" rows="1"></textarea>
+          <textarea id="rec-text" rows="6" cols="60"></textarea>
+          <a href="#" rel="modal:close"><button type="button" id = "sendrec-btn">Send Recommendation</button>
           </a>
         </div>
       </div>
-
-      <div id="recs" class="row">
-        <h2 class ="col-sm-4">Recommendations</h2>
-        <button id="refresh-btn">Check for recommendations</button>
-        <div class="col-sm-8" id="recs-inbox" style="background-color:mintgreen;float:right;">
-        </div>
-      </div>
+      <div class="col-sm-6" id="pieceReviews">
+        <h2>Reviews</h2>
+        <textarea id="reviewEnter" rows="6" cols="60"></textarea>
+        <p id="review-success">Review has been left.</p>
+        <button type="button" id = "submitReview-btn">Leave Review</button>
+        <div id="userReviews" style="overflow:scroll; width:570px; height: 500px;"></div>
       </div>
     </div>
 
-    <!--Want each "page" to be of class container, so we can hide all containers, but each then also have a unique id so that we can reveal a specific id -->
-
   </div>
+
+  <div class="container" id="userpage">
+    <div class="row">
+      <div class="col-sm-4">
+        <h1 id="userpageName">Username</h1>
+        <div id="userpagebio">
+          <p>Bio</p>
+        </div>
+        <div id="userbiobtn">
+          <a href="#myModal" rel="modal:open" class="btn btn-primary">Change Bio</a>
+        </div>
+      </div>
+      <div class="col-sm-8">
+        <h2>Favorites</h2>
+        <div id="userfavs">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- The Modal -->
+      <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <p>Add a Bio!</p>
+        <textarea id="bioEnter" rows="6" cols="42"></textarea>
+        <a href="#" rel="modal:close"><button type="button" id = "submitBio-btn">Save Bio</button>
+        </a>
+      </div>
+    </div>
+
+    <div id="recs" class="row">
+      <h2 class ="col-sm-4">Recommendations</h2>
+      <button id="refresh-btn">Check for recommendations</button>
+      <div class="col-sm-8" id="recs-inbox" style="background-color:mintgreen;float:right;">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Want each "page" to be of class container, so we can hide all containers, but each then also have a unique id so that we can reveal a specific id -->
+
+</div>
 
 
 </div>

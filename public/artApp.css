@@ -186,10 +186,21 @@ body {
   background-color: #BFD1A9;
 }
 
+/* make mainbar spacing better */
+#search {
+  margin: 0.1em;
+}
+
 .jumbotron {
   background-color:#CBE4E9;
 }
 
 textarea{
   resize: none;
+}
+
+#do-adv-search-btn {
+  width: 5em;
+  background-color: #BFD1A9;
+  outline-color: #BFD1A9;
 }

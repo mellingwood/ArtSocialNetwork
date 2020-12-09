@@ -507,12 +507,17 @@ function advancedSearch(){
   {
     type = "";
   }
+  var sort = $('#sort-select').text();
+  if(sort=="Sort")//default value/no selection
+  {
+    sort = "";
+  }
 
-  if(title=="" && author=="" && school=="" && location=="" && date=="" && timeframe=="" && technique=="" && form=="" && type==""){
+  if(title=="" && author=="" && school=="" && location=="" && date=="" && timeframe=="" && technique=="" && form=="" && type=="" && sort==""){
     alert("No search terms entered.");
   } else {
     $.ajax({
-      url: Url+'/advanced?title='+title+'&author='+author+'&school='+school+'&location='+location+'&date='+date+'&timeframe='+timeframe+'&technique='+technique+'&form='+form+'&type='+type,
+      url: Url+'/advanced?title='+title+'&author='+author+'&school='+school+'&location='+location+'&date='+date+'&timeframe='+timeframe+'&technique='+technique+'&form='+form+'&type='+type+'&sort='+sort,
       type:"GET",
       success: processResults,
       error: displayError
