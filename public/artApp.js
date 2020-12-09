@@ -133,6 +133,11 @@ $(document).ready(function () {
     getProfile($(this).text());
   });
 
+  $('#userbiobtn').click (function(){ //populates the bio modal when change bio is clicked
+    console.log('do we get ' + $('#userpagebio').text());
+    $('#bioEnter').val($('#userpagebio').text());
+  });
+
 /****** art piece page functions ****/
   $('#fav').click (function(){
     const emptyHeart = "\u2661";
@@ -244,7 +249,7 @@ send_rec_button.onclick = function() {
 var modal = document.getElementById("myModal");
 // Get the button that opens the modal
 var btn = document.getElementById("myBtn");
-var saveBio = document.getElementById("submitBio-btn")
+var saveBio = document.getElementById("submitBio-btn");
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 // When the user clicks on the button, open the modal
