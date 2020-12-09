@@ -130,6 +130,7 @@ $(document).ready(function () {
   {
     $('#userpageName').text($(this).text());
     changeState("User Profile");
+    console.log($(this).text());//debug line
     getProfile($(this).text());
   });
 
@@ -189,12 +190,12 @@ function changeState(pageState) {
     if($('#userpageName').text()!=thisUser)
     {
       console.log($('#userpageName').text());
-      $('#myBtn').hide();
+      $('#userbiobtn').hide();
       $('#recs').hide();
     }
     else
     {
-      $('#myBtn').show();
+      $('#userbiobtn').show();
       $('#recs').show();
     }
     break;
@@ -247,11 +248,7 @@ send_rec_button.onclick = function() {
 }
 
 var modal = document.getElementById("myModal");
-// Get the button that opens the modal
-var btn = document.getElementById("myBtn");
 var saveBio = document.getElementById("submitBio-btn");
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
 // When the user clicks on the button, open the modal
 saveBio.onclick = function() {
   addBio($('#bioEnter').val());
@@ -582,6 +579,7 @@ Profile calls
 
 function getProfile(username)
 {
+  console.log(username);
   getBio(username);
   getFavs(username);
   checkRecs(username);
@@ -694,7 +692,7 @@ function buildReviews(data){
     $('#userReviews').append('<p>No other reviews have been left</p>');
   } else {
     rows.forEach(function(row) {
-      $('#userReviews').append('<h3 class="username link">User:'+row.user+'</h3>');
+      $('#userReviews').append('<h3 class="username link">'+row.user+'</h3>');
       $('#userReviews').append('<textarea id="reviewEnter" rows="4" cols="60" readonly>'+row.review+'</textarea>');
     });
   }
