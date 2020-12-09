@@ -75,6 +75,11 @@ $(document).ready(function () {
   $('#adv-search-btn').click(function() {
     changeState("Advanced Search");
   });
+  //"log out"-- send user to login page and clear thisUser
+  $('#logout-btn').click(function () {
+    changeState("Start");
+    thisUser = "";
+  });
 
   //on the adv search page, actually sends the fields and does the search
   $('#do-adv-search-btn').click(function() {
@@ -541,7 +546,11 @@ function buildArtTable(data) {
       result += "<tr><td>1 piece found<td><td></td></tr>";
     }
     if(rows.length>1) {
-      result += "<tr><td>"+rows.length+" pieces found<td><td></td></tr>";
+      if(rows.length>=500) {
+        result+= "<tr><td>More than 500 pieces found. Try refining your inquiry with the advanced search.<td><td></td></tr>";
+      } else {
+        result += "<tr><td>"+rows.length+" pieces found<td><td></td></tr>";
+      }
     }
     var i=0
     rows.forEach(function(row) {
