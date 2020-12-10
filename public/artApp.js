@@ -350,20 +350,24 @@ function getPiece(id){
 
 function loadPiece(data){
   var rows = JSON.parse(data);
-
+/*
   $.ajax({
     url: Url+'/piecefavs?pieceid='+rows[0].ID+'&username='+thisUser,
     type:"GET",
     success: countFavs,
     error: displayError
-  });
+  });*/
 
+  checkUserFav(rows[0].ID); //to check if the user has favorited this piece
+/*
   $.ajax({
     url: Url+'/getuserreview?pieceID='+rows[0].ID+'&user='+thisUser,
     type:"GET",
     success: userReview,
     error: displayError
-  });
+  });*/
+
+  getUserReview(rows[0].ID); //to populate the user's personal review of a piece
 
   getReviews(rows[0].ID); //to populate reviews
 
@@ -666,14 +670,20 @@ function loadFavs(data){
 /*********
 Favorites
 ***********/
+function checkUserFav(checkID){
+  $.ajax({
+    url: Url+'/piecefavs?pieceid='+checkID+'&username='+thisUser,
+    type:"GET",
+    success: countFavs,
+    error: displayError
+  });
+}
 
-function processFav(results)
-{
+function processFav(results){
   console.log('fav change');
 }
 
-function countFavs(results)
-{
+function countFavs(results){
   let favs = JSON.parse(results)[0].count;
   console.log(favs);
   $('#numfavs').text("Favorites:" + favs); //shows the number of people who have favorited this
@@ -700,6 +710,15 @@ function getReviews(id){
     url: Url+'/getreviews?pieceID='+id,
     type:"GET",
     success: buildReviews,
+    error: displayError
+  });
+}
+
+function getUserReview(id){
+  $.ajax({
+    url: Url+'/getuserreview?pieceID='+id+'&user='+thisUser,
+    type:"GET",
+    success: userReview,
     error: displayError
   });
 }
