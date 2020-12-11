@@ -55,9 +55,9 @@ app.get('/adduser', function (req, res) {
     console.log("Bad add request:"+JSON.stringify(req.query));
     res.end("['fail']");
   } else {
-    query = "Insert INTO users(username, password, bio)  VALUES('"+req.query.username+"','"+req.query.password+"','"+'Bio'+"')";
+    query = "Insert INTO users(username, password, bio)  VALUES('"+req.query.username+"','"+req.query.password+"', ?)";
     console.log(query);
-    con.query(query, function(err,result,fields) {
+    con.query(query, ["This user's bio is empty."], function(err,result,fields) {
       if (err) throw err;
       console.log(result)
       res.end(JSON.stringify(result));
