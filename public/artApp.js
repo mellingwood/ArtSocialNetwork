@@ -465,9 +465,9 @@ function addUser(results){
 
 function processUser(results)
 {
+  thisUser=$('#addUserName').val(); //set who the logged in user is
   $('#addUserName').val('');
   $('#addPassword').val('');
-  thisUser=$('#addUserName').val(); //set who the logged in user is
   changeState("Main");
 }
 
