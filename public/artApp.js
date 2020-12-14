@@ -59,6 +59,7 @@ $(document).ready(function () {
       changeState("Search Results");
       clearResults();
       getMatches(search);
+      $('#search').val('');
     } else {
       //make an error pop up if there is no search term
       // to avoid pulling up all pieces and taking a really long time
